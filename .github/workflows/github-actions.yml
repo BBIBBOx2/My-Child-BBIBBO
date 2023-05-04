@@ -52,7 +52,7 @@ jobs:
         mkdir ./src/main/resources
         cd ./src/main/resources
         touch ./application.properties
-        echo "${{ secrets.MAIN_DATABASE_YML }}" >> ./application.properties
+        echo "${{ secrets.YML }}" >> ./application.properties
       shell: bash
   
    # 빌드(테스트 스킵)
