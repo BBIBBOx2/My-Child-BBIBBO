@@ -49,7 +49,7 @@ jobs:
     - name: Set .properties for main/dev
       run: |
         # main 설정 파일 디렉토리로 이동
-        mkdir ./src/main/resources
+        mkdir -p ./src/main/resources
         cd ./src/main/resources
         touch ./application.properties
         echo "${{ secrets.YML }}" >> ./application.properties
