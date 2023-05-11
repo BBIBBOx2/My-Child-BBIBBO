@@ -51,4 +51,7 @@ public class HospitalService {
     }
 
 
+    public List<HospitalEntity> getHospital(){
+        return hospitalRepository.findAll();
+    }
 }
