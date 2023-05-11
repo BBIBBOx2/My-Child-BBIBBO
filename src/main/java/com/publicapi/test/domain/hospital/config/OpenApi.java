@@ -1,4 +1,4 @@
-package com.publicapi.test.domain.map.config;
+package com.publicapi.test.domain.hospital.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
