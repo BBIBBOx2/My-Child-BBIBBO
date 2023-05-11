@@ -45,6 +45,12 @@ public class HospitalService {
 
     }
 
+    public List<HospitalDto> getAllHospitals() {
+        List<HospitalEntity> hospitalEntities = hospitalRepository.findAll();
+        return hospitalMapper.map(hospitalEntities);
+    }
+
+
     public List<HospitalEntity> getHospital(){
         return hospitalRepository.findAll();
     }

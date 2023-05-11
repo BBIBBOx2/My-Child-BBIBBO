@@ -23,6 +23,8 @@ public class HospitalEntity {
 
     private String address;
 
+    private String telephone;
+
     //응급실 운영여부
     private int isErOperating;
 

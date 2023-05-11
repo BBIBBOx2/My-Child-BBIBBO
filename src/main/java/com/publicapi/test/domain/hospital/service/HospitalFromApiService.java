@@ -11,8 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -31,7 +29,6 @@ public class HospitalFromApiService {
 
     public HospitalResponse requestHospitalInfo() {
         URI url = makeUrl(1, 10);
-        RequestEntity<Void> RE = new RequestEntity<>(HttpMethod.GET, url);
         ObjectMapper mapper = new ObjectMapper();
 
         HospitalResponse response = new HospitalResponse();
@@ -44,9 +41,6 @@ public class HospitalFromApiService {
             List<HospitalDto> hospitals = mapper.readValue(jsonBody, new TypeReference<List<HospitalDto>>() {});
             response.setRow(hospitals);
             System.out.println("hospitals = " + hospitals);
-
-//            response = restTemplate.exchange(RE, HospitalResponse.class).getBody();
-//            Objects.requireNonNull(response);
         } catch (ParseException | JsonProcessingException e) {
             throw new RuntimeException(e);
         }
