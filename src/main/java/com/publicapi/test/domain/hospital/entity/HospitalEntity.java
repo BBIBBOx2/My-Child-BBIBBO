@@ -1,4 +1,4 @@
-package com.publicapi.test.domain.map.entity;
+package com.publicapi.test.domain.hospital.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +22,8 @@ public class HospitalEntity {
     private String name;
 
     private String address;
+
+    private String telephone;
 
     //응급실 운영여부
     private int isErOperating;

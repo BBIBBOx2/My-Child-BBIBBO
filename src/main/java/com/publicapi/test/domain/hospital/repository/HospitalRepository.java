@@ -1,6 +1,6 @@
-package com.publicapi.test.domain.map.repository;
+package com.publicapi.test.domain.hospital.repository;
 
-import com.publicapi.test.domain.map.entity.HospitalEntity;
+import com.publicapi.test.domain.hospital.entity.HospitalEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

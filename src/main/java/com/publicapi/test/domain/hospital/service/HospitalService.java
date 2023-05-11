@@ -1,10 +1,10 @@
-package com.publicapi.test.domain.map.service;
+package com.publicapi.test.domain.hospital.service;
 
-import com.publicapi.test.domain.map.dto.HospitalDto;
-import com.publicapi.test.domain.map.dto.HospitalMapper;
-import com.publicapi.test.domain.map.dto.HospitalResponse;
-import com.publicapi.test.domain.map.entity.HospitalEntity;
-import com.publicapi.test.domain.map.repository.HospitalRepository;
+import com.publicapi.test.domain.hospital.dto.HospitalDto;
+import com.publicapi.test.domain.hospital.dto.HospitalMapper;
+import com.publicapi.test.domain.hospital.dto.HospitalResponse;
+import com.publicapi.test.domain.hospital.entity.HospitalEntity;
+import com.publicapi.test.domain.hospital.repository.HospitalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +43,11 @@ public class HospitalService {
 
         return hospitalEntity;
 
+    }
+
+    public List<HospitalDto> getAllHospitals() {
+        List<HospitalEntity> hospitalEntities = hospitalRepository.findAll();
+        return hospitalMapper.map(hospitalEntities);
     }
 
 

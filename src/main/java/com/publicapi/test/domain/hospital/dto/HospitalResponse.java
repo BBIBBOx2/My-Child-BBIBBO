@@ -1,4 +1,4 @@
-package com.publicapi.test.domain.map.dto;
+package com.publicapi.test.domain.hospital.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.publicapi.test.domain.map.dto;
+package com.publicapi.test.domain.hospital.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
