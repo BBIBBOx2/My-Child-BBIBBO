@@ -1,6 +1,6 @@
-package com.publicapi.test.domain.map.dto;
+package com.publicapi.test.domain.hospital.dto;
 
-import com.publicapi.test.domain.map.entity.HospitalEntity;
+import com.publicapi.test.domain.hospital.entity.HospitalEntity;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

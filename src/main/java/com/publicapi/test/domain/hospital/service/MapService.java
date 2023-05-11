@@ -1,4 +1,4 @@
-package com.publicapi.test.domain.map.service;
+package com.publicapi.test.domain.hospital.service;
 
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.publicapi.test.domain.map.entity;
+package com.publicapi.test.domain.hospital.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
