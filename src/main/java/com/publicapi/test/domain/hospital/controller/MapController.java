@@ -1,12 +1,9 @@
 package com.publicapi.test.domain.hospital.controller;
 
 import com.publicapi.test.domain.hospital.dto.HospitalDto;
-import com.publicapi.test.domain.hospital.entity.HospitalEntity;
 import com.publicapi.test.domain.hospital.service.HospitalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;

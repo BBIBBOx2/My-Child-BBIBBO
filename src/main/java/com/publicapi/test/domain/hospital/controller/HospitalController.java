@@ -22,7 +22,8 @@ public class HospitalController {
 
     @GetMapping("/hospital")
     public String map() {
-        return "hospital/hospital-map";
+        return "/hospital/hospital-map";
+
     }
 
     @GetMapping("/hospital/list")
