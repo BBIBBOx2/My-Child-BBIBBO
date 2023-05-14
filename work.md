@@ -1,0 +1,65 @@
+## 해야 할 일
+- [ ] 커뮤니티 만들기 (front)
+  - [ ] 커뮤니티 게시판
+    - [ ] 자유/정보 게시판으로 구분
+      - [ ] GET /community/{boardId}
+    - [ ] 검색 (글, 시군구 선택, 최신/조회순)
+      - PathVariable로 설정
+      - 글 검색 : search_query={검색어}
+      - 시군구 선택 : district={districtId}
+        - 각 아이디가 선택되며, 0인 경우는 전체를 의미함
+      - 최신/조회순 선택 : sort={[recent/popular]}
+  - [ ] 커뮤니티 글 하나
+    - [ ] 글 보기
+      - [ ] GET /community/{boardId}/{postId}
+    - [ ] 댓글 입력
+      - [ ] POST /community/{boardId}/{postId}
+    - [ ] 수정 하기
+      - [ ] PUT /community/{boardId}/{postId}
+  - [ ] 커뮤니티 글 작성
+    - 제목, 글 내용, 태그 작성이 가능해야 함
+    - [ ] 글 작성 페이지
+      - GET /community/{boardId}/post
+    - [ ] 글 등록
+      - POST /community/{boardId}/post
+- [ ] db 연결
+  - [ ] Users
+    - 필요한 필드
+      - pk 아이디
+      - 이메일
+      - 비밀번호
+      - 이름
+      - 닉네임
+  - [ ] Boards
+    - 필요한 필드
+      - pk 아이디
+      - 게시판 이름
+  - [ ] Posts
+    - 필요한 필드
+      - pk 아이디
+      - 게시판 아이디
+      - 시군구 아이디
+      - 작성자 아이디
+      - 제목
+      - 내용
+      - 작성일
+      - 조회수
+  - [ ] Comments
+    - 필요한 필드
+      - pk 아이디
+      - 게시글 아이디
+      - 작성자 아이디
+      - 내용 아이디
+  - [ ] Districts
+    - 필요한 필드
+      - pk 아이디
+      - 구 이름
+- [ ] DB와 front 연결
+  - [ ] 최신글부터 불러오기
+  - [ ] 페이징 처리 필요
+  - [ ] 조회수 기능
+  - [ ] 목록에서 댓글 수가 보여야 함
+
+### 질문할 내용
+- 글 및 댓글에 좋아요 기능 넣는가?
+- 글 번호는 id로 혹은 해당 페이지의 글들 중 번호로?
