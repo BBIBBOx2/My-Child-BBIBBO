@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/bootstrap.min.css}">
+    <title>Community List</title>
+</head>
+<body>
+<div class="content-container mt-5">
+    <div class="content-container">
+        <div class="hstack gap-3 float-start mb-3">
+            <a th:href="@{/community/1}">
+                <button type="button" th:attr="class=${board == 1 ? 'btn-select-board' : 'btn-board'}">자유게시판</button>
+            </a>
+            <a th:href="@{/community/2}">
+                <button type="button" th:attr="class=${board == 2 ? 'btn-select-board' : 'btn-board'}">정보게시판</button>
+            </a>
+        </div>
+
+        <div id="search-input-group" class="ms-1">
+            <form th:action="@{|/community/${board}|}" method="get" id="searchForm">
+                <div class="float-start input-group mb-3 me-sm-3">
+                    <input type="text" name="search" id="search-input"
+                           class="form-control" placeholder="글을 검색해주세요" aria-label="review search"
+                           aria-describedby="button-addon2">
+                    <input type="hidden" id="page" name="page">
+                    <button class="btn btn-secondary" type="button" id="button-search">검색</button>
+                </div>
+
+                <div class="float-start col-md-3">
+                    <select class="form-select" id="inputDistrict" required>
+                        <option selected value="0">전체</option>
+                        <option th:each="distinct : ${districts}" th:value="${distinct.id}"
+                                th:utext="${distinct.name}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="float-start ms-3col-md-3" style="clear: both">
+                    <select class="form-select" id="inputSort" required>
+                        <option selected value="recent">최신순</option>
+                        <option value="popular">조회수순</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="content-container">
+        <table class="table">
+            <thead>
+            <tr>
+                <td>순번</td>
+                <td>제목</td>
+                <td>작성자</td>
+                <td>작성일</td>
+                <td>조회수</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post: ${postPage.content}">
+                <td th:text="${post.id}"></td>
+                <td th:text="${post.title}"></td>
+                <td th:text="${post.author.getUsername()}"></td>
+                <td th:text="${post.createDate}"></td>
+                <td th:text="${post.hits}"></td>
+            </tr>
+            </tbody>
+        </table>
+        </a>
+    </div>
+
+    <div th:if="${!postPage.isEmpty()}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${!postPage.hasPrevious} ? 'disabled'">
+                <a class="page-link" href="javascript:void(0)" th:data-page="${postPage.number-1}">
+                    <span>이전</span>
+                </a>
+            </li>
+            <li th:each="page: ${#numbers.sequence(0, postPage.totalPages-1)}"
+                th:if="${page >= postPage.number-5 and page <= postPage.number+5}"
+                th:classappend="${page == postPage.number} ? 'active'" class="page-item">
+                <a th:text="${page+1}" class="page-link" href="javascript:void(0)" th:data-page="${page}"></a>
+            </li>
+            <li class="page-item" th:classappend="${!postPage.hasNext} ? 'disabled'">
+                <a class="page-link" href="javascript:void(0)" th:data-page="${postPage.number+1}">
+                    <span>다음</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content-container">
+        <a th:href="@{/community/1/write}">
+            <button id="btn-write" type="button" class="btn btn-primary float-end">글 작성</button>
+        </a>
+    </div>
+</div>
+</body>
+</html>
