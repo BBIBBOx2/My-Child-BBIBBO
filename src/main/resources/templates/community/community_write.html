@@ -128,7 +128,11 @@
             let bordId = $('#inputBoard').val();
 
             let hashtagData = $('#tagValues').val();
-            let hashtags = JSON.parse(hashtagData).map(item => item.value);
+            console.log(hashtagData)
+            let hashtags;
+            if (hashtagData.length > 1) {
+                JSON.parse(hashtagData).map(item => item.value);
+            }
 
             let contentData = {
                 "title"    : $('#subjectValue').val(),
