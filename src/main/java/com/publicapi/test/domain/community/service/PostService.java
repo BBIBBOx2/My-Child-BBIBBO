@@ -19,10 +19,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PostService {
 
@@ -48,14 +50,14 @@ public class PostService {
     }
 
     private Specification<Post> searchSpecification(int boardId, String search, int district) {
-        return (posts, query, criteriaBuilder) -> {
+        return (post, query, criteriaBuilder) -> {
             query.distinct(true);
 
-            Predicate predicateBoard = criteriaBuilder.equal(posts.get("boards"), boardId);
+            Predicate predicateBoard = criteriaBuilder.equal(post.get("board"), boardId);
 
             Predicate predicateSearch = criteriaBuilder.or(
-                    criteriaBuilder.like(posts.get("title"), "%" + search + "%"),
-                    criteriaBuilder.like(posts.get("content"), "%" + search + "%")
+                    criteriaBuilder.like(post.get("title"), "%" + search + "%"),
+                    criteriaBuilder.like(post.get("content"), "%" + search + "%")
             );
 
             if (district == 0) {
@@ -63,7 +65,7 @@ public class PostService {
             }
 
 
-            Predicate predicateDistinct = criteriaBuilder.equal(posts.get("districts"), district);
+            Predicate predicateDistinct = criteriaBuilder.equal(post.get("district"), district);
             return criteriaBuilder.and(predicateBoard, predicateSearch, predicateDistinct);
         };
     }
