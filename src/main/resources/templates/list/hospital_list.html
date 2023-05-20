@@ -1,28 +1,79 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Hospital List</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/bootstrap.min.css}">
 </head>
 <body>
-<h1>Hospital List</h1>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Address</th>
-        <th>응급실 여부</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="hospital : ${hospitalList}">
-        <td th:text="${hospital.id}"></td>
-        <td th:text="${hospital.name}"></td>
-        <td th:text="${hospital.address}"></td>
-        <td th:text="${hospital.isErOperating}"></td>
-    </tr>
-    </tbody>
-</table>
+<header class="navbar navbar-expand-lg navbar-fix">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/hospital}">
+            <img src="/static/images/BBIBBO.png" width="160" height="70" alt="bbibbo 로고 이미지">
+        </a>
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a th:href="@{/hospital}" th:attr="class=${tab == 'map' ? 'nav-link-select' : 'nav-link'}">실시간 병원 정보</a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/community/home}" th:attr="class=${tab == 'community' ? 'nav-link-select' : 'nav-link'}">커뮤니티</a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/user/mypage}" th:attr="class=${tab == 'mypage' ? 'nav-link-select' : 'nav-link'}">My Page</a>
+            </li>
+        </ul>
+        <div class="d-flex">
+            <a class="nav-link" th:href="@{/user/login}">LOGIN</a>
+        </div>
+
+    </div>
+</header>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // 라디오 버튼 변경 시 이벤트 핸들러
+        $('input[name="formality"]').change(function() {
+            var value = $(this).val();
+            var url = value === 'map' ? '/hospital' : '/hospital/list';
+            window.location.href = url;
+        });
+    });
+</script>
+<div class="container my-3">
+    <div class="content-container">
+        <h5 class="border-bottom py-2">전국 실시간 병원 조회</h5>
+        <div class="mb-3">
+            <div class="form_toggle">
+                <div class="form_radio_btn radio_male">
+                    <input id="radio-1" type="radio" name="formality" value="map">
+                    <label for="radio-1">MAP</label>
+                </div>
+
+                <div class="form_radio_btn">
+                    <input id="radio-2" type="radio" name="formality" value="list" checked>
+                    <label for="radio-2">LIST</label>
+                </div>
+            </div>
+        </div>
+        <div th:each="hospital : ${hospitalList}">
+            <a style="text-decoration:none; color:inherit" th:href="@{/hospital/detail/} + ${hospital.hpId} + @{/}">
+                <div class="card my-3">
+                    <div class="card-body">
+                        <div class="position-relative">
+                            <div style="padding-top: 1%" class="review-content-area mt-0 mb-4">
+                                <div class="card-text">
+                                    <div class="fw-bolder strong mt-2" th:text="${hospital.name}"></div>
+                                    <p class="text-end m-0" th:text="${hospital.address}" style="font-size: 0.8rem; color: gray;"></p>
+                                    <p class="fw-bolder mb-0 content-nickname" th:if="${hospital.isErOperating == 1}">응급실 운영</p>
+                                    <p class="fw-bolder mb-0 content-nickname" th:if="${hospital.isErOperating == 2}">응급실 미운영</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
 </body>
 </html>

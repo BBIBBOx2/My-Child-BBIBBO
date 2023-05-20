@@ -1,22 +1,65 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-
-<head>
-    <meta charset="utf-8">
-    <title>BBIBBOx2_demo</title>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-    <script th:src="@{'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId='+${@environment.getProperty('naver.id')}}"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-    <script type="text/javascript" th:src="@{../../static/assets/MarkerClustering.js}"></script>
-
-
-</head>
-
+ <html xmlns:th="http://www.thymeleaf.org"
+          xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <head>
+        <meta charset="UTF-8"><title>Hospital List</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/static/bootstrap.min.css}">
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+        <script th:src="@{'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId='+${@environment.getProperty('naver.id')}}"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+        <script type="text/javascript" th:src="@{../../static/assets/MarkerClustering.js}"></script>
+    </head>
 <body onload="javascript:initMap()">
+<header class="navbar navbar-expand-lg navbar-fix">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/hospital}">
+            <img src="/static/images/BBIBBO.png" width="160" height="70" alt="bbibbo 로고 이미지">
+        </a>
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a th:href="@{/hospital}" th:attr="class=${tab == 'map' ? 'nav-link-select' : 'nav-link'}">실시간 병원 정보</a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/community/home}" th:attr="class=${tab == 'community' ? 'nav-link-select' : 'nav-link'}">커뮤니티</a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/user/mypage}" th:attr="class=${tab == 'mypage' ? 'nav-link-select' : 'nav-link'}">My Page</a>
+            </li>
+        </ul>
+        <div class="d-flex">
+            <a class="nav-link" th:href="@{/user/login}">LOGIN</a>
+        </div>
 
-<div id="map" style="width:100%;height:800px;"></div>
-<script type="text/javascript">
+    </div>
+</header>
+<div class="container my-3">
+    <div class="content-container">
+        <h5 class="border-bottom py-2">전국 실시간 병원 조회</h5>
+        <div class="mb-3">
+            <div class="form_toggle">
+                <div class="form_radio_btn">
+                    <input id="radio-1" type="radio" name="formality" value="map" checked>
+                    <label for="radio-1">MAP</label>
+                </div>
+
+                <div class="form_radio_btn">
+                    <input id="radio-2" type="radio" name="formality" value="list">
+                    <label for="radio-2">LIST</label>
+                </div>
+            </div>
+        </div>
+<div id="map" class= "" style="width:100%;height:800px;"></div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                // 라디오 버튼 변경 시 이벤트 핸들러
+                $('input[name="formality"]').change(function() {
+                    var value = $(this).val();
+                    var url = value === 'map' ? '/hospital' : '/hospital/list';
+                    window.location.href = url;
+                });
+            });
+        </script>
+        <script>
     var map = new naver.maps.Map("map", {
         zoom: 11,
         center: new naver.maps.LatLng(37.527467, 126.982318),
@@ -29,7 +72,7 @@
 
     //클러스터 마크 정의
     var htmlMarker1 = {
-            content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/static/images/cluster-marker-1.png);background-size:contain;"></div>',
+            content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:#ffffff;text-align:center;font-weight:bold;background:url(/static/images/cluster-marker-1.png);background-size:contain;"></div>',
             size: N.Size(40, 40),
             anchor: N.Point(20, 20)
         },
@@ -126,9 +169,9 @@
         })
     }
 
-
 </script>
-
+    </div>
+</div>
 </body>
 
 </html>
