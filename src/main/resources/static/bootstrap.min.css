@@ -5172,6 +5172,12 @@ textarea.form-control-lg {
     top: -1px
 }
 
+.badge-pill {
+    padding-right: 0.6em;
+    padding-left: 0.6em;
+    border-radius: 10rem;
+}
+
 .alert {
     position: relative;
     padding: 1rem 1rem;
@@ -12332,4 +12338,9 @@ textarea.form-control-lg {
     color: #000;
     background-color: #add9ff;
     border-color: #add9ff;
+}
+
+.tagify{
+    width: 100%;
+    max-width: 700px;
 }

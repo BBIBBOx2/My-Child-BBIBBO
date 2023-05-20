@@ -21,6 +21,7 @@ public class PostTagService {
             postTag.setPostId(postId);
             postTag.setHashtagId(hashtagId);
             postTagRepository.save(postTag);
+            postTagRepository.flush();
         }
     }
 }
