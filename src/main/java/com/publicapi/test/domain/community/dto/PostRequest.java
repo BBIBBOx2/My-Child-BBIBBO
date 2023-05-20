@@ -29,6 +29,8 @@ public class PostRequest {
 
     private List<String> hashtags;
 
+    private Boolean isAnonymous;
+
     @Override
     public String toString() {
         return "PostRequest{" +
@@ -38,6 +40,7 @@ public class PostRequest {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", hashtags=" + hashtags +
+                ", isAnonymous=" + isAnonymous +
                 '}';
     }
 }

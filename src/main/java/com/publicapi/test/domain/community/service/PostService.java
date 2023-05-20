@@ -94,6 +94,7 @@ public class PostService {
         post.setBoard(board);
         post.setDistrict(district);
         post.setAuthor(user);
+        post.setIsAnonymous(postRequest.getIsAnonymous());
         post.setHits(0);
         post.setCreateDate(LocalDateTime.now());
         this.postRepository.save(post);
