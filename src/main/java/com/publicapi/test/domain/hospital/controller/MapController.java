@@ -4,6 +4,7 @@ import com.publicapi.test.domain.hospital.dto.HospitalDto;
 import com.publicapi.test.domain.hospital.service.HospitalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,11 @@ public class MapController {
         List<HospitalDto> hospitals = hospitalService.getAllHospitals();
         System.out.println("hospitals = " + hospitals);
         return hospitals;
+    }
+
+    @GetMapping("/syncInfo")
+    public void syncHospital() {
+        hospitalService.syncHospitalInfo();
     }
 
 }

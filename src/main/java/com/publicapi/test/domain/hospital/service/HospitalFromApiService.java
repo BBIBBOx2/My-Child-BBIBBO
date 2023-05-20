@@ -28,7 +28,7 @@ public class HospitalFromApiService {
 
 
     public HospitalResponse requestHospitalInfo() {
-        URI url = makeUrl(1, 10);
+        URI url = makeUrl(1, 500);
         ObjectMapper mapper = new ObjectMapper();
 
         HospitalResponse response = new HospitalResponse();

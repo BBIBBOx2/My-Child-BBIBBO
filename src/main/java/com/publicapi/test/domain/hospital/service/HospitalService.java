@@ -31,17 +31,41 @@ public class HospitalService {
 
     public HospitalEntity registerHospital(HospitalDto hospital) {
         Optional<HospitalEntity> optionalHospital = hospitalRepository.findByHpId(hospital.getHpId());
-        HospitalEntity hospitalEntity;
+        HospitalEntity hospitalEntity=new HospitalEntity();
 
         if (optionalHospital.isEmpty()) {
-            HospitalEntity newEntity = hospitalMapper.newEntity(hospital);
-            hospitalEntity = hospitalRepository.save(newEntity);
+            if (checkHospital(hospital)) {
+                HospitalEntity newEntity = hospitalMapper.newEntity(hospital);
+                hospitalEntity = hospitalRepository.save(newEntity);
+                return hospitalEntity;
+
+            } else {
+                return hospitalEntity;
+            }
         }
         else {
             hospitalEntity = optionalHospital.get();
         }
 
         return hospitalEntity;
+
+    }
+
+    public Boolean checkHospital(HospitalDto hospital) {
+//        String[] include = {"소아","신생아","유아"};
+//        String[] exclude = {"안질환", "소아진료X"};
+
+        if (hospital.getEtc().contains("소아") && !hospital.getEtc().contains("진료X")) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
+
+//        if (hospital.getEtc().contains("소아")) {
+//
+//            if (hospital.getEtc().contains("안질환"))
+//        }
+
 
     }
 

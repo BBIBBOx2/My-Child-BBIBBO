@@ -24,6 +24,15 @@ public class HospitalDto {
     @JsonAlias(value = {"DUTYERYN"})
     private int isErOperating;
 
+    //비고
+    @JsonAlias(value = {"DUTYETC"})
+    private String etc;
+
+    //기관 설명
+    @JsonAlias(value = {"DUTYINF"})
+    private String info;
+
+
     //경도
     @JsonAlias(value = {"WGS84LON"})
     private Double longitude;

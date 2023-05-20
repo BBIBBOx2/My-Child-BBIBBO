@@ -25,8 +25,15 @@ public class HospitalEntity {
 
     private String telephone;
 
+
     //응급실 운영여부
     private int isErOperating;
+
+    //비고
+    private String etc;
+
+    //기관 설명
+    private String info;
 
     //경도
     private Double longitude;
