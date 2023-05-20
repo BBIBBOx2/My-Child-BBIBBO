@@ -5,22 +5,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "boards")
-public class Boards {
+@Table(name = "district")
+public class District {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String boardName;
-
-    @OneToMany (mappedBy = "boards", cascade = CascadeType.REMOVE)
-    private List<Posts> postsList;
+    private String name;
 }
