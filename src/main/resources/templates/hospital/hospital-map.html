@@ -61,7 +61,7 @@
         </script>
         <script>
     var map = new naver.maps.Map("map", {
-        zoom: 7,
+        zoom: 11,
         center: new naver.maps.LatLng(37.527467, 126.982318),
         zoomControl: true,
         zoomControlOptions: {
@@ -120,6 +120,7 @@
                         content:
                             '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 5px;"><b>병원명: '+ data[i].name +'</b></div>'+
                             '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 5px;"><b>주소: '+ data[i].address +'</b></div>'+
+                            '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 5px;"><b>비고: '+ data[i].etc +'</b></div>'+
                             '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 10px;font-size: small;"><a href=' + detailUrl + '>상세보기</a></div>'
                     });
                     markers.push(marker);
@@ -131,7 +132,7 @@
                 //클러스터링
                 var markerClustering = new MarkerClustering({
                     minClusterSize: 1,
-                    maxZoom: 8,
+                    maxZoom: 15,
                     map: map,
                     markers: markers,
                     disableClickZoom: false,
