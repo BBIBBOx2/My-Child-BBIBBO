@@ -21,26 +21,26 @@
         <div id="search-input-group" class="ms-1">
             <form th:action="@{|/community/${board}|}" method="get" id="searchForm">
                 <div class="float-start input-group mb-3 me-sm-3">
-                    <input type="text" name="search" id="search-input"
-                           class="form-control" placeholder="글을 검색해주세요" aria-label="review search"
+                    <input type="text" name="search" id="search-input" th:value="${search}"
+                           class="form-control" placeholder="글을 검색해주세요" aria-label="search"
                            aria-describedby="button-addon2">
                     <input type="hidden" id="page" name="page">
                     <button class="btn btn-secondary" type="button" id="button-search">검색</button>
                 </div>
 
                 <div class="float-start col-md-3">
-                    <select class="form-select" id="inputDistrict" required>
-                        <option selected value="0">전체</option>
+                    <select class="form-select" id="inputDistrict" name="district" required>
+                        <option value="0" th:selected="${districtType} == 0">전체</option>
                         <option th:each="distinct : ${districts}" th:value="${distinct.id}"
-                                th:utext="${distinct.name}">
+                                th:text="${distinct.name}" th:selected="${districtType} == ${distinct.id}">
                         </option>
                     </select>
                 </div>
 
                 <div class="float-start ms-3col-md-3" style="clear: both">
-                    <select class="form-select" id="inputSort" required>
-                        <option selected value="recent">최신순</option>
-                        <option value="popular">조회수순</option>
+                    <select class="form-select" id="inputSortType" name="sortType" required>
+                        <option value="recent" th:selected="${sortType} == 'recent'">최신순</option>
+                        <option value="popular" th:selected="${sortType} == 'popular'">조회수순</option>
                     </select>
                 </div>
             </form>
@@ -96,6 +96,32 @@
             <button id="btn-write" type="button" class="btn btn-primary float-end">글 작성</button>
         </a>
     </div>
+
+    <script type='text/javascript'>
+        const page_elements = document.getElementsByClassName("page-link");
+        Array.from(page_elements).forEach(function (element) {
+            element.addEventListener('click', function () {
+                document.getElementById('page').value = this.dataset.page;
+                document.getElementById('searchForm').submit();
+            });
+        });
+        const btn_search = document.getElementById("button-search");
+        btn_search.addEventListener('click', function () {
+            document.getElementById('page').value = 0;
+            document.getElementById('searchForm').submit();
+        });
+        const btn_sortType = document.getElementById("inputSortType");
+        btn_sortType.addEventListener('change', function () {
+            document.getElementById('page').value = 0;
+            document.getElementById('searchForm').submit();
+        });
+        const btn_districtType = document.getElementById("inputDistrict");
+        btn_districtType.addEventListener('change', function () {
+            document.getElementById('page').value = 0;
+            document.getElementById('searchForm').submit();
+        });
+    </script>
+
 </div>
 </body>
 </html>

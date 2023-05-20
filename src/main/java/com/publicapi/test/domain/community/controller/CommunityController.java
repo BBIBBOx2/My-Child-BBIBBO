@@ -37,19 +37,21 @@ public class CommunityController {
                             @RequestParam(value = "page", defaultValue = "0") int page,
                             @PathVariable int boardId,
                             @RequestParam(value = "search", defaultValue = "") String search,
-                            @RequestParam(value = "district", defaultValue = "0") int district,
-                            @RequestParam(value = "sort", defaultValue = "recent") String sort) {
-        Page<Post> postPage = postService.findAllPosts(page, boardId, search, district, sort);
-
+                            @RequestParam(value = "district", defaultValue = "0") int districtType,
+                            @RequestParam(value = "sortType", defaultValue = "recent") String sortType) {
+        Page<Post> postPage = postService.findAllPosts(page, boardId, search, districtType, sortType);
         if (postPage == null) {
             throw new NotFoundException("게시물들을 찾을 수 없습니다.");
         }
 
+        List<District> districts = districtService.findAll();
+
         model.addAttribute("postPage", postPage);
         model.addAttribute("board", boardId);
         model.addAttribute("search", search);
-        model.addAttribute("districts", districtService.findAll());
-        model.addAttribute("sort", sort);
+        model.addAttribute("districts", districts);
+        model.addAttribute("districtType", districtType);
+        model.addAttribute("sortType", sortType);
         return "community/community_list";
     }
 
