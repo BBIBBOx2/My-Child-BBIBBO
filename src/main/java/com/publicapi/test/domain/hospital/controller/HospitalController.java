@@ -24,15 +24,11 @@ public class HospitalController {
     @GetMapping("/hospital")
     public String map() {
         return "/hospital/hospital-map";
-
     }
-
     @GetMapping("/hospital/list")
     public String hospitalList(Model model) {
         List<HospitalEntity> hospitalList = hospitalService.getHospital();
         model.addAttribute("hospitalList", hospitalList);
         return "list/hospital_list";
     }
-
-
 }

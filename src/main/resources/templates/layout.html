@@ -1,44 +1,34 @@
-<!doctype html>
-<html lang="ko" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:layout="">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="UTF-8">
+  <title>Hospital List</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" type="text/css" th:href="@{/static/bootstrap.min.css}">
-  <title>Hello, BBIBBOx2</title>
 </head>
 <body>
 <header class="navbar navbar-expand-lg navbar-fix">
   <div class="container-fluid">
-    <a class="navbar-brand" th:href="@{/review}">
+    <a class="navbar-brand" th:href="@{/hospital}">
+      <img src="../static/images/BBIBBO.png" width="160" height="70" alt="bbibbo 로고 이미지">
     </a>
     <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <a th:href="@{/hospital}" th:attr="class=${tab == 'map' ? 'nav-link-select' : 'nav-link'}">실시간 병원 정보</a>
+      </li>
       <li class="nav-item">
         <a th:href="@{/community/home}" th:attr="class=${tab == 'community' ? 'nav-link-select' : 'nav-link'}">커뮤니티</a>
       </li>
       <li class="nav-item">
-        <a th:href="@{/icon}" th:attr="class=${tab == 'map' ? 'nav-link-select' : 'nav-link'}">Ba-f 맵</a>
-      </li>
-      <li class="nav-item">
-        <a th:href="@{/review}" th:attr="class=${tab == 'review' ? 'nav-link-select' : 'nav-link'}">방문 후기</a>
-      </li>
-      <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-        <a th:href="@{/management/account/0}" th:attr="class=${tab == 'management' ? 'nav-link-select' : 'nav-link'}">관리자 페이지</a>
-      </li>
-      <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_USER', 'USER_AUTH')">
         <a th:href="@{/user/mypage}" th:attr="class=${tab == 'mypage' ? 'nav-link-select' : 'nav-link'}">My Page</a>
       </li>
     </ul>
     <div class="d-flex">
-      <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">LOGIN</a>
-      <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">LOGOUT</a>
+      <a class="nav-link" th:href="@{/user/login}">LOGIN</a>
     </div>
 
   </div>
 </header>
-
-
-<th:block layout:fragment="content"></th:block>
-<th:block layout:fragment="script"></th:block>
-
+<div layout:fragment="content" class="container my-3"></div>
 </body>
 </html>
