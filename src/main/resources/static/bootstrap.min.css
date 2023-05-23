@@ -12,6 +12,8 @@ body {
     font-family: 'SUITE-Regular';
 }
 
+
+
 @font-face {
     font-family: 'SUITE-Regular';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
@@ -93,6 +95,10 @@ body {
     background-color: var(--bs-body-bg);
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent
+}
+
+nav_bottom{
+    background-color: var(--bs-gray-100);
 }
 
 hr {
@@ -614,7 +620,8 @@ progress {
     padding-right: var(--bs-gutter-x, .75rem);
     padding-left: var(--bs-gutter-x, .75rem);
     margin-right: auto;
-    margin-left: auto
+    margin-left: auto;
+
 }
 
 @media (min-width: 576px) {
@@ -12342,6 +12349,7 @@ textarea.form-control-lg {
     height: 45px;
     border: 1px solid #EAE7E7;
     border-radius: 10px;
+    margin-right: 10px;
 }
 
 .form_radio_btn input[type=radio] {
