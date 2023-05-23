@@ -1,13 +1,16 @@
 package com.publicapi.test.domain.hospital.service;
 
 import com.publicapi.test.domain.hospital.dto.HospitalDto;
+import com.publicapi.test.domain.hospital.entity.RegionEntity;
 import com.publicapi.test.domain.hospital.dto.HospitalMapper;
 import com.publicapi.test.domain.hospital.dto.HospitalResponse;
 import com.publicapi.test.domain.hospital.entity.HospitalEntity;
 import com.publicapi.test.domain.hospital.repository.HospitalRepository;
+import com.publicapi.test.domain.hospital.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +21,7 @@ public class HospitalService {
     private final HospitalMapper hospitalMapper;
     private final HospitalRepository hospitalRepository;
     private final HospitalFromApiService hospitalFromApiService;
+    private final RegionRepository regionRepository;
 
     public void syncHospitalInfo() {
         HospitalResponse response = hospitalFromApiService.requestHospitalInfo();
@@ -78,4 +82,19 @@ public class HospitalService {
     public List<HospitalEntity> getHospital(){
         return hospitalRepository.findAll();
     }
+
+    public List<HospitalEntity> getHospitalByRegionName(String regionName) {
+        List<HospitalEntity> filteredHospitalList = new ArrayList<>();
+        RegionEntity region = regionRepository.findById(Long.parseLong(regionName)).orElseThrow();
+
+        for (HospitalEntity hospital : getHospital()) {
+            if (hospital.getAddress().contains(region.getName())) {
+                filteredHospitalList.add(hospital);
+            }
+        }
+
+        return filteredHospitalList;
+    }
+
+
 }

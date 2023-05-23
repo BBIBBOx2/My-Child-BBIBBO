@@ -1,6 +1,8 @@
 package com.publicapi.test.domain.hospital.controller;
 
 import com.publicapi.test.domain.hospital.entity.HospitalEntity;
+import com.publicapi.test.domain.hospital.entity.RegionEntity;
+import com.publicapi.test.domain.hospital.repository.RegionRepository;
 import com.publicapi.test.domain.hospital.service.HospitalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import java.util.List;
 public class HospitalController {
 
     private final HospitalService hospitalService;
+    private final RegionRepository regionRepository;
 
     @GetMapping("/apiTest")
     public void apiTest() {
@@ -25,10 +28,22 @@ public class HospitalController {
     public String map() {
         return "hospital/hospital-map";
     }
+
     @GetMapping("/hospital/list")
-    public String hospitalList(Model model) {
-        List<HospitalEntity> hospitalList = hospitalService.getHospital();
+    public String hospitalList(Model model, @RequestParam(required = false) String regionName) {
+        List<HospitalEntity> hospitalList;
+
+        if (regionName != null) {
+            hospitalList = hospitalService.getHospitalByRegionName(regionName);
+        } else {
+            hospitalList = hospitalService.getHospital();
+        }
+
+        List<RegionEntity> regions = regionRepository.findAll();
+        model.addAttribute("regions", regions);
         model.addAttribute("hospitalList", hospitalList);
+
+
         return "list/hospital_list";
     }
 }
