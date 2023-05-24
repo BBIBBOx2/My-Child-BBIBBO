@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -43,6 +44,18 @@ public class HospitalController {
         model.addAttribute("regions", regions);
         model.addAttribute("hospitalList", hospitalList);
 
+
+        return "list/hospital_list";
+    }
+
+    @GetMapping("/hospital/detail/{hpId}")
+    public String hospitalDetailList(Model model, @PathVariable String hpId) {
+
+        List<HospitalEntity> hospitalList = hospitalService.getHospitalSortedById(hpId); // 정렬된 리스트 가져오기
+
+        List<RegionEntity> regions = regionRepository.findAll();
+        model.addAttribute("regions", regions);
+        model.addAttribute("hospitalList", hospitalList);
 
         return "list/hospital_list";
     }
