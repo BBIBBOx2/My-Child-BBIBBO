@@ -96,5 +96,24 @@ public class HospitalService {
         return filteredHospitalList;
     }
 
+    public List<HospitalEntity> getHospitalSortedById(String hpId) {
+        List<HospitalEntity> hospitalList = hospitalRepository.findAll();
 
+        // hpId에 해당하는 병원 찾기
+        HospitalEntity targetHospital = null;
+        for (HospitalEntity hospital : hospitalList) {
+            if (hospital.getHpId().equals(hpId)) {
+                targetHospital = hospital;
+                break;
+            }
+        }
+
+        // targetHospital을 첫 번째로 위치
+        if (targetHospital != null) {
+            hospitalList.remove(targetHospital);
+            hospitalList.add(0, targetHospital);
+        }
+
+        return hospitalList;
+    }
 }
