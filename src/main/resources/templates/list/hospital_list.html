@@ -32,9 +32,11 @@
     <div class="mb-3">
         <div class="form_toggle">
             <select id="regionSelect" class="form-select" style="margin-right: 10px" aria-label="Default select example">
-                <option selected>시군구 선택</option>
-                <option th:each="region : ${regions}" th:value="${region.id}" th:text="${region.name}"></option>
-            </select>
+                <option selected th:unless="${regionName}" hidden="hidden">시군구 선택</option>
+                <option th:each="region : ${regions}"
+                        th:value="${region.id}"
+                        th:text="${region.name}"
+                        th:selected="${region.id} == ${regionName}"></option>
             </select>
             <div class="form_radio_btn radio_male">
                 <input id="radio-1" type="radio" name="formality" value="map">
