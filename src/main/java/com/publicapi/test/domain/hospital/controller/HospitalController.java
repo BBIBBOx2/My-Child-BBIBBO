@@ -34,7 +34,8 @@ public class HospitalController {
     public String hospitalList(Model model, @RequestParam(required = false) String regionName) {
         List<HospitalEntity> hospitalList;
 
-        if (regionName != null) {
+
+        if (regionName != null && Long.parseLong(regionName)!= 1L) {
             hospitalList = hospitalService.getHospitalByRegionName(regionName);
         } else {
             hospitalList = hospitalService.getHospital();
@@ -43,6 +44,8 @@ public class HospitalController {
         List<RegionEntity> regions = regionRepository.findAll();
         model.addAttribute("regions", regions);
         model.addAttribute("hospitalList", hospitalList);
+        model.addAttribute("regionName", regionName); // 선택된 regionName을 모델에 추가
+
 
 
         return "list/hospital_list";
