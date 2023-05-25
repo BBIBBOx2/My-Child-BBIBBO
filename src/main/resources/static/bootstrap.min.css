@@ -12341,12 +12341,11 @@ textarea.form-control-lg {
 
 .form_toggle {
     display: flex;
-    justify-content: flex-end;
 }
 
 .form_radio_btn {
-    width: 7%;
-    height: 45px;
+    width: 60px;
+    height: 40px;
     border: 1px solid #EAE7E7;
     border-radius: 10px;
     margin-right: 10px;
@@ -12362,7 +12361,7 @@ textarea.form-control-lg {
     margin: 0 auto;
     text-align: center;
     height: -webkit-fill-available;
-    line-height: 45px;
+    line-height: 40px;
 }
 
 /* Checked */
@@ -12380,4 +12379,91 @@ textarea.form-control-lg {
 .form_radio_btn input[type=radio] + label {
     background: #F9FAFC;
     color: #666;
+}
+
+
+.inside-label {
+    cursor: pointer;
+    user-select: none;
+    padding: 6px 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+.inside-label:not(:last-child) {
+    margin-right: 6px;
+}
+.inside-label:hover {
+}
+.inside-label span {
+    float: left;
+    vertical-align: middle;
+    transform: translate3d(0, 0, 0);
+    font-weight: 800;
+}
+.inside-label span:first-child {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    transform: scale(1);
+    border: 2px solid #c8ccd4;
+    transition: all 0.2s ease;
+}
+.inside-label span:first-child svg {
+    position: absolute;
+    top: 2px;
+    left: 1px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 16px;
+    stroke-dashoffset: 16px;
+    transition: all 0.3s ease;
+    transition-delay: 0.1s;
+    transform: translate3d(0, 0, 0);
+}
+.inside-label span:last-child {
+    padding-left: 8px;
+    line-height: 18px;
+}
+.inside-label:hover span:first-child {
+    border-color: #FA9622;
+}
+.main:checked + .inside-label span:first-child {
+    background: #FA9622;
+    border-color: #FA9622;
+    animation: myAnimation 0.4s ease;
+}
+.main:checked + .inside-label span:first-child svg {
+    stroke-dashoffset: 0;
+}
+
+.tick-icon {
+    position: absolute;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    user-select: none;
+}
+@media screen and (max-width: 650px) {
+
+    .inside-label {
+        width: 100%;
+        margin-bottom: 4px;
+        display: inline-block;
+    }
+    body {
+        width: auto;
+        display: inherit;
+        padding: 20px;
+    }
+}
+
+@keyframes myAnimation {
+    50% {
+        transform: scale(0.9);
+    }
 }

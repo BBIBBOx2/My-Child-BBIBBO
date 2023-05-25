@@ -21,6 +21,19 @@
                 console.log('Selected region: ' + selectedRegionName);
                 window.location.href = "/hospital/list?regionName="+selectedRegionName;
             });
+
+            $('#Design').change(function() {
+                var selectedRegionName = $('#regionSelect').val();
+                var isERChecked = $(this).is(':checked');
+
+                if (isERChecked) {
+                    console.log('운영 중인 응급실이 체크되었습니다.');
+                    window.location.href = "/hospital/list?regionName=" + selectedRegionName + "&isERChecked=" + isERChecked;
+                } else {
+                    console.log('운영 중인 응급실이 체크 해제되었습니다.');
+                    window.location.href = "/hospital/list?regionName="+selectedRegionName;
+                }
+            });
         });
     </script>
 </head>
@@ -30,15 +43,30 @@
         <div class="content-container">
             <h5 class="border-bottom py-2">전국 실시간 병원 조회</h5>
     <div class="mb-3">
+        <div style="float:left; margin-top: 3px">
+        <select id="regionSelect" class="form-select" style="margin-right: 10px; " aria-label="Default select example">
+            <option selected th:unless="${regionName}" hidden="hidden">시군구 선택</option>
+            <option th:each="region : ${regions}"
+                    th:value="${region.id}"
+                    th:text="${region.name}"
+                    th:selected="${region.id} == ${regionName}"></option>
+        </select>
+        </div>
+        <div style="float: right">
         <div class="form_toggle">
-            <select id="regionSelect" class="form-select" style="margin-right: 10px" aria-label="Default select example">
-                <option selected th:unless="${regionName}" hidden="hidden">시군구 선택</option>
-                <option th:each="region : ${regions}"
-                        th:value="${region.id}"
-                        th:text="${region.name}"
-                        th:selected="${region.id} == ${regionName}"></option>
-            </select>
-            <div class="form_radio_btn radio_male">
+            <div style="margin-top: 5px; margin-right: 5px; margin-bottom:-10px">
+                <svg class="tick-icon">
+                    <symbol id="check-tick" viewbox="0 0 12 10">
+                        <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                    </symbol>
+                </svg>
+                <input class="main" id="Design" type="checkbox" style="display: none;"/>
+                <label class="inside-label" for="Design"><span>
+                  <svg width="12px" height="10px">
+              <use xlink:href="#check-tick"></use>
+                 </svg></span><span style="font-size: small">운영 중인 응급실</span></label>
+            </div>
+            <div class="form_radio_btn">
                 <input id="radio-1" type="radio" name="formality" value="map">
                 <label for="radio-1">지도</label>
             </div>
@@ -47,8 +75,10 @@
                 <label for="radio-2">목록</label>
             </div>
         </div>
+        </div>
     </div>
-            <div class="hospital-list-container">
+     <br>
+    <div class="hospital-list-container">
     <div th:each="hospital : ${hospitalList}">
         <a style="text-decoration:none; color:inherit" th:href="@{/hospital/detail/} + ${hospital.hpId} + @{/}">
             <div class="card my-3">
