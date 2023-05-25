@@ -14,6 +14,9 @@ public interface HospitalMapper {
     @Named("E2D")
     HospitalDto toDto(HospitalEntity entity);
 
+    @Mapping(target = "id", ignore = true)
+    HospitalEntity update(@MappingTarget HospitalEntity entity, HospitalDetailDto hospital);
+
     @IterableMapping(qualifiedByName = "E2D")
     List<HospitalDto> map(List<HospitalEntity> entities);
 

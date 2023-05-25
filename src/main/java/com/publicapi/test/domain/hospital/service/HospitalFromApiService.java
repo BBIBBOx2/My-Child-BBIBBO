@@ -27,8 +27,8 @@ public class HospitalFromApiService {
     private final RestTemplate restTemplate = new RestTemplate();
 
 
-    public HospitalResponse requestHospitalInfo() {
-        URI url = makeUrl(1, 500);
+    public HospitalResponse requestHospitalInfo(Integer start, Integer end) {
+        URI url = makeUrl(start, end);
         ObjectMapper mapper = new ObjectMapper();
 
         HospitalResponse response = new HospitalResponse();
@@ -40,7 +40,7 @@ public class HospitalFromApiService {
             String jsonBody = jsonResponse.get("row").toString();
             List<HospitalDto> hospitals = mapper.readValue(jsonBody, new TypeReference<List<HospitalDto>>() {});
             response.setRow(hospitals);
-            System.out.println("hospitals = " + hospitals);
+//            System.out.println("hospitals = " + hospitals);
         } catch (ParseException | JsonProcessingException e) {
             throw new RuntimeException(e);
         }

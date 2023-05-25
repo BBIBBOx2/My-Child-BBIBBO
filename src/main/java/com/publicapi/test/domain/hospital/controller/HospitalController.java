@@ -20,11 +20,6 @@ public class HospitalController {
     private final HospitalService hospitalService;
     private final RegionRepository regionRepository;
 
-    @GetMapping("/apiTest")
-    public void apiTest() {
-        hospitalService.syncHospitalInfo();
-    }
-
     @GetMapping("/hospital")
     public String map() {
         return "hospital/hospital-map";
