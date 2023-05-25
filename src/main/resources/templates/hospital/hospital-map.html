@@ -1,5 +1,5 @@
- <html xmlns:th="http://www.thymeleaf.org"
-          xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+       layout:decorate="~{layout}">
     <head>
         <meta charset="UTF-8"><title>Hospital List</title>
         <link rel="stylesheet" type="text/css" th:href="@{/static/bootstrap.min.css}">
@@ -9,28 +9,7 @@
         <script type="text/javascript" th:src="@{../../static/assets/MarkerClustering.js}"></script>
     </head>
 <body onload="javascript:initMap()">
-<header class="navbar navbar-expand-lg navbar-fix">
-    <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/hospital}">
-            <img src="/static/images/BBIBBO.png" width="160" height="70" alt="bbibbo 로고 이미지">
-        </a>
-        <ul class="nav justify-content-center">
-            <li class="nav-item">
-                <a th:href="@{/hospital}" th:attr="class=${tab == 'map' ? 'nav-link-select' : 'nav-link'}">실시간 병원 정보</a>
-            </li>
-            <li class="nav-item">
-                <a th:href="@{/community/home}" th:attr="class=${tab == 'community' ? 'nav-link-select' : 'nav-link'}">커뮤니티</a>
-            </li>
-            <li class="nav-item">
-                <a th:href="@{/user/mypage}" th:attr="class=${tab == 'mypage' ? 'nav-link-select' : 'nav-link'}">My Page</a>
-            </li>
-        </ul>
-        <div class="d-flex">
-            <a class="nav-link" th:href="@{/user/login}">LOGIN</a>
-        </div>
-
-    </div>
-</header>
+<div layout:fragment="content">
 <div class="container my-3">
     <div class="content-container">
         <h5 class="border-bottom py-2">전국 실시간 병원 조회</h5>
@@ -38,12 +17,12 @@
             <div class="form_toggle">
                 <div class="form_radio_btn">
                     <input id="radio-1" type="radio" name="formality" value="map" checked>
-                    <label for="radio-1">MAP</label>
+                    <label for="radio-1">지도</label>
                 </div>
 
                 <div class="form_radio_btn">
                     <input id="radio-2" type="radio" name="formality" value="list">
-                    <label for="radio-2">LIST</label>
+                    <label for="radio-2">목록</label>
                 </div>
             </div>
         </div>
@@ -182,6 +161,7 @@
 
 </script>
     </div>
+</div>
 </div>
 </body>
 
