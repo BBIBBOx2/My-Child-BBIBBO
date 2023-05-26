@@ -31,9 +31,16 @@
                     window.location.href = "/hospital/list?regionName=" + selectedRegionName + "&isERChecked=" + isERChecked;
                 } else {
                     console.log('운영 중인 응급실이 체크 해제되었습니다.');
-                    window.location.href = "/hospital/list?regionName="+selectedRegionName;
+                    window.location.href = "/hospital/list?regionName=" + selectedRegionName;
                 }
             });
+
+// URL의 쿼리 파라미터에서 체크 상태 읽어와서 설정
+            var urlParams = new URLSearchParams(window.location.search);
+            var isERChecked = urlParams.get('isERChecked');
+            if (isERChecked === 'true') {
+                $('#Design').prop('checked', true);
+            }
         });
     </script>
 </head>
@@ -89,9 +96,9 @@
                                 <div class="fw-bolder strong mt-2" th:text="${hospital.name}"></div>
                                 <p class="text-end m-0" th:text="${hospital.address}" style="font-size: 0.8rem; color: gray;"></p>
                                 <p class="fw-bolder mb-0 content-nickname" th:if="${hospital.isErOperating == 1}">응급실 운영</p>
-                                <p class="fw-bolder mb-0 content-nickname" th:if="${hospital.isErOperating == 2}">응급실 미운영</p>
-                                <p class="fw-bolder mb-0 content-nickname" th:text="${hospital.getInfo()}"></p>
-                                <p class="fw-bolder mb-0 content-nickname" th:text="${hospital.getEtc()}"></p>
+                                <p class="fw-bolder content-nickname" style="margin-bottom:8px" th:if="${hospital.isErOperating == 2}">응급실 미운영</p>
+                                <p  style="font-size:small; margin-bottom:0px"th:text="${hospital.getInfo()}"></p>
+                                <p style="font-size:small" th:text="${hospital.getEtc()}"></p>
                             </div>
                         </div>
                     </div>

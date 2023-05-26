@@ -37,6 +37,9 @@
                     window.location.href = url;
                 });
             });
+            function redirectToDetail(url) {
+                window.location.href = url;
+            }
         </script>
         <script>
     var map = new naver.maps.Map("map", {
@@ -107,11 +110,11 @@
                     }
                     var infoWindow = new naver.maps.InfoWindow({
                         content:
-                            '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 5px; font-size: large"><b>'+ data[i].name +'</b></div>'+
-                            '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 5px;"><b>주소: '+ data[i].address +'</b></div>'+
-                            '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 5px;"><b>'+ isER +'</b></div>'+
-                            '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 5px;"><b>비고: '+ data[i].etc +'</b></div>'+
-                            '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 10px;font-size: small;"><a href=' + detailUrl + '>상세보기</a></div>'
+                            '<div style="width:200px;text-align:left;padding-left:10px; margin-top:10px; padding-right: 10px; padding-bottom: 5px;"><b>'+ data[i].name +'</b></div>'+
+                            '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 5px; font-size: smaller"><b>주소: '+ data[i].address +'</b></div>'+
+                            '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 5px; font-size: small"><b>'+ isER +'</b></div>'+
+                            '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 5px;  font-size: small"><p>비고: '+ data[i].etc +'</p></div>'+
+                            '<button type="button" class="btn btn-success btn-sm " style="float:right; margin-right:5px; margin-top:-15px; font-size: 12px; " onclick="redirectToDetail(\'' + detailUrl + '\')">상세보기</div>'
                     });
                     markers.push(marker);
                     infoWindows.push(infoWindow);
