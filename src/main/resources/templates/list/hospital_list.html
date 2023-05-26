@@ -7,8 +7,21 @@
     <link rel="stylesheet" type="text/css" th:href="@{/static/bootstrap.min.css}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        function toggleAdditionalInfo(button) {
+            var cardText = button.parentNode;
+            var additionalInfo = cardText.querySelector("#additional-info");
+
+            if (additionalInfo.style.display === "none") {
+                additionalInfo.style.display = "block";
+                button.textContent = "접기";
+            } else {
+                additionalInfo.style.display = "none";
+                button.textContent = "자세히 보기";
+            }
+        }
        // var $ = jQuery.noConflict();
         $(document).ready(function() {
+
             // 라디오 버튼 변경 시 이벤트 핸들러
             $('input[name="formality"]').change(function() {
                 var value = $(this).val();
@@ -85,28 +98,28 @@
         </div>
     </div>
      <br>
-    <div class="hospital-list-container">
-    <div th:each="hospital : ${hospitalList}">
-        <a style="text-decoration:none; color:inherit" th:href="@{/hospital/detail/} + ${hospital.hpId} + @{/}">
-            <div class="card my-3">
-                <div class="card-body">
-                    <div class="position-relative">
-                        <div style="padding-top: 1%" class="review-content-area mt-0 mb-4">
-                            <div class="card-text">
-                                <div class="fw-bolder strong mt-2" th:text="${hospital.name}"></div>
-                                <p class="text-end m-0" th:text="${hospital.address}" style="font-size: 0.8rem; color: gray;"></p>
-                                <p class="fw-bolder mb-0 content-nickname" th:if="${hospital.isErOperating == 1}">응급실 운영</p>
-                                <p class="fw-bolder content-nickname" style="margin-bottom:8px" th:if="${hospital.isErOperating == 2}">응급실 미운영</p>
-                                <p  style="font-size:small; margin-bottom:0px"th:text="${hospital.getInfo()}"></p>
-                                <p style="font-size:small" th:text="${hospital.getEtc()}"></p>
+            <div class="hospital-list-container">
+                <div th:each="hospital : ${hospitalList}">
+                    <div class="card my-3">
+                        <div class="card-body">
+                            <div class="position-relative">
+                                <div style="padding-top: 1%" class="review-content-area mt-0 mb-4">
+                                    <div class="card-text">
+                                        <div class="fw-bolder strong mt-2" th:text="${hospital.name}"></div>
+                                        <p class="text-end m-0" th:text="${hospital.address}" style="font-size: 0.8rem; color: gray;"></p>
+                                        <p class="fw-bolder mb-0 content-nickname" th:if="${hospital.isErOperating == 1}">응급실 운영</p>
+                                        <p class="fw-bolder content-nickname" style="margin-bottom:8px" th:if="${hospital.isErOperating == 2}">응급실 미운영</p>
+                                        <p style="font-size: small; margin-bottom: 0px" th:text="${hospital.getInfo()}"></p>
+                                        <p style="font-size: small" th:text="${hospital.getEtc()}"></p>
+                                        <p id="additional-info" style="display: none;">test</p>
+                                        <button class="btn btn-success btn-sm" style="float:right" onclick="toggleAdditionalInfo(this)">자세히 보기</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </a>
-    </div>
-</div>
 </div>
 </div>
 </div>
