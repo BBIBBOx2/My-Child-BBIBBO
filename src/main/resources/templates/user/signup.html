@@ -1,0 +1,81 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Hospital List</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/bootstrap.min.css}">
+
+    <style>
+        .input-form {
+            max-width: 680px;
+            margin-top: 80px;
+            padding: 32px;
+            background: #fff;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            -webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+            -moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container my-3">
+        <div class="content-container">
+            <div class="input-form-background row">
+                <div class="input-form col-md-12 mx-auto">
+                    <h4 class="mb-3">회원가입 추가 정보</h4>
+                    <form class="validation-form" th:action="@{/register/{userId}(userId=${userId})}" method="post" enctype="multipart/form-data" novalidate>
+                        <div class="mb-3">
+                            <label for="name">이름</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                이름을 입력해주세요.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="nickname">닉네임</label>
+                            <input type="text" class="form-control" id="nickname" name="nickname" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                별명을 입력해주세요.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="imgFile">프로필 사진</label>
+                            <input type="file" name="imgFile" id="imgFile" accept=".jpg, .png" class="form-control">
+                        </div>
+                        <hr class="mb-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="aggrement" required>
+                            <label class="custom-control-label" for="aggrement">개인정보 수집 및 이용에 동의합니다.</label>
+                        </div>
+                        <div class="mb-4"></div>
+                        <button class="btn btn-success btn-lg btn-block" type="submit">가입 완료</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.addEventListener('load', () => {
+        const forms = document.getElementsByClassName('validation-form');
+
+        Array.prototype.filter.call(forms, (form) => {
+            form.addEventListener('submit', function (event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+</script>
+</body>
+</html>
