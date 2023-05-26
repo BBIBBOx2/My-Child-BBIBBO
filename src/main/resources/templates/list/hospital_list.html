@@ -19,7 +19,7 @@
                 button.textContent = "자세히 보기";
             }
         }
-       // var $ = jQuery.noConflict();
+        // var $ = jQuery.noConflict();
         $(document).ready(function() {
 
             // 라디오 버튼 변경 시 이벤트 핸들러
@@ -62,42 +62,50 @@
     <div class="container my-3">
         <div class="content-container">
             <h5 class="border-bottom py-2">전국 실시간 병원 조회</h5>
-    <div class="mb-3">
-        <div style="float:left; margin-top: 3px">
-        <select id="regionSelect" class="form-select" style="margin-right: 10px; " aria-label="Default select example">
-            <option selected th:unless="${regionName}" hidden="hidden">시군구 선택</option>
-            <option th:each="region : ${regions}"
-                    th:value="${region.id}"
-                    th:text="${region.name}"
-                    th:selected="${region.id} == ${regionName}"></option>
-        </select>
-        </div>
-        <div style="float: right">
-        <div class="form_toggle">
-            <div style="margin-top: 5px; margin-right: 5px; margin-bottom:-10px">
-                <svg class="tick-icon">
-                    <symbol id="check-tick" viewbox="0 0 12 10">
-                        <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-                    </symbol>
-                </svg>
-                <input class="main" id="Design" type="checkbox" style="display: none;"/>
-                <label class="inside-label" for="Design"><span>
+            <div class="mb-3">
+                <div style="float:left; margin-top: 3px">
+                    <select id="regionSelect" class="form-select" style="margin-right: 10px; " aria-label="Default select example">
+                        <option selected th:unless="${regionName}" hidden="hidden">시군구 선택</option>
+                        <option th:each="region : ${regions}"
+                                th:value="${region.id}"
+                                th:text="${region.name}"
+                                th:selected="${region.id} == ${regionName}"></option>
+                    </select>
+                </div>
+                <div style="float: right">
+                    <div class="form_toggle">
+                        <div style="margin-top: 5px; margin-right: 10px; margin-bottom:-10px">
+                            <svg class="tick-icon">
+                                <symbol id="check-tick" viewbox="0 0 12 10">
+                                    <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                                </symbol>
+                            </svg>
+                            <input class="main" id="Design" type="checkbox" style="display: none;"/>
+                            <label class="inside-label" for="Design"><span>
                   <svg width="12px" height="10px">
               <use xlink:href="#check-tick"></use>
                  </svg></span><span style="font-size: small">운영 중인 응급실</span></label>
+                        </div>
+                        <div class="form_radio_btn">
+                            <input id="radio-1" type="radio" name="formality" value="map">
+                            <label for="radio-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-geo-alt-fill" style="margin-top:-5px" viewBox="0 0 16 16">
+                                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                                </svg>
+                            </label>
+                        </div>
+                        <div class="form_radio_btn">
+                            <input id="radio-2" type="radio" name="formality" value="list" checked>
+                            <label for="radio-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" style="margin-top:-5px" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                                </svg>
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form_radio_btn">
-                <input id="radio-1" type="radio" name="formality" value="map">
-                <label for="radio-1">지도</label>
-            </div>
-            <div class="form_radio_btn">
-                <input id="radio-2" type="radio" name="formality" value="list" checked>
-                <label for="radio-2">목록</label>
-            </div>
-        </div>
-        </div>
-    </div>
-     <br>
+            <br>
             <div class="hospital-list-container">
                 <div th:each="hospital : ${hospitalList}">
                     <div class="card my-3">
@@ -120,8 +128,8 @@
                     </div>
                 </div>
             </div>
-</div>
-</div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
