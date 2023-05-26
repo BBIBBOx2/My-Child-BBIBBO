@@ -32,8 +32,10 @@ public class UserController {
         log.info(name);
         log.info(nickname);
 
-        return "hospital/hospital-map";
+        return "redirect:/hospital";
     }
 
 }
+
+
 
