@@ -1,11 +1,8 @@
 package com.publicapi.test.domain.community.controller;
 
 import com.publicapi.test.domain.community.dto.PostRequest;
-import com.publicapi.test.domain.community.entity.Board;
-import com.publicapi.test.domain.community.entity.District;
-import com.publicapi.test.domain.community.entity.Post;
+import com.publicapi.test.domain.community.entity.*;
 import com.publicapi.test.domain.community.exception.NotFoundException;
-import com.publicapi.test.domain.community.repository.BoardRepository;
 import com.publicapi.test.domain.community.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,7 +27,8 @@ public class CommunityController {
     private final PostTagService postTagService;
     private final PostImageService postImageService;
     private final DistrictService districtService;
-    private final BoardRepository boardRepository;
+    private final BoardService boardService;
+    private final CommentService commentService;
 
     @GetMapping("{boardId}")
     public String showPosts(Model model,
@@ -55,10 +53,24 @@ public class CommunityController {
         return "community/community_list";
     }
 
+    @GetMapping("{boardId}/{postId}")
+    public String showPost(Model model,
+                           @PathVariable Long boardId, @PathVariable Long postId) {
+        Post post = postService.findPostById(postId);
+        List<PostImage> postImages = postImageService.findPostImageByPostId(postId);
+        List<Comment> comments = commentService.findAllByPostId(postId);
+
+        model.addAttribute("board", boardId);
+        model.addAttribute("post", post);
+        model.addAttribute("postImages", postImages);
+        model.addAttribute("comments", comments);
+        return "community/community_detail";
+    }
+
     @GetMapping("{boardId}/write")
     public String loadWriteForm(Model model,
                                 @PathVariable int boardId) {
-        List<Board> boards = boardRepository.findAll();
+        List<Board> boards = boardService.findAll();
         List<District> districts = districtService.findAll();
 
         model.addAttribute("boardId", boardId);
@@ -99,5 +111,13 @@ public class CommunityController {
                 }
             }
         }
+    }
+
+    @GetMapping("{boardId}/{postId}/scrap")
+    public String scrapPost(@PathVariable("boardId") Long boardId, @PathVariable("postId") Long postId) {
+        Long userId = 1L;
+        postService.scrap(userId, postId);
+
+        return String.format("redirect:/community/%d/%d", boardId, postId);
     }
 }

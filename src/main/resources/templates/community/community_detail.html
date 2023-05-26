@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Community Detail</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/bootstrap.min.css}">
+</head>
+<body>
+<div class="content-container mt-5">
+    <div id="hide" th:if="${message}" class="alert alert-danger" role="alert">
+        <p th:text="${message}">message fail</p>
+    </div>
+    <div class="content-area mt-0 mb-4">
+        <h5 class="my-3 border-bottom pb-2" th:text="${post.title}"></h5>
+        <img class="img-profile-content float-start me-3" src="/static/image/anonymous_profile.png" alt="익명의 프로필 이미지">
+        <div class="ms-5" th:if="${post.author != null}">
+            <p class="fw-bolder mb-0 content-nickname" th:if="${post.isAnonymous == true}">익명</p>
+            <p class="fw-bolder mb-0 content-nickname" th:unless="${post.isAnonymous == true}"
+               th:text="${post.author.username}"></p>
+            <time class="fw-normal content-time"
+                  th:text="${#temporals.format(post.createDate, 'yy/MM/dd HH:mm')}"></time>
+        </div>
+        <div class="ms-5" th:unless="${post.author != null}">
+            <p class="fw-bolder mb-0 content-nickname">(알 수 없음)</p>
+            <time class="fw-normal content-time"
+                  th:text="${#temporals.format(post.createDate, 'yy/MM/dd HH:mm')}"></time>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="card-text" style="white-space: pre-line; margin-bottom: 5%" th:text="${post.content}"></div>
+
+        <div th:if="${#lists.size(post.postImages) > 0}" class="content-area">
+            <label class="-content-label mb-3">이미지</label>
+            <div class="col-12">
+                <div class="board-content-add-img" th:each="imgPath : ${post.postImages}">
+                    <img class="btn content-img float-start" th:src="@{|/display?filePath=${imgPath.image}|}">
+                </div>
+            </div>
+            <div class="expand-image">
+                <span class="expand-close">&times;</span>
+                <img class="expand-image-content" id="expand-image-img">
+            </div>
+        </div>
+
+        <div class="my-3" style="clear: both">
+            <div class="float-start">
+                <a href="javascript:void(0)" class="scrapPopup btn btn btn-light" type="button"
+                   th:data-uri="@{|/community/${board}/${post.id}/scrap|}">
+                    <span class="scrap-disable ps-4">스크랩</span>
+                </a>
+            </div>
+            <ul class="content-info">
+                <li class="scrap" th:text="${#lists.size(post.scrapCount)}"></li>
+                <li class="comment" th:text="${#lists.size(comments)}"></li>
+            </ul>
+        </div>
+        <div style="clear:both;"></div>
+        <h5 class="my-3 border-top border-bottom pt-4 pb-2">댓글</h5>
+        <div class="review-content-area mb-5">
+            <form th:action="@{|/comments/create/${board}/${post.id}|}" id="commentForm">
+<!--                <div th:replace="form_errors :: formErrorsFragment"></div>-->
+                <div class="input-group mb-4">
+                    <input type="text" class="form-control border-end-0" id="comment-context" placeholder="댓글을 남겨주세요."
+                           aria-label="Recipient's username with two button addons">
+                    <div class="input-group-text border-start-0" style="background-color: white">
+                        <input class="form-check-input mt-0" id="check-anonym" type="checkbox"
+                               value=false aria-label="Checkbox for following text input">
+                        <label class="form-check-label" id="check-anonym-text" for="check-anonym">익명</label>
+                    </div>
+                    <button class="btn btn-outline-orange" style="z-index: 0" type="button" onclick="uploadComment()">등록</button>
+                </div>
+            </form>
+
+            <div id="comments-list ">
+                <ol class="list-group">
+                    <li th:each="comment : ${comments}"
+                        class="list-group-item  justify-content-between align-items-start comment-item">
+                        <div class="d-flex">
+                            <div class="ms-2 me-auto">
+                                <div class="mb-2" th:if="${comment.user != null}">
+                                    <img class="img-profile-comment" src="/static/image/anonymous_profile.png" alt="익명의 프로필 이미지">
+                                    <span class="fw-bolder content-nickname"
+                                          th:if="${comment.user == post.author and comment.isAnonymous == true}">익명 (글쓴이)</span>
+                                    <span class="fw-bolder content-nickname"
+                                          th:if="${comment.user == post.author and comment.isAnonymous != true}"
+                                          th:text="${comment.user.username + ' (글쓴이)'}"></span>
+                                    <span class="fw-bolder content-nickname"
+                                          th:if="${comment.user != post.author and comment.isAnonymous == true}">익명</span>
+                                    <span class="fw-bolder content-nickname"
+                                          th:if="${comment.user != post.author and comment.isAnonymous != true}"
+                                          th:text="${comment.user.username}"></span>
+                                </div>
+                                <div class="mb-2" th:if="${comment.user == null}">
+                                    <img class="img-profile-comment" src="/static/image/anonymous_profile.png" alt="익명의 프로필 이미지">
+                                    <span class="fw-bolder content-nickname">(알 수 없음)</span>
+                                </div>
+                                [[${comment.content}]]
+                                <div class="mt-2">
+                                    <time class="fw-normal me-3 content-time"
+                                          th:text="${#temporals.format(comment.createDate, 'yyyy-MM-dd HH:mm')}"></time>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <a th:href="@{|/community/${board}|}" class="btn btn-primary mb-4" style="float:right;">글목록</a>
+    </div>
+</div>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+
+    const delete_elements = document.getElementsByClassName("delete");
+    Array.from(delete_elements).forEach(function (element) {
+        element.addEventListener('click', function () {
+            if (confirm("정말로 삭제하시겠습니까?")) {
+                location.href = this.dataset.uri;
+            }
+        });
+    });
+    const scrap_elements = document.getElementsByClassName("scrapPopup");
+    Array.from(scrap_elements).forEach(function (element) {
+        element.addEventListener('click', function () {
+            if (confirm("스크랩하시겠습니까?")) {
+                location.href = this.dataset.uri;
+            }
+        });
+    });
+    const accuse_elements = document.getElementsByClassName("accuse");
+    Array.from(accuse_elements).forEach(function (element) {
+        element.addEventListener('click', function () {
+            if (confirm("정말로 신고하시겠습니까?")) {
+                location.href = this.dataset.uri;
+            }
+        });
+    });
+
+    $("#check-anonym").change(function () {
+        if (this.checked) {
+            $(this).attr('value', true);
+        } else {
+            $(this).attr('value', false);
+        }
+    });
+
+    const expandImage = document.querySelector(".expand-image");
+    const expandImgContent = document.querySelector(".expand-image-content");
+    const span = document.querySelector(".expand-close");
+
+    $(".content-img").each(function () {
+        this.addEventListener('click', function () {
+            expandDisplay("block");
+            expandImgContent.src = this.src;
+        });
+    });
+
+    span.addEventListener('click', () => {
+        expandDisplay("none");
+    });
+    expandImage.addEventListener('click', () => {
+        expandDisplay("none");
+    });
+
+    function expandDisplay(text) {
+        expandImage.style.display = text;
+    }
+
+    function uploadComment() {
+        const form = document.getElementById('commentForm');
+        let url = form.getAttribute('action');
+        let comment = $('#comment-context').val();
+        let isAnonymous = $('#check-anonym').is(':checked');
+        var requestData = {
+            content: comment,
+            isAnonymous: isAnonymous
+        };
+
+        axios.request({
+            url: url,
+            method: 'post',
+            data: requestData
+        }).then((response) => {
+            location.href = response.headers.get("location")
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
+</script>
+</body>
+</html>

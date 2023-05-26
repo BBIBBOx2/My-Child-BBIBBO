@@ -18,14 +18,26 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+
+    @ManyToOne(targetEntity = Post.class, optional = false)
+    @JoinColumn(name = "post_id", insertable = false, updatable = false)
     private Post post;
 
-    @ManyToOne
-    private User author;
+    @Column(name = "post_id")
+    private Long postId;
+
+    @ManyToOne(targetEntity = User.class, optional = false)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private User user;
+
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(columnDefinition = "TEXT")
     private String content;
+
+    @Column(columnDefinition = "BOOLEAN")
+    private Boolean isAnonymous;
 
     @Column(nullable = false)
     private LocalDateTime createDate;
