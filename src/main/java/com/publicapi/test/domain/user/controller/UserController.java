@@ -28,7 +28,6 @@ public class UserController {
     @GetMapping("/oauth/kakao")
     public String kakaoLogin(@RequestParam String code, HttpServletRequest request) {
         System.out.println("code = " + code);
-
         String accessToken = oauthService.getAccessToken(code);
         String kakaoId = oauthService.getUserIdByToken(accessToken);
         userService.registerUser(kakaoId, request);
@@ -41,7 +40,6 @@ public class UserController {
     public String loginUser(HttpServletRequest request) {
         String id = (String) request.getSession().getAttribute("kakaoId");
         UserEntity user = userService.getLoginUser(id);
-        System.out.println("user = " + user.getName());
         return "redirect:/hospital";
     }
 
@@ -51,19 +49,21 @@ public class UserController {
         return "redirect:/hospital";
     }
 
-    @GetMapping("/user/signup/{userId}")
-    public String signupForm(@PathVariable("userId") String userId, Model model) {
-        model.addAttribute("userId", userId);
+    @GetMapping("/user/signup")
+    public String signupForm(HttpSession session, Model model) {
+        model.addAttribute("userId", session.getAttribute("kakaoId").toString());
         return "user/signup";
     }
 
     @PostMapping("/register/{userId}")
-    public String handleRegistrationForm(@PathVariable("userId") String userId,
+    public String handleRegistrationForm(HttpSession session,
                                          @RequestParam("name") String name,
                                          @RequestParam("nickname") String nickname,
                                          @RequestParam("imgFile") MultipartFile imgFile,
+                                         @RequestParam("email") String email,
                                          Model model) {
-
+        String userId = (String) session.getAttribute("kakaoId");
+        userService.updateUser(userId, name, nickname, email, imgFile);
         log.info(userId);
         log.info(name);
         log.info(nickname);
