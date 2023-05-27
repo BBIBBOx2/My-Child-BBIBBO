@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -18,10 +17,10 @@ public class PostImageService {
 
     private final PostImageRepository postImageRepository;
 
-    public void saveImage(Long postId, String imagePath) {
+    public void saveImage(Long postId, String imageUrl) {
         PostImage postImage = new PostImage();
         postImage.setPostId(postId);
-        postImage.setImage(imagePath);
+        postImage.setImage(imageUrl);
         postImageRepository.save(postImage);
         postImageRepository.flush();
     }
@@ -30,23 +29,9 @@ public class PostImageService {
         Optional<List<PostImage>> postImages = postImageRepository.findPostImageByPostId(postId);
 
         if (postImages.isPresent()) {
-            List<PostImage> postImage = postImages.get();
-            return replaceSlash(postImage);
+            return postImages.get();
         }
 
         return Collections.emptyList();
-    }
-
-    private List<PostImage> replaceSlash(List<PostImage> postImages) {
-        return postImages.stream()
-                         .map(postImage -> {
-                             String replacePath = postImage.getImage().replaceAll("\\\\", "/");
-                             PostImage newPostImage = new PostImage();
-                             newPostImage.setId(postImage.getId());
-                             newPostImage.setImage(replacePath);
-                             newPostImage.setPostId(postImage.getPostId());
-                             return newPostImage;
-                         })
-                .collect(Collectors.toList());
     }
 }

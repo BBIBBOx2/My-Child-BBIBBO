@@ -33,7 +33,7 @@
             <label class="-content-label mb-3">이미지</label>
             <div class="col-12">
                 <div class="board-content-add-img" th:each="imgPath : ${post.postImages}">
-                    <img class="btn content-img float-start" th:src="@{|/display?filePath=${imgPath.image}|}">
+                    <img class="btn content-img float-start" th:src="@{${imgPath.image}}">
                 </div>
             </div>
             <div class="expand-image">

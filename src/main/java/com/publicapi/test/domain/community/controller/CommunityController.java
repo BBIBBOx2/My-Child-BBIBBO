@@ -4,6 +4,7 @@ import com.publicapi.test.domain.community.dto.PostRequest;
 import com.publicapi.test.domain.community.entity.*;
 import com.publicapi.test.domain.community.exception.NotFoundException;
 import com.publicapi.test.domain.community.service.*;
+import com.publicapi.test.s3.service.ImageUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -11,11 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,6 +26,7 @@ public class CommunityController {
     private final DistrictService districtService;
     private final BoardService boardService;
     private final CommentService commentService;
+    private final ImageUploadService imageUploadService;
 
     @GetMapping("{boardId}")
     public String showPosts(Model model,
@@ -95,21 +93,9 @@ public class CommunityController {
     }
 
     private void savePostImage(Long postId, List<MultipartFile> images) {
-        Path uploadRoot = Paths.get(System.getProperty("user.home"))
-                               .resolve("bbibbo_storage");
-
-        if (images != null) {
-            for (MultipartFile image : images) {
-                UUID uuid = UUID.randomUUID();
-                Path uploadPath = uploadRoot.resolve(uuid + ".png");
-
-                try {
-                    image.transferTo(uploadPath);
-                    postImageService.saveImage(postId, uploadPath.toString());
-                } catch (IllegalStateException | IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        for (MultipartFile image : images) {
+            String imageUrl = imageUploadService.uploadImage(image);
+            postImageService.saveImage(postId, imageUrl);
         }
     }
 
