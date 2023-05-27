@@ -7,6 +7,8 @@ import com.publicapi.test.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -20,15 +22,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-
-    public Boolean signUp(UserInfo userInfo, String kakaoId) {
-        Optional<UserEntity> user = userRepository.findByKakaoId(kakaoId);
-
-        userMapper.update(user.get(), userInfo);
-
-        return true;
-
-    }
 
     /**
      * 현재 로그인 사용자
@@ -46,13 +39,19 @@ public class UserService {
         if (!userRepository.existsByKakaoId(kakaoId)) {
             user = UserEntity.builder().kakaoId(kakaoId).email("abc@naver.com").name("이름").username("닉네임").build();
             userRepository.save(user);
-            Boolean isSignup = signUp(userInfo, kakaoId);
-            System.out.println("isSignup = " + isSignup);
         } else {
             user = userRepository.findByKakaoId(kakaoId).get();
         }
         HttpSession session = request.getSession();
         session.setAttribute("kakaoId", kakaoId);
+
+    }
+
+    public void updateUser(String userId, String name, String nickname, String email, MultipartFile imgFile) {
+        Optional<UserEntity> user = userRepository.findByKakaoId(userId);
+        UserInfo userInfo=UserInfo.builder().username(nickname).name(name).email(email).build();
+        userMapper.update(user.get(), userInfo);
+
 
     }
 
