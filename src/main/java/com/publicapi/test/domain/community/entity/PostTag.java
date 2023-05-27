@@ -24,7 +24,7 @@ public class PostTag {
     @Column(name = "post_id")
     private Long postId;
 
-    @ManyToOne(targetEntity = Hashtag.class, fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(targetEntity = Hashtag.class, optional = false)
     @JoinColumn(name = "hashtag_id", insertable = false, updatable = false)
     private Hashtag hashtag;
 

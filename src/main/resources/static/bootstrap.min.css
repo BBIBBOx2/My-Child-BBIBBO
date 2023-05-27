@@ -4778,7 +4778,12 @@ textarea.form-control-lg {
 
 .card-body {
     flex: 1 1 auto;
-    padding: 1rem 1rem
+    padding: 1rem 1rem;
+}
+
+.content-body {
+    flex: 1 1 auto;
+    padding: 1rem 0rem;
 }
 
 .card-title {
@@ -12343,4 +12348,16 @@ textarea.form-control-lg {
 .tagify{
     width: 100%;
     max-width: 700px;
+}
+
+.tags a {
+    display: inline-block;
+    margin: 0 8px 12px 0;
+    padding: 0 17px;
+    border: 1px solid #00956d;
+    border-radius: 32px;
+    font-size: 14px;
+    line-height: 30px;
+    vertical-align: middle;
+    text-decoration: none;
 }

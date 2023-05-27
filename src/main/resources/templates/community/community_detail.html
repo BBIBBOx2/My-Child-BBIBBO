@@ -26,7 +26,7 @@
                   th:text="${#temporals.format(post.createDate, 'yy/MM/dd HH:mm')}"></time>
         </div>
     </div>
-    <div class="card-body">
+    <div class="content-body">
         <div class="card-text" style="white-space: pre-line; margin-bottom: 5%" th:text="${post.content}"></div>
 
         <div th:if="${#lists.size(post.postImages) > 0}" class="content-area">
@@ -42,6 +42,10 @@
             </div>
         </div>
 
+        <div class="tags" th:if="${#lists.size(postTags) > 0}">
+            <a th:each="tag : ${postTags}" th:text="@{|#${tag.hashtag.name}|}"></a>
+        </div>
+
         <div class="my-3" style="clear: both">
             <div class="float-start">
                 <a href="javascript:void(0)" class="scrapPopup btn btn btn-light" type="button"
@@ -55,6 +59,7 @@
             </ul>
         </div>
         <div style="clear:both;"></div>
+
         <h5 class="my-3 border-top border-bottom pt-4 pb-2">댓글</h5>
         <div class="review-content-area mb-5">
             <form th:action="@{|/comments/create/${board}/${post.id}|}" id="commentForm">

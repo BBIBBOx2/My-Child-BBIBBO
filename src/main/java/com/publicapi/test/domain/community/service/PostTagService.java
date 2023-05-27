@@ -24,4 +24,8 @@ public class PostTagService {
             postTagRepository.flush();
         }
     }
+
+    public List<PostTag> findAllByPostId(Long postId) {
+        return postTagRepository.findAllByPostId(postId);
+    }
 }

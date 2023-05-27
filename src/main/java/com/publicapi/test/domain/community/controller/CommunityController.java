@@ -57,11 +57,13 @@ public class CommunityController {
         Post post = postService.findPostById(postId);
         List<PostImage> postImages = postImageService.findPostImageByPostId(postId);
         List<Comment> comments = commentService.findAllByPostId(postId);
+        List<PostTag> postTags = postTagService.findAllByPostId(postId);
 
         model.addAttribute("board", boardId);
         model.addAttribute("post", post);
         model.addAttribute("postImages", postImages);
         model.addAttribute("comments", comments);
+        model.addAttribute("postTags", postTags);
         return "community/community_detail";
     }
 
@@ -84,10 +86,13 @@ public class CommunityController {
                            @RequestPart(name = "images", required = false) List<MultipartFile> images) {
         Long postId = postService.create(postRequest);
         if (postRequest.getHashtags() != null) {
+            System.out.println(postRequest.getHashtags());
             List<Long> hashtagIds = hashtagService.create(postRequest.getHashtags());
             postTagService.create(postId, hashtagIds);
         }
-        savePostImage(postId, images);
+        if (images != null) {
+            savePostImage(postId, images);
+        }
 
         return "/community/" + postRequest.getBoardId();
     }
