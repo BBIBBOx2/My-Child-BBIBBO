@@ -29,8 +29,11 @@
     <div class="content-body">
         <div class="card-text" style="white-space: pre-line; margin-bottom: 5%" th:text="${post.content}"></div>
 
+        <div class="tags" th:if="${#lists.size(postTags) > 0}">
+            <a th:each="tag : ${postTags}" th:text="@{|#${tag.hashtag.name}|}"></a>
+        </div>
+
         <div th:if="${#lists.size(post.postImages) > 0}" class="content-area">
-            <label class="-content-label mb-3">이미지</label>
             <div class="col-12">
                 <div class="board-content-add-img" th:each="imgPath : ${post.postImages}">
                     <img class="btn content-img float-start" th:src="@{${imgPath.image}}">
@@ -40,10 +43,6 @@
                 <span class="expand-close">&times;</span>
                 <img class="expand-image-content" id="expand-image-img">
             </div>
-        </div>
-
-        <div class="tags" th:if="${#lists.size(postTags) > 0}">
-            <a th:each="tag : ${postTags}" th:text="@{|#${tag.hashtag.name}|}"></a>
         </div>
 
         <div class="my-3" style="clear: both">
