@@ -2,10 +2,10 @@ package com.publicapi.test.domain.hospital.service;
 
 import com.publicapi.test.domain.hospital.dto.HospitalDetailDto;
 import com.publicapi.test.domain.hospital.dto.HospitalDto;
-import com.publicapi.test.domain.hospital.entity.RegionEntity;
 import com.publicapi.test.domain.hospital.dto.HospitalMapper;
 import com.publicapi.test.domain.hospital.dto.HospitalResponse;
 import com.publicapi.test.domain.hospital.entity.HospitalEntity;
+import com.publicapi.test.domain.hospital.entity.RegionEntity;
 import com.publicapi.test.domain.hospital.repository.HospitalRepository;
 import com.publicapi.test.domain.hospital.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;

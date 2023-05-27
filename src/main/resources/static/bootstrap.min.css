@@ -67,6 +67,7 @@ body {
     --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+    --bs-body-font-family: var(--bs-font-sans-serif);
     --bs-body-font-size: 1rem;
     --bs-body-font-weight: 400;
     --bs-body-line-height: 1.5;
@@ -86,7 +87,7 @@ body {
 
 body {
     margin: 0;
-
+    font-family: var(--bs-body-font-family);
     font-size: var(--bs-body-font-size);
     font-weight: var(--bs-body-font-weight);
     line-height: var(--bs-body-line-height);
@@ -621,7 +622,6 @@ progress {
     padding-left: var(--bs-gutter-x, .75rem);
     margin-right: auto;
     margin-left: auto;
-
 }
 
 @media (min-width: 576px) {
@@ -4806,7 +4806,12 @@ textarea.form-control-lg {
 
 .card-body {
     flex: 1 1 auto;
-    padding: 1rem 1rem
+    padding: 1rem 1rem;
+}
+
+.content-body {
+    flex: 1 1 auto;
+    padding: 1rem 0rem;
 }
 
 .card-title {
@@ -5198,6 +5203,12 @@ textarea.form-control-lg {
 .btn .badge {
     position: relative;
     top: -1px
+}
+
+.badge-pill {
+    padding-right: 0.6em;
+    padding-left: 0.6em;
+    border-radius: 10rem;
 }
 
 .alert {
@@ -11758,7 +11769,11 @@ textarea.form-control-lg {
     border: 0;
 }
 
+<<<<<<< HEAD
+.-content-container {
+=======
 .review-content-container {
+>>>>>>> main
     width: 100%;
     margin-top: 0.5rem;
 }
@@ -12015,19 +12030,19 @@ textarea.form-control-lg {
     padding-left: 1.4rem;
 }
 
-.recommend {
+.scrap {
     width: auto;
-    color: #F74811;
-    background-image: url(/static/image/content_recommend.png);
+    color: #ffcd4a;
+    background-image: url(/static/image/scrap-checked.png);
     background-repeat: no-repeat;
     background-size: 1.2rem 1.2rem;
     background-position: left center;
 }
 
-.recommend-disable {
+.scrap-disable {
     width: auto;
-    color: #F74811;
-    background-image: url(/static/image/content_recommend_disable.png);
+    color: #000000;
+    background-image: url(/static/image/scrap.png);
     background-repeat: no-repeat;
     background-size: 1.2rem 1.2rem;
     background-position: left center;
@@ -12035,8 +12050,8 @@ textarea.form-control-lg {
 
 .comment {
     width: auto;
-    color: #009874;
-    background-image: url(/static/image/content_comment.png);
+    color: #00956D;
+    background-image: url(/static/image/comment.png);
     background-repeat: no-repeat;
     background-size: 1.2rem 1.2rem;
     background-position: left center;
@@ -12077,7 +12092,7 @@ textarea.form-control-lg {
     width: auto;
 }
 
-.preview-img {
+.content-img {
     width: 100px;
     height: 100px;
     margin-right: 1rem;
@@ -12110,7 +12125,7 @@ textarea.form-control-lg {
     margin-top: 1.6rem;
 }
 
-/*.preview-img-loading {*/
+/*.content-img-loading {*/
 /*    border-color: #dee2e6;*/
 /*    border-radius: .2rem;*/
 /*    background: transparent url("/static/image/spin-loading-img.svg");*/
@@ -12120,7 +12135,7 @@ textarea.form-control-lg {
 /*    background-position: top center;*/
 /*}*/
 
-.preview-img-background {
+.content-img-background {
     width: 100%;
     height: 100%;
     background-color: #000000;
@@ -12128,11 +12143,11 @@ textarea.form-control-lg {
     display: none;
 }
 
-.preview-img:hover .preview-img-background {
+.content-img:hover .content-img-background {
     display: block;
 }
 
-.preview-img-del {
+.content-img-del {
     padding-top: 40px;
     font-size: 13px;
     color: white;
@@ -12337,6 +12352,47 @@ textarea.form-control-lg {
     width: 80%;
     margin-left: auto;
     margin-right: auto
+}
+
+.btn-select-board {
+    color: #000;
+    background-color: #d0e9ff;
+    border-color: #d0e9ff;
+}
+
+.btn-select-board:hover {
+    color: #000;
+    background-color: #add9ff;
+    border-color: #add9ff;
+}
+
+.btn-board {
+    color: #000;
+    background-color: #e6e6e6;
+    border-color: #e6e6e6;
+}
+
+.btn-board:hover {
+    color: #000;
+    background-color: #add9ff;
+    border-color: #add9ff;
+}
+
+.tagify{
+    width: 100%;
+    max-width: 700px;
+}
+
+.tags a {
+    display: inline-block;
+    margin: 0 8px 12px 0;
+    padding: 0 17px;
+    border: 1px solid #00956d;
+    border-radius: 32px;
+    font-size: 14px;
+    line-height: 30px;
+    vertical-align: middle;
+    text-decoration: none;
 }
 
 .form_toggle {
