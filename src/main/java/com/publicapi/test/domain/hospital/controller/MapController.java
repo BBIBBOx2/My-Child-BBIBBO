@@ -1,7 +1,6 @@
 package com.publicapi.test.domain.hospital.controller;
 
 import com.publicapi.test.domain.hospital.dto.HospitalDto;
-import com.publicapi.test.domain.hospital.service.HospitalDetailFromApiService;
 import com.publicapi.test.domain.hospital.service.HospitalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +21,6 @@ public class MapController {
     @RequestMapping(value = "/data.json", method = RequestMethod.GET)
     public List<HospitalDto> hospitalData() {
         List<HospitalDto> hospitals = hospitalService.getAllHospitals();
-        System.out.println("hospitals = " + hospitals);
         return hospitals;
     }
 

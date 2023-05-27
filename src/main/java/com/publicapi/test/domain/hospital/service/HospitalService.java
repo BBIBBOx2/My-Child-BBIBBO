@@ -73,7 +73,6 @@ public class HospitalService {
 
     public void getHospitalDetail(String town) throws IOException, URISyntaxException {
         List<HospitalDetailDto> hospitals = hospitalDetailFromApiService.requestHospitalDetail(town);
-        System.out.println("hospitals in 실시간 응급실 API = " + hospitals);
         updateHospitalDetail(hospitals);
     }
 

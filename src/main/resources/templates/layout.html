@@ -33,7 +33,8 @@
       <button class="btn btn-success rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal">
                         <span class="d-flex align-items-center">
                             <i class="bi-person-circle me-2"></i>
-                            <span class="small">SIGN IN</span>
+                            <span th:if="${session.kakaoId}" th:text="환영합니다" class="small">SIGN IN</span>
+                            <span th:unless="${session.kakaoId}" class="small">SIGN IN</span>
                         </span>
       </button>
     </form>

@@ -33,7 +33,6 @@ public class HospitalDetailFromApiService {
         JSONObject jsonObject = new JSONObject(response.getBody());
         JSONObject items = jsonObject.getJSONObject("response").getJSONObject("body")
                 .getJSONObject("items");
-        System.out.println("items = " + items);
         List<HospitalDetailDto> hospitals = mapper.readValue(items.get("item").toString(),
                 new TypeReference<List<HospitalDetailDto>>() {});
 
