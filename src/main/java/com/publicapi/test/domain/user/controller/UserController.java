@@ -51,15 +51,11 @@ public class UserController {
         return "redirect:/hospital";
     }
 
-
-
-
-}
     @GetMapping("/user/signup/{userId}")
     public String signupForm(@PathVariable("userId") String userId, Model model) {
         model.addAttribute("userId", userId);
         return "user/signup";
-   }
+    }
 
     @PostMapping("/register/{userId}")
     public String handleRegistrationForm(@PathVariable("userId") String userId,
@@ -75,7 +71,12 @@ public class UserController {
         return "redirect:/hospital";
     }
 
+
+
 }
+
+
+
 
 
 
