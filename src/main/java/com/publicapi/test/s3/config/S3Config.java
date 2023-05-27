@@ -16,8 +16,6 @@ public class S3Config {
     private String accessKey;
     @Value("cloud.aws.credentials.secretKey")
     private String secretKey;
-    @Value("cloud.aws.s3.bucketName")
-    private String bucketName;
     @Value("cloud.aws.region.static")
     private String region;
 
@@ -27,6 +25,8 @@ public class S3Config {
 
         return AmazonS3ClientBuilder.standard()
                                     .withCredentials(new AWSStaticCredentialsProvider(basicAWSCredentials))
-                                    .withRegion(region).build();
+                                    .withRegion(region)
+                                    .build();
+
     }
 }
