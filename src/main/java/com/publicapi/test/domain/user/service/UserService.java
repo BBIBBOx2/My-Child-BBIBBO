@@ -27,17 +27,34 @@ public class UserService {
      * 현재 로그인 사용자
      */
     public UserEntity getLoginUser(String kakaoId) {
-        UserEntity loginUser = userRepository.findByKakaoId(kakaoId).get();
+        UserEntity loginUser = findUserByKakaoId(kakaoId);
         return loginUser;
+    }
+
+    private UserEntity findUserByKakaoId(String kakaoId) {
+        Optional<UserEntity> user = userRepository.findByKakaoId(kakaoId);
+        if (user.isPresent()) {
+            return user.get();
+        }
+        throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
     }
 
     public void registerUser(String kakaoId, HttpServletRequest request) {
 
         UserEntity user = null;
-        UserInfo userInfo=UserInfo.builder().username("닉닉네임").name("이이름").email("abc@naver.com").build();
+        UserInfo userInfo = UserInfo.builder()
+                                    .username("닉닉네임")
+                                    .name("이이름")
+                                    .email("abc@naver.com")
+                                    .build();
 
         if (!userRepository.existsByKakaoId(kakaoId)) {
-            user = UserEntity.builder().kakaoId(kakaoId).email("abc@naver.com").name("이름").username("닉네임").build();
+            user = UserEntity.builder()
+                             .kakaoId(kakaoId)
+                             .email("abc@naver.com")
+                             .name("이름")
+                             .username("닉네임")
+                             .build();
             userRepository.save(user);
         } else {
             user = userRepository.findByKakaoId(kakaoId).get();
@@ -51,8 +68,5 @@ public class UserService {
         Optional<UserEntity> user = userRepository.findByKakaoId(userId);
         UserInfo userInfo=UserInfo.builder().username(nickname).name(name).email(email).build();
         userMapper.update(user.get(), userInfo);
-
-
     }
-
 }

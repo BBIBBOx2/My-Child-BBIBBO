@@ -1,5 +1,6 @@
 package com.publicapi.test.domain.community.entity;
 
+import com.publicapi.test.domain.user.entity.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,7 +29,7 @@ public class Post {
     private District district;
 
     @ManyToOne
-    private User author;
+    private UserEntity author;
 
     @Column(length = 200, nullable = false)
     private String title;
@@ -56,7 +57,7 @@ public class Post {
 
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(name = "scrap", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> scrap;
+    private Set<UserEntity> scrap;
 
     @Formula("(select count(*) from scrap where scrap.post_id=id)")
     private int scrapCount;

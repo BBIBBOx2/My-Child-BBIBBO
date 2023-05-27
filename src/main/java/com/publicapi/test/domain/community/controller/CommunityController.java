@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -27,6 +28,11 @@ public class CommunityController {
     private final BoardService boardService;
     private final CommentService commentService;
     private final ImageUploadService imageUploadService;
+
+    @GetMapping()
+    public String mainPage() {
+        return "redirect:/community/1";
+    }
 
     @GetMapping("{boardId}")
     public String showPosts(Model model,
@@ -82,9 +88,11 @@ public class CommunityController {
 
     @PostMapping("{boardId}/write")
     @ResponseBody
-    public String savePost(@RequestPart(name = "contentData") PostRequest postRequest,
+    public String savePost(HttpServletRequest request,
+                           @RequestPart(name = "contentData") PostRequest postRequest,
                            @RequestPart(name = "images", required = false) List<MultipartFile> images) {
-        Long postId = postService.create(postRequest);
+        String kakaoId = (String) request.getSession().getAttribute("kakaoId");
+        Long postId = postService.create(postRequest, kakaoId);
         if (postRequest.getHashtags() != null) {
             List<Long> hashtagIds = hashtagService.create(postRequest.getHashtags());
             postTagService.create(postId, hashtagIds);
