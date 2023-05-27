@@ -1,8 +1,12 @@
 package com.publicapi.test;
 
+import com.publicapi.test.domain.hospital.config.ErInfo;
+import com.publicapi.test.domain.hospital.config.OpenApi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
+@EnableConfigurationProperties({OpenApi.class, ErInfo.class})
 @SpringBootApplication
 public class TestApplication {
 
