@@ -132,10 +132,9 @@
             let bordId = $('#inputBoard').val();
 
             let hashtagData = $('#tagValues').val();
-            console.log(hashtagData)
             let hashtags;
             if (hashtagData.length > 1) {
-                JSON.parse(hashtagData).map(item => item.value);
+                hashtags = JSON.parse(hashtagData).map(item => item.value);
             }
 
             let contentData = {
@@ -150,7 +149,7 @@
             formData.append("contentData", new Blob([JSON.stringify(contentData)], {type: "application/json"}));
 
             for (let i = 0; i < inputFileList.length; i++) {
-                formData.append("images", inputFileList[i]);  // 배열에서 이미지들을 꺼내 폼 객체에 담는다.
+                formData.append("images", inputFileList[i]);
             }
 
             $.ajax({
