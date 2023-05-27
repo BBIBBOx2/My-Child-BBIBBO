@@ -9,7 +9,6 @@ import com.publicapi.test.domain.community.exception.NotFoundException;
 import com.publicapi.test.domain.community.repository.BoardRepository;
 import com.publicapi.test.domain.community.repository.DistrictRepository;
 import com.publicapi.test.domain.community.repository.PostRepository;
-import com.publicapi.test.domain.community.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,7 +30,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final BoardRepository boardRepository;
     private final DistrictRepository districtRepository;
-    private final UserRepository userRepository;
+    private final UserTestService userRepository;
 
     public Page<Post> findAllPosts(int page, int boardId, String search, int district, String sortType) {
         String sortCategory = mappingSort(sortType);
@@ -84,8 +83,7 @@ public class PostService {
                                      .orElseThrow(() -> new NotFoundException("해당 게시판을 찾지 못했습니다."));
         District district = districtRepository.findById(postRequest.getDistrictId())
                                               .orElseThrow(() -> new NotFoundException("해당 게시판을 찾지 못했습니다."));
-        User user = userRepository.findById(postRequest.getUserId())
-                                  .orElseThrow(() -> new NotFoundException("해당 게시판을 찾지 못했습니다."));
+        User user = userRepository.findById(postRequest.getUserId());
 
         Post post = new Post();
         post.setTitle(postRequest.getTitle());
@@ -106,8 +104,7 @@ public class PostService {
     public void scrap(Long userId, Long postId) {
         Post post = postRepository.findById(postId)
                                   .orElseThrow(() -> new NotFoundException("해당 게시물을 찾을 수 없습니다."));
-        User user = userRepository.findById(userId)
-                                  .orElseThrow(() -> new NotFoundException("해당 사용자를 찾을 수 없습니다."));
+        User user = userRepository.findById(userId);
 
         post.getScrap().add(user);
         postRepository.save(post);

@@ -1,31 +1,41 @@
 package com.publicapi.test.domain.community.entity;
 
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
 @Table(name = "user")
+@Data
+@NoArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String username;
+    @Column(name = "email", unique = true)
+    private String email;
 
-    @Column(nullable = false)
-    private String password;
+    @Column(name = "kakao_id", nullable = false, unique = true)
+    private String kakaoId;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(unique = true, nullable = false)
-    private String email;
+    private String username;
+
+    private String profileImage;
+
+
+    @Builder
+    public User(Long id, String email, String kakaoId, String name, String username, String profileImage) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.kakaoId = kakaoId;
+        this.name = name;
+        this.profileImage = profileImage;
+    }
 }

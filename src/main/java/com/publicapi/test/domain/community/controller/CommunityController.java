@@ -86,7 +86,6 @@ public class CommunityController {
                            @RequestPart(name = "images", required = false) List<MultipartFile> images) {
         Long postId = postService.create(postRequest);
         if (postRequest.getHashtags() != null) {
-            System.out.println(postRequest.getHashtags());
             List<Long> hashtagIds = hashtagService.create(postRequest.getHashtags());
             postTagService.create(postId, hashtagIds);
         }
