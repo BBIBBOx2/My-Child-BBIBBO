@@ -40,6 +40,12 @@ public class Post {
     private Boolean isAnonymous;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<PostTag> postTags;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    private List<PostImage> postImages;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Comment> commentList;
 
     @Column(nullable = false)
