@@ -130,6 +130,29 @@ public class HospitalService {
         return filteredHospitalList;
     }
 
+    public List<HospitalEntity> getHospitalByRegionNameAndIsOperating(String regionName) {
+        List<HospitalEntity> filteredHospitalList = new ArrayList<>();
+        RegionEntity region = regionRepository.findById(Long.parseLong(regionName)).orElseThrow();
+
+        for (HospitalEntity hospital : getHospital()) {
+            if (hospital.getAddress().contains(region.getName())&&hospital.getIsErOperating()==1) {
+                filteredHospitalList.add(hospital);
+            }
+        }
+
+        return filteredHospitalList;
+    }
+
+    public List<HospitalEntity> getHospitalByIsOperating(){
+        List<HospitalEntity> filteredHospitalList = new ArrayList<>();
+        for (HospitalEntity hospital : getHospital()) {
+            if (hospital.getIsErOperating()==1) {
+                filteredHospitalList.add(hospital);
+            }
+        }
+        return filteredHospitalList;
+    }
+
     public List<HospitalEntity> getHospitalSortedById(String hpId) {
         List<HospitalEntity> hospitalList = hospitalRepository.findAll();
 

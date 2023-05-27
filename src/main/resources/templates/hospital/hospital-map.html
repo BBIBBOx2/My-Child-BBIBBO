@@ -14,15 +14,22 @@
     <div class="content-container">
         <h5 class="border-bottom py-2">전국 실시간 병원 조회</h5>
         <div class="mb-3">
-            <div class="form_toggle">
-                <div class="form_radio_btn">
+            <div class="form_toggle" style="justify-content: flex-end;">
+                <div class="form_radio_btn" style="width:40px">
                     <input id="radio-1" type="radio" name="formality" value="map" checked>
-                    <label for="radio-1">지도</label>
+                    <label for="radio-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-geo-alt-fill" style="margin-top:-5px" viewBox="0 0 16 16">
+                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                        </svg>
+                    </label>
                 </div>
-
-                <div class="form_radio_btn">
-                    <input id="radio-2" type="radio" name="formality" value="list">
-                    <label for="radio-2">목록</label>
+                <div class="form_radio_btn"style="width:40px">
+                    <input id="radio-2" type="radio" name="formality" value="list" >
+                    <label for="radio-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" style="margin-top:-5px" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                    </label>
                 </div>
             </div>
         </div>
@@ -37,6 +44,9 @@
                     window.location.href = url;
                 });
             });
+            function redirectToDetail(url) {
+                window.location.href = url;
+            }
         </script>
         <script>
     var map = new naver.maps.Map("map", {
@@ -107,11 +117,11 @@
                     }
                     var infoWindow = new naver.maps.InfoWindow({
                         content:
-                            '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 5px; font-size: large"><b>'+ data[i].name +'</b></div>'+
-                            '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 5px;"><b>주소: '+ data[i].address +'</b></div>'+
-                            '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 5px;"><b>'+ isER +'</b></div>'+
-                            '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 5px;"><b>비고: '+ data[i].etc +'</b></div>'+
-                            '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 10px;font-size: small;"><a href=' + detailUrl + '>상세보기</a></div>'
+                            '<div style="width:200px;text-align:left;padding-left:10px; margin-top:10px; padding-right: 10px; padding-bottom: 5px;"><b>'+ data[i].name +'</b></div>'+
+                            '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 5px; font-size: smaller"><b>주소: '+ data[i].address +'</b></div>'+
+                            '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 5px; font-size: small"><b>'+ isER +'</b></div>'+
+                            '<div style="width:200px;text-align:left;padding-left:10px;padding-right: 10px; padding-bottom: 5px;  font-size: small"><p>비고: '+ data[i].etc +'</p></div>'+
+                            '<button type="button" class="btn btn-success btn-sm " style="float:right; margin-right:5px; margin-top:-15px; font-size: 12px; " onclick="redirectToDetail(\'' + detailUrl + '\')">상세보기</div>'
                     });
                     markers.push(marker);
                     infoWindows.push(infoWindow);

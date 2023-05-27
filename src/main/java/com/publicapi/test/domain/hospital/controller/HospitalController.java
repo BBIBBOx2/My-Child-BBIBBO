@@ -2,6 +2,7 @@ package com.publicapi.test.domain.hospital.controller;
 
 import com.publicapi.test.domain.hospital.entity.HospitalEntity;
 import com.publicapi.test.domain.hospital.entity.RegionEntity;
+import com.publicapi.test.domain.hospital.repository.HospitalRepository;
 import com.publicapi.test.domain.hospital.repository.RegionRepository;
 import com.publicapi.test.domain.hospital.service.HospitalService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class HospitalController {
 
     private final HospitalService hospitalService;
     private final RegionRepository regionRepository;
+    private final HospitalRepository hospitalRepository;
 
     @GetMapping("/hospital")
     public String map() {
@@ -26,22 +28,26 @@ public class HospitalController {
     }
 
     @GetMapping("/hospital/list")
-    public String hospitalList(Model model, @RequestParam(required = false) String regionName) {
+    public String hospitalList(Model model, @RequestParam(required = false) String regionName, @RequestParam(required = false) Boolean isERChecked) {
         List<HospitalEntity> hospitalList;
 
-
-        if (regionName != null && Long.parseLong(regionName)!= 1L) {
-            hospitalList = hospitalService.getHospitalByRegionName(regionName);
+        if (regionName == null || regionName.equals("시군구 선택")|| regionName.equals("1")) {
+            if (isERChecked != null && isERChecked) {
+                hospitalList = hospitalService.getHospitalByIsOperating();
+            } else {
+                hospitalList = hospitalService.getHospital();
+            }
         } else {
-            hospitalList = hospitalService.getHospital();
+            if (isERChecked != null && isERChecked) {
+                hospitalList = hospitalService.getHospitalByRegionNameAndIsOperating(regionName);
+            } else {
+                hospitalList = hospitalService.getHospitalByRegionName(regionName);
+            }
         }
-
         List<RegionEntity> regions = regionRepository.findAll();
         model.addAttribute("regions", regions);
         model.addAttribute("hospitalList", hospitalList);
-        model.addAttribute("regionName", regionName); // 선택된 regionName을 모델에 추가
-
-
+        model.addAttribute("regionName", regionName);
 
         return "list/hospital_list";
     }

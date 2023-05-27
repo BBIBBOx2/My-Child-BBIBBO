@@ -4,6 +4,7 @@ import com.publicapi.test.domain.hospital.entity.HospitalEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
