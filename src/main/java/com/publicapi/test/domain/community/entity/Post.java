@@ -3,10 +3,12 @@ package com.publicapi.test.domain.community.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -45,4 +47,31 @@ public class Post {
 
     @Column(nullable = false)
     private Integer hits;
+
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    @JoinTable(name = "scrap", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> scrap;
+
+    @Formula("(select count(*) from scrap where scrap.post_id=id)")
+    private int scrapCount;
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", board=" + board +
+                ", district=" + district +
+                ", author=" + author +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", isAnonymous=" + isAnonymous +
+                ", postTags=" + postTags +
+                ", postImages=" + postImages +
+                ", commentList=" + commentList +
+                ", createDate=" + createDate +
+                ", hits=" + hits +
+                ", scrap=" + scrap +
+                ", scrapCount=" + scrapCount +
+                '}';
+    }
 }

@@ -11995,7 +11995,7 @@ textarea.form-control-lg {
 .scrap {
     width: auto;
     color: #ffcd4a;
-    background-image: url(/static/image/scrap-checked.png.png);
+    background-image: url(/static/image/scrap-checked.png);
     background-repeat: no-repeat;
     background-size: 1.2rem 1.2rem;
     background-position: left center;
@@ -12012,8 +12012,8 @@ textarea.form-control-lg {
 
 .comment {
     width: auto;
-    color: #4472C4;
-    background-image: url(/static/image/content_comment.png);
+    color: #00956D;
+    background-image: url(/static/image/comment.png);
     background-repeat: no-repeat;
     background-size: 1.2rem 1.2rem;
     background-position: left center;

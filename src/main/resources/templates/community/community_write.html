@@ -15,7 +15,7 @@
 <body>
 <div class="container">
     <h5 class="my-3 border-bottom pb-2">글 등록</h5>
-    <form th:action="@{/post/{boardId}/create}" th:object="${postRequest}" method="post">
+    <form th:action="@{/post/{boardId}/create}" method="post">
 <!--        <div th:replace="form_errors :: formErrorsFragment"></div>-->
         <div class="row mb-3">
             <div class="col-sm-5">
@@ -54,7 +54,7 @@
                 <label for="formFileMultiple" class="btn new-img">
                     <img src="/static/image/new_img.png">
                 </label>
-                <div id="board-preview-add-img"></div>
+                <div id="board-content-add-img"></div>
             </div>
         </div>
         <div class="row mb-3 float-end">
@@ -86,7 +86,7 @@
             console.log("addimg-selectedFile : ", selectedFile);
             for (let i = 0; i < selectedFile.length; i++) {
                 let div = document.createElement('div');
-                div.className = "btn preview-img"
+                div.className = "btn content-img"
                 div.id = (selectedFile[i].name).replace(/-/g, "_") + "-" + selectedFile[i].lastModified;
                 div.onclick = function () {
                     for (let i = 0; i < inputFileList.length; i++) {
@@ -99,23 +99,23 @@
                             break;
                         }
                     }
-                    document.getElementById('board-preview-add-img').removeChild(div);
+                    document.getElementById('board-content-add-img').removeChild(div);
                     console.log("delete after inputFileList : ", inputFileList);
                 }
 
                 let child_div = document.createElement('div');
-                child_div.className = "preview-img-background";
+                child_div.className = "content-img-background";
                 div.appendChild(child_div);
 
                 let p = document.createElement('p');
-                p.className = "preview-img-del";
+                p.className = "content-img-del";
                 p.appendChild(document.createTextNode("이미지 삭제"));
                 child_div.appendChild(p);
 
                 const fileReader = new FileReader();
                 fileReader.onload = e => {
                     div.style = "background-image:url(" + e.target.result + ");"
-                    document.getElementById('board-preview-add-img').appendChild(div);
+                    document.getElementById('board-content-add-img').appendChild(div);
                 }
 
                 fileReader.readAsDataURL(selectedFile[i]);

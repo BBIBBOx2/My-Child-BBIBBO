@@ -79,7 +79,6 @@ public class PostService {
     }
 
 
-
     public Long create(PostRequest postRequest) {
         Board board = boardRepository.findById(postRequest.getBoardId())
                                      .orElseThrow(() -> new NotFoundException("해당 게시판을 찾지 못했습니다."));
@@ -102,5 +101,15 @@ public class PostService {
         long id = post.getId();
 
         return id;
+    }
+
+    public void scrap(Long userId, Long postId) {
+        Post post = postRepository.findById(postId)
+                                  .orElseThrow(() -> new NotFoundException("해당 게시물을 찾을 수 없습니다."));
+        User user = userRepository.findById(userId)
+                                  .orElseThrow(() -> new NotFoundException("해당 사용자를 찾을 수 없습니다."));
+
+        post.getScrap().add(user);
+        postRepository.save(post);
     }
 }
