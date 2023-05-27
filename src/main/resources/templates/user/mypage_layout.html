@@ -1,0 +1,45 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>My Page</title>
+</head>
+<body>
+<div layout:fragment="content" class="">
+    <div>
+        <nav class="sideNav">
+            <div>
+                <div class="profile">
+                    <img class="img-profile-mypage" th:if="${user.profileImage == null}" src="/static/image/anonymous_profile.png">
+                    <img class="img-profile-mypage" th:unless="${user.profileImage == null}" th:src="${user.profileImage}">
+                    <div class="profile-edit">
+                        <img class="img-profile-edit" src="/static/images/edit_pencil.png">
+                    </div>
+                </div>
+                <span class="fw-bolder username-mypage" th:text="@{|${user.username} 님|}"></span>
+            </div>
+
+            <div style="clear: both">
+                <ul class="mypage-nav-menu">
+                    <li>
+                        <a href="/mypage/article" th:attr="class=${mypageTab == 'article' ? 'mypage-nav-link-select' : 'mypage-nav-link'}">작성글</a>
+                    </li>
+                    <li>
+                        <a href="/mypage/scrap" th:attr="class=${mypageTab == 'scrap' ? 'mypage-nav-link-select' : 'mypage-nav-link'}">스크랩</a>
+                    </li>
+                    <li>
+                        <a href="/mypage/alarm" th:attr="class=${mypageTab == 'alarm' ? 'mypage-nav-link-select' : 'mypage-nav-link'}">알림</a>
+                    </li>
+                    <li>
+                        <a href="/logout" class="mypage-nav-link">로그아웃</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div layout:fragment="mypage-content" class="container my-3" style="padding-top:15px"></div>
+</div>
+</body>
+</html>
