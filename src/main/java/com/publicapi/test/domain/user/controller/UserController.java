@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Slf4j
@@ -91,7 +89,9 @@ public class UserController {
                                          @RequestParam("email") String email,
                                          Model model) {
         String userId = (String) request.getSession().getAttribute("kakaoId");
-        userService.registerUser(userId, name, nickname, email, region, bornYear, imgFile);
+        String imageUrl = getImageUrl(imgFile);
+
+        userService.registerUser(userId, name, nickname, email, region, bornYear, imageUrl);
 
         return "redirect:/hospital";
     }
@@ -101,14 +101,19 @@ public class UserController {
                            @RequestPart(name = "username") String username,
                            @RequestPart(name = "image", required = false) MultipartFile profileImage) {
         String kakaoId = (String) request.getSession().getAttribute("kakaoId");
+        String profileImageUrl = getImageUrl(profileImage);
+
+        userService.updateUser(kakaoId, username, profileImageUrl);
+
+        return "redirect:/mypage/profile";
+    }
+
+    private String getImageUrl(MultipartFile profileImage) {
         String profileImageUrl = null;
 
         if (profileImage != null) {
             profileImageUrl = imageUploadService.uploadImage(profileImage);
         }
-
-        userService.updateUser(kakaoId, username, profileImageUrl);
-
-        return "redirect:/mypage/profile";
+        return profileImageUrl;
     }
 }

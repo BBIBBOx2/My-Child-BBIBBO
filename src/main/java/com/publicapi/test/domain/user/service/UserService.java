@@ -8,7 +8,6 @@ import com.publicapi.test.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -50,7 +49,7 @@ public class UserService {
     }
 
 
-    public void registerUser(String userId, String name, String nickname, String email, String region, String bornYear, MultipartFile imgFile) {
+    public void registerUser(String userId, String name, String nickname, String email, String region, String bornYear, String imageUrl) {
         bornYear=bornYear.substring(0, bornYear.length());
         Integer intYear = Integer.parseInt(bornYear);
         UserEntity user=UserEntity.builder()
@@ -60,6 +59,7 @@ public class UserService {
                 .region(region)
                 .bornYear(intYear)
                 .username(nickname)
+                .profileImage(imageUrl)
                 .build();
         userRepository.save(user);
 
