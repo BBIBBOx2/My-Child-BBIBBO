@@ -12,7 +12,7 @@ public class HospitalDetailDto {
     private String hpId;
 
     //기관명
-    @JsonAlias(value = {"dutyname"})
+    @JsonAlias(value = {"dutyName"})
     private String name;
 
     //가용 응급실 일반 병상

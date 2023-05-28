@@ -27,6 +27,18 @@ public class MyPageController {
     private final PostService postService;
     private final CommentService commentService;
 
+    @GetMapping("profile")
+    public String getProfile(HttpServletRequest request,
+                             Model model) {
+        String id = (String) request.getSession().getAttribute("kakaoId");
+        UserEntity user = userService.getLoginUser(id);
+
+        model.addAttribute("user", user);
+        model.addAttribute("tab", tabName);
+        model.addAttribute("mypageTab", "profile");
+        return "user/mypage/mypage_info";
+    }
+
     @GetMapping("article")
     public String getArticles(HttpServletRequest request,
                               Model model,
@@ -39,7 +51,7 @@ public class MyPageController {
         model.addAttribute("postPage", postPage);
         model.addAttribute("tab", tabName);
         model.addAttribute("mypageTab", "article");
-        return "user/mypage_article";
+        return "user/mypage/mypage_article";
     }
 
     @GetMapping("scrap")
@@ -54,7 +66,7 @@ public class MyPageController {
         model.addAttribute("postPage", postPage);
         model.addAttribute("tab", tabName);
         model.addAttribute("mypageTab", "scrap");
-        return "user/mypage_scrap";
+        return "user/mypage/mypage_scrap";
     }
 
     @GetMapping("alarm")
@@ -69,6 +81,6 @@ public class MyPageController {
         model.addAttribute("alarms", alarms);
         model.addAttribute("tab", tabName);
         model.addAttribute("mypageTab", "alarm");
-        return "user/mypage_alarm";
+        return "user/mypage/mypage_alarm";
     }
 }

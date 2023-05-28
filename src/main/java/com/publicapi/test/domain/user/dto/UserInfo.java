@@ -19,7 +19,7 @@ public class UserInfo {
     @NotBlank(message = "이름은 필수 입력값입니다.")
     private String name;
 
-    @NotBlank(message = "이름은 필수 입력값입니다.")
+    @NotBlank(message = "사용자 이름은 필수 입력값입니다.")
     private String username;
 
     private String profileImage;

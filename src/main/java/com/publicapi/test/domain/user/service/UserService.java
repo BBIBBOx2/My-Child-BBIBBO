@@ -1,5 +1,6 @@
 package com.publicapi.test.domain.user.service;
 
+import com.publicapi.test.domain.community.exception.NotFoundException;
 import com.publicapi.test.domain.user.dto.UserInfo;
 import com.publicapi.test.domain.user.dto.UserMapper;
 import com.publicapi.test.domain.user.entity.UserEntity;
@@ -7,7 +8,6 @@ import com.publicapi.test.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -49,13 +49,14 @@ public class UserService {
     }
 
 
-    public void registerUser(String userId, String name, String nickname, String email, MultipartFile imgFile) {
-        UserEntity user=UserEntity.builder()
-                .kakaoId(userId)
-                .email(email)
-                .name(name)
-                .username(nickname)
-                .build();
+    public void registerUser(String userId, String name, String nickname, String email, String imageUrl) {
+        UserEntity user = UserEntity.builder()
+                                    .kakaoId(userId)
+                                    .email(email)
+                                    .name(name)
+                                    .username(nickname)
+                                    .profileImage(imageUrl)
+                                    .build();
         userRepository.save(user);
 
     }
@@ -65,5 +66,19 @@ public class UserService {
         userMapper.update(user.get(), userInfo);
     }
 
+    public void updateUser(String kakaoId, String username, String profileImage) {
+        UserEntity user = userRepository.findByKakaoId(kakaoId)
+                                        .orElseThrow(() -> new NotFoundException("사용자를 찾지 못했습니다."));
+        if (profileImage == null) {
+            profileImage = user.getProfileImage();
+        }
+        UserInfo userInfo = UserInfo.builder()
+                                    .username(username)
+                                    .profileImage(profileImage)
+                                    .name(user.getName())
+                                    .email(user.getEmail())
+                                    .build();
 
+        userMapper.update(user, userInfo);
+    }
 }

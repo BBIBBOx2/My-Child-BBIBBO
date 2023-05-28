@@ -4,10 +4,7 @@ import com.publicapi.test.domain.hospital.dto.HospitalDto;
 import com.publicapi.test.domain.hospital.service.HospitalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -33,8 +30,8 @@ public class MapController {
     }
 
     @GetMapping("/erapi")
-    public void erApi() throws IOException, URISyntaxException {
-        hospitalService.getHospitalDetail("강서구");
+    public void erApi(@RequestParam String town) throws IOException, URISyntaxException {
+        hospitalService.getHospitalDetail(town);
     }
 
 }
