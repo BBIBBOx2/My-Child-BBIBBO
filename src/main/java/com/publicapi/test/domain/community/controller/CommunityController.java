@@ -36,7 +36,6 @@ public class CommunityController {
 
     @GetMapping("{boardId}")
     public String showPosts(Model model,
-                            HttpServletRequest request,
                             @PathVariable int boardId,
                             @RequestParam(value = "page", defaultValue = "0") int page,
                             @RequestParam(value = "search", defaultValue = "") String search,
@@ -60,7 +59,6 @@ public class CommunityController {
 
     @GetMapping("{boardId}/{postId}")
     public String showPost(Model model,
-                           HttpServletRequest request,
                            @PathVariable Long boardId,
                            @PathVariable Long postId) {
         Post post = postService.findPostById(postId);

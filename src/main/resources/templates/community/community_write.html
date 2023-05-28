@@ -22,6 +22,7 @@
                 <select class="form-select" id="inputBoard">
                     <option selected value=0>게시판 선택</option>
                     <option th:each="board : ${boards}"
+                            th:selected="${boardId == board.id}"
                             th:value="${board.id}"
                             th:text="${board.boardName}"></option>
                 </select>
@@ -31,6 +32,7 @@
                 <select class="form-select" id="inputDistrict">
                     <option selected value=0>시군구 선택</option>
                     <option th:each="district : ${districts}"
+                            th:selected="${districtType == district.id}"
                             th:value="${district.id}"
                             th:text="${district.name}"></option>
                 </select>

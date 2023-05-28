@@ -162,20 +162,20 @@
                             <div class="ms-2 me-auto">
                                 <div class="mb-2" th:if="${comment.user != null}">
                                     <img class="img-profile-comment" src="/static/image/anonymous_profile.png" alt="익명의 프로필 이미지">
-                                    <span class="fw-bolder content-nickname"
-                                          th:if="${comment.user == post.author and comment.isAnonymous == true}">익명 (글쓴이)</span>
-                                    <span class="fw-bolder content-nickname"
-                                          th:if="${comment.user == post.author and comment.isAnonymous != true}"
+                                    <span class="fw-bolder content-nickname-writer"
+                                          th:if="${comment.user.id == post.author.id and comment.isAnonymous == true}">익명 (글쓴이)</span>
+                                    <span class="fw-bolder content-nickname-writer"
+                                          th:if="${comment.user.id == post.author.id and comment.isAnonymous != true}"
                                           th:text="${comment.user.username + ' (글쓴이)'}"></span>
                                     <span class="fw-bolder content-nickname"
-                                          th:if="${comment.user != post.author and comment.isAnonymous == true}">익명</span>
+                                          th:if="${comment.user.id != post.author.id and comment.isAnonymous == true}">익명</span>
                                     <span class="fw-bolder content-nickname"
-                                          th:if="${comment.user != post.author and comment.isAnonymous != true}"
+                                          th:if="${comment.user.id != post.author.id and comment.isAnonymous != true}"
                                           th:text="${comment.user.username}"></span>
                                 </div>
                                 <div class="mb-2" th:if="${comment.user == null}">
                                     <img class="img-profile-comment" src="/static/image/anonymous_profile.png" alt="익명의 프로필 이미지">
-                                    <span class="fw-bolder content-nickname">(알 수 없음)</span>
+                                    <span class="fw-bolder content-nickname-unknown">(알 수 없음)</span>
                                 </div>
                                 [[${comment.content}]]
                                 <div class="mt-2">

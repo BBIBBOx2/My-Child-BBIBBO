@@ -12278,6 +12278,16 @@ textarea.form-control-lg {
     font-size: 13px;
 }
 
+.content-nickname-writer {
+    font-size: 13px;
+    color: #009874;
+}
+
+.content-nickname-unknown {
+    font-size: 13px;
+    color: #737373;
+}
+
 .content-time {
     font-size: 13px;
     color: #A6A6A6;
