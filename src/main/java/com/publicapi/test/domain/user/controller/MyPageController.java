@@ -1,7 +1,9 @@
 package com.publicapi.test.domain.user.controller;
 
 import com.publicapi.test.domain.community.entity.Post;
+import com.publicapi.test.domain.community.service.CommentService;
 import com.publicapi.test.domain.community.service.PostService;
+import com.publicapi.test.domain.user.dto.AlarmResponse;
 import com.publicapi.test.domain.user.entity.UserEntity;
 import com.publicapi.test.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class MyPageController {
 
     private final UserService userService;
     private final PostService postService;
+    private final CommentService commentService;
 
     @GetMapping("article")
     public String getArticles(HttpServletRequest request,
@@ -52,5 +55,20 @@ public class MyPageController {
         model.addAttribute("tab", tabName);
         model.addAttribute("mypageTab", "scrap");
         return "user/mypage_scrap";
+    }
+
+    @GetMapping("alarm")
+    public String getAlarms(HttpServletRequest request,
+                            Model model,
+                            @RequestParam(value = "page", defaultValue = "0") int page) {
+        String id = (String) request.getSession().getAttribute("kakaoId");
+        UserEntity user = userService.getLoginUser(id);
+        Page<AlarmResponse> alarms = commentService.findAllByUserPost(user, page);
+
+        model.addAttribute("user", user);
+        model.addAttribute("alarms", alarms);
+        model.addAttribute("tab", tabName);
+        model.addAttribute("mypageTab", "alarm");
+        return "user/mypage_alarm";
     }
 }

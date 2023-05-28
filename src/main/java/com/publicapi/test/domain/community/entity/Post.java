@@ -22,7 +22,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Board board;
 
     @ManyToOne
@@ -61,24 +61,4 @@ public class Post {
 
     @Formula("(select count(*) from scrap where scrap.post_id=id)")
     private int scrapCount;
-
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", board=" + board +
-                ", district=" + district +
-                ", author=" + author +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", isAnonymous=" + isAnonymous +
-                ", postTags=" + postTags +
-                ", postImages=" + postImages +
-                ", commentList=" + commentList +
-                ", createDate=" + createDate +
-                ", hits=" + hits +
-                ", scrap=" + scrap +
-                ", scrapCount=" + scrapCount +
-                '}';
-    }
 }
