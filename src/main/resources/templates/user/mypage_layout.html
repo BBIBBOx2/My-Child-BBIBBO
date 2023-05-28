@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>My Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/bootstrap.min.css}">
 </head>
 <body>
 <div layout:fragment="content" class="">
@@ -39,7 +40,7 @@
         </nav>
     </div>
 
-    <div layout:fragment="mypage-content" class="container my-3" style="padding-top:15px"></div>
+    <div layout:fragment="mypage-content" class="container my-3" style="width: 80%;padding:15px"></div>
 </div>
 </body>
 </html>

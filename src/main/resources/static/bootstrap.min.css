@@ -67,7 +67,7 @@ body {
     --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
-  
+
     --bs-body-font-size: 1rem;
     --bs-body-font-weight: 400;
     --bs-body-line-height: 1.5;
@@ -5117,7 +5117,7 @@ textarea.form-control-lg {
 .page-link {
     position: relative;
     display: block;
-    color: #0d6efd;
+    color: #009874;
     text-decoration: none;
     background-color: #fff;
     border: 1px solid #dee2e6;
@@ -5132,14 +5132,14 @@ textarea.form-control-lg {
 
 .page-link:hover {
     z-index: 2;
-    color: #0a58ca;
+    color: #009874;
     background-color: #e9ecef;
     border-color: #dee2e6
 }
 
 .page-link:focus {
     z-index: 3;
-    color: #0a58ca;
+    color: #009874;
     background-color: #e9ecef;
     outline: 0;
     box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25)
@@ -12581,4 +12581,22 @@ a:hover {
 a:active {
     text-decoration: none;
 
+}
+
+.article-board {
+    font-size: 15px;
+    font-weight: bold;
+    color: #009874;
+    margin-bottom: 10px;
+}
+
+.article-date {
+    padding-top: 20px;
+    margin-bottom: 0rem;
+    font-size: 13px;
+    color: #a6a6a6;
+}
+
+.alarm-card-body {
+    padding: 0.3rem 1rem;
 }
