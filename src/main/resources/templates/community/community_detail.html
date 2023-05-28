@@ -1,12 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
     <title>Community Detail</title>
     <link rel="stylesheet" type="text/css" th:href="@{/static/bootstrap.min.css}">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script th:inline="javascript" type="text/javascript">
+        $(document).ready(function() {
+            $(".scrapPopup").click(function() {
+                if (confirm("스크랩하시겠습니까?")) {
+                    var uri = $(this).attr("data-uri");
+                    location.href = uri;
+                }
+            });
+
+            $(".delete").click(function() {
+                if (confirm("정말로 삭제하시겠습니까?")) {
+                    var uri = $(this).attr("data-uri");
+                    location.href = uri;
+                }
+            });
+
+            $(".accuse").click(function() {
+                if (confirm("정말로 신고하시겠습니까?")) {
+                    var uri = $(this).attr("data-uri");
+                    location.href = uri;
+                }
+            });
+
+            $("#check-anonym").change(function () {
+                if (this.checked) {
+                    $(this).attr('value', true);
+                } else {
+                    $(this).attr('value', false);
+                }
+            });
+
+            const expandImage = document.querySelector(".expand-image");
+            const expandImgContent = document.querySelector(".expand-image-content");
+            const span = document.querySelector(".expand-close");
+
+            $(".content-img").each(function () {
+                this.addEventListener('click', function () {
+                    expandDisplay("block");
+                    expandImgContent.src = this.src;
+                });
+            });
+
+            span.addEventListener('click', () => {
+                expandDisplay("none");
+            });
+            expandImage.addEventListener('click', () => {
+                expandDisplay("none");
+            });
+
+            function expandDisplay(text) {
+                expandImage.style.display = text;
+            }
+            });
+
+            function uploadComment() {
+                const form = document.getElementById('commentForm');
+                let url = form.getAttribute('action');
+                let comment = $('#comment-context').val();
+                let isAnonymous = $('#check-anonym').is(':checked');
+                var requestData = {
+                    content: comment,
+                    isAnonymous: isAnonymous
+                };
+
+                axios.request({
+                    url: url,
+                    method: 'post',
+                    data: requestData
+                }).then((response) => {
+                    location.href = response.headers.get("location")
+                }).catch((error) => {
+                    console.error(error);
+                });
+            }
+
+    </script>
 </head>
-<body>
-<div class="content-container mt-5">
+<body style="background-color: #f8f9fa;">
+<div layout:fragment="content">
+    <div class="container my-3" style="width: 80%">
     <div id="hide" th:if="${message}" class="alert alert-danger" role="alert">
         <p th:text="${message}">message fail</p>
     </div>
@@ -110,89 +189,9 @@
             </div>
         </div>
 
-        <a th:href="@{|/community/${board}|}" class="btn btn-primary mb-4" style="float:right;">글목록</a>
+        <a th:href="@{|/community/${board}|}" class="btn btn-outline-success mb-4" style="float:right;">글목록</a>
     </div>
 </div>
-
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script type="text/javascript">
-
-    const delete_elements = document.getElementsByClassName("delete");
-    Array.from(delete_elements).forEach(function (element) {
-        element.addEventListener('click', function () {
-            if (confirm("정말로 삭제하시겠습니까?")) {
-                location.href = this.dataset.uri;
-            }
-        });
-    });
-    const scrap_elements = document.getElementsByClassName("scrapPopup");
-    Array.from(scrap_elements).forEach(function (element) {
-        element.addEventListener('click', function () {
-            if (confirm("스크랩하시겠습니까?")) {
-                location.href = this.dataset.uri;
-            }
-        });
-    });
-    const accuse_elements = document.getElementsByClassName("accuse");
-    Array.from(accuse_elements).forEach(function (element) {
-        element.addEventListener('click', function () {
-            if (confirm("정말로 신고하시겠습니까?")) {
-                location.href = this.dataset.uri;
-            }
-        });
-    });
-
-    $("#check-anonym").change(function () {
-        if (this.checked) {
-            $(this).attr('value', true);
-        } else {
-            $(this).attr('value', false);
-        }
-    });
-
-    const expandImage = document.querySelector(".expand-image");
-    const expandImgContent = document.querySelector(".expand-image-content");
-    const span = document.querySelector(".expand-close");
-
-    $(".content-img").each(function () {
-        this.addEventListener('click', function () {
-            expandDisplay("block");
-            expandImgContent.src = this.src;
-        });
-    });
-
-    span.addEventListener('click', () => {
-        expandDisplay("none");
-    });
-    expandImage.addEventListener('click', () => {
-        expandDisplay("none");
-    });
-
-    function expandDisplay(text) {
-        expandImage.style.display = text;
-    }
-
-    function uploadComment() {
-        const form = document.getElementById('commentForm');
-        let url = form.getAttribute('action');
-        let comment = $('#comment-context').val();
-        let isAnonymous = $('#check-anonym').is(':checked');
-        var requestData = {
-            content: comment,
-            isAnonymous: isAnonymous
-        };
-
-        axios.request({
-            url: url,
-            method: 'post',
-            data: requestData
-        }).then((response) => {
-            location.href = response.headers.get("location")
-        }).catch((error) => {
-            console.error(error);
-        });
-    }
-</script>
+</div>
 </body>
 </html>
