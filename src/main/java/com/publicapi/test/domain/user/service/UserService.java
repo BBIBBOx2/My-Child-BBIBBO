@@ -48,21 +48,22 @@ public class UserService {
         session.setAttribute("kakaoId", kakaoId);
     }
 
-    public void registerUser(String kakaoId, HttpServletRequest request) {
-        UserEntity user = null;
-        user = UserEntity.builder()
-                .kakaoId(kakaoId)
-                .email("abc@naver.com")
-                .name("이름")
-                .username("닉네임")
+
+    public void registerUser(String userId, String name, String nickname, String email, MultipartFile imgFile) {
+        UserEntity user=UserEntity.builder()
+                .kakaoId(userId)
+                .email(email)
+                .name(name)
+                .username(nickname)
                 .build();
         userRepository.save(user);
-        loginUser(kakaoId, request);
+
     }
 
-    public void updateUser(String userId, String name, String nickname, String email, MultipartFile imgFile) {
-        Optional<UserEntity> user = userRepository.findByKakaoId(userId);
-        UserInfo userInfo=UserInfo.builder().username(nickname).name(name).email(email).build();
+    public void updateUser(UserInfo userInfo) {
+        Optional<UserEntity> user = userRepository.findByEmail(userInfo.getEmail());
         userMapper.update(user.get(), userInfo);
     }
+
+
 }
