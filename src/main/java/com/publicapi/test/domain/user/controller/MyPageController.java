@@ -38,4 +38,19 @@ public class MyPageController {
         model.addAttribute("mypageTab", "article");
         return "user/mypage_article";
     }
+
+    @GetMapping("scrap")
+    public String getScraps(HttpServletRequest request,
+                            Model model,
+                            @RequestParam(value = "page", defaultValue = "0") int page) {
+        String id = (String) request.getSession().getAttribute("kakaoId");
+        UserEntity user = userService.getLoginUser(id);
+        Page<Post> postPage = postService.findByScrapUserid(user, page);
+
+        model.addAttribute("user", user);
+        model.addAttribute("postPage", postPage);
+        model.addAttribute("tab", tabName);
+        model.addAttribute("mypageTab", "scrap");
+        return "user/mypage_scrap";
+    }
 }

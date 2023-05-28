@@ -40,7 +40,6 @@ public class UserService {
     }
 
     public void registerUser(String kakaoId, HttpServletRequest request) {
-
         UserEntity user = null;
         UserInfo userInfo = UserInfo.builder()
                                     .username("닉닉네임")
@@ -61,7 +60,6 @@ public class UserService {
         }
         HttpSession session = request.getSession();
         session.setAttribute("kakaoId", kakaoId);
-
     }
 
     public void updateUser(String userId, String name, String nickname, String email, MultipartFile imgFile) {

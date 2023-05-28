@@ -113,7 +113,7 @@ public class CommunityController {
 
     @GetMapping("{boardId}/{postId}/scrap")
     public String scrapPost(@PathVariable("boardId") Long boardId, @PathVariable("postId") Long postId) {
-        Long userId = 1L;
+        Long userId = 5L;
         postService.scrap(userId, postId);
 
         return String.format("redirect:/community/%d/%d", boardId, postId);

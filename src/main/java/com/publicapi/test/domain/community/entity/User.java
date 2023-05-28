@@ -28,7 +28,6 @@ public class User {
 
     private String profileImage;
 
-
     @Builder
     public User(Long id, String email, String kakaoId, String name, String username, String profileImage) {
         this.id = id;

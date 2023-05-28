@@ -11,17 +11,14 @@ import com.publicapi.test.domain.community.repository.PostRepository;
 import com.publicapi.test.domain.user.entity.UserEntity;
 import com.publicapi.test.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -92,6 +89,16 @@ public class PostService {
         };
     }
 
+    public Page<Post> findByScrapUserid(UserEntity user, int page) {
+        Set<Post> scrap = user.getScrap();
+        List<Post> sortedScrap = new ArrayList<>(scrap);
+        sortedScrap.sort(Comparator.comparing(Post::getCreateDate).reversed());
+        Pageable pageable = PageRequest.of(page, 10);
+        int startIndex = (int) pageable.getOffset();
+        int endIndex = Math.min((startIndex + pageable.getPageSize()), sortedScrap.size());
+        List<Post> paginatedList = sortedScrap.subList(startIndex, endIndex);
+        return new PageImpl<>(paginatedList, pageable, sortedScrap.size());
+    }
 
     public Long create(PostRequest postRequest, String kakaoId) {
         Board board = boardRepository.findById(postRequest.getBoardId())
@@ -123,8 +130,7 @@ public class PostService {
         UserEntity user = userRepository.findById(userId)
                                   .orElseThrow(() -> new NotFoundException("해당 사용자를 찾을 수 없습니다."));
 
-        post.getScrap()
-            .add(user);
+        post.getScrap().add(user);
         postRepository.save(post);
     }
 }
