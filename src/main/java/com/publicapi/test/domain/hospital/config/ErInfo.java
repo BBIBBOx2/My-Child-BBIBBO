@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "erinfo")
 public class ErInfo {
 
-    public static final String BASE_URL="http://apis.data.go.kr/B552657/ErmctInfoInqireService/getEgytBassInfoInqire";
+    public static final String BASE_URL="http://apis.data.go.kr/B552657/ErmctInfoInqireService/getEmrrmRltmUsefulSckbdInfoInqire";
     public static final String KEY_PARAM_NAME = "serviceKey";
 
     private String key;

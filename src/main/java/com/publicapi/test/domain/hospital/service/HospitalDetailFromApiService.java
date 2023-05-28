@@ -11,6 +11,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -28,7 +29,7 @@ public class HospitalDetailFromApiService {
     private final RestTemplate restTemplate = new RestTemplate();
 
     public List<HospitalDetailDto> requestHospitalDetail(String town) throws IOException, URISyntaxException {
-        URI uri = makeUrl(town, 1, 30).toURI();
+        URI uri = makeUrl(town, 1, 100).toURI();
         HttpHeaders headers = makeHeader();
         HttpEntity request = new HttpEntity(headers);
         ObjectMapper mapper = new ObjectMapper();
@@ -37,6 +38,8 @@ public class HospitalDetailFromApiService {
         JSONObject jsonObject = new JSONObject(response.getBody());
         JSONObject items = jsonObject.getJSONObject("response").getJSONObject("body")
                 .getJSONObject("items");
+        System.out.println("items in requestHospitalDetail = " + items);
+
         List<HospitalDetailDto> hospitals = mapper.readValue(items.get("item").toString(),
                 new TypeReference<List<HospitalDetailDto>>() {});
 
