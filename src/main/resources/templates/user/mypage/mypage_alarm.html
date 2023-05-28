@@ -1,0 +1,53 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{user/mypage/mypage_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>My Page</title>
+</head>
+<body>
+<div layout:fragment="mypage-content">
+    <h3 class="my-3 border-bottom pb-2">알림</h3>
+
+    <div class="list-container" style="margin-top:20px;">
+        <article th:each="alarm: ${alarms}">
+            <a th:href="@{|/community/${alarm.post.board.id}/${alarm.post.id}|}" style="color:black">
+                <div class="card my-3">
+                    <div class="alarm-card-body">
+                        <div class="position-relative">
+                            <div style="padding-top: 1%" class="mt-0 mb-2">
+                                <h6 class="article-board" th:text="${alarm.post.board.boardName}"></h6>
+                                <div class="mt-2" style="padding-top:10px" th:if="${alarm.comment.isAnonymous == true}"
+                                    th:text="@{|익명님이 ${alarm.post.title} 글에 댓글을 달았습니다.|}"></div>
+                                <div class="mt-2" style="padding-top:10px" th:unless="${alarm.comment.isAnonymous == true}"
+                                    th:text="@{|${alarm.comment.user.username}님이 ${alarm.post.title} 글에 댓글을 달았습니다.|}"></div>
+                                <p class="article-date" th:text="${#temporals.format(alarm.comment.createDate, 'yyyy-MM-dd HH:mm')}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </article>
+    </div>
+
+    <div th:if="${!alarms.isEmpty()}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${!alarms.hasPrevious} ? 'disabled'">
+                <a class="page-link" th:href="@{|/mypage/alarm?page=${alarms.number-1}|}">
+                    <span>이전</span>
+                </a>
+            </li>
+            <li th:each="page: ${#numbers.sequence(0, alarms.totalPages-1)}"
+                th:if="${page >= alarms.number-5 and page <= alarms.number+5}"
+                th:classappend="${page == alarms.number} ? 'active'" class="page-item">
+                <a th:text="${page+1}" class="page-link" th:href="@{|/mypage/alarm?page=${page}|}"></a>
+            </li>
+            <li class="page-item" th:classappend="${!alarms.hasNext} ? 'disabled'">
+                <a class="page-link" th:href="@{|/mypage/alarm?page=${alarms.number+1}|}">
+                    <span>다음</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
