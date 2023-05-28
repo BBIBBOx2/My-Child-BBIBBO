@@ -10,6 +10,16 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    function kakao(button) {
+      var key =[[${@environment.getProperty('kakao.key')}]];
+
+      location.href = "https://kauth.kakao.com/oauth/authorize?client_id="+key+"&redirect_uri=http://localhost:8080/oauth/kakao&response_type=code";
+    }
+    /*]]>*/
+
+  </script>
 </head>
 <body>
 <nav class="navbar navbar-expand shadow-sm" style="background-color:white">
@@ -30,13 +40,20 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-md-0">
-      <button class="btn btn-success rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal">
+
+      <button type="button" th:if="${session.kakaoId}" th:onclick="|location.href='@{/mypage/article}'|" class="btn btn-success rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal">
                         <span class="d-flex align-items-center">
                             <i class="bi-person-circle me-2"></i>
-                            <span th:if="${session.kakaoId}" th:text="환영합니다" class="small">SIGN IN</span>
-                            <span th:unless="${session.kakaoId}" class="small">SIGN IN</span>
+                            <span th:if="${session.kakaoId}" th:text="마이페이지" class="small">마이페이지</span>
                         </span>
       </button>
+      <button type="button" th:unless="${session.kakaoId}" onclick="kakao(this)" class="btn btn-success rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal">
+                        <span class="d-flex align-items-center">
+                            <i class="bi-person-circle me-2"></i>
+                          <span th:unless="${session.kakaoId}" class="small">SIGN IN</span>
+                        </span>
+      </button>
+
     </form>
   </div>
 </nav>

@@ -22,6 +22,10 @@ public class HospitalController {
     private final RegionRepository regionRepository;
     private final HospitalRepository hospitalRepository;
 
+    @GetMapping("/")
+    public String home() {
+        return "hospital/hospital-map";
+    }
     @GetMapping("/hospital")
     public String map() {
         return "hospital/hospital-map";

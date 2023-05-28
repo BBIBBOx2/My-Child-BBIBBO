@@ -37,9 +37,16 @@ public class UserController {
         System.out.println("code = " + code);
         String accessToken = oauthService.getAccessToken(code);
         String kakaoId = oauthService.getUserIdByToken(accessToken);
-        userService.registerUser(kakaoId, request);
+        Boolean isUserRegister = userService.isUserRegister(kakaoId);
+        if (isUserRegister) {
+            userService.loginUser(kakaoId, request);
+            return "redirect:/hospital";
+        } else {
+            userService.loginUser(kakaoId, request);
+            return "redirect:/user/signup";
+        }
 
-        return "redirect:/hospital";
+
 
     }
 
@@ -72,7 +79,7 @@ public class UserController {
                                          @RequestParam("email") String email,
                                          Model model) {
         String userId = (String) session.getAttribute("kakaoId");
-        userService.updateUser(userId, name, nickname, email, imgFile);
+        userService.registerUser(userId, name, nickname, email, imgFile);
         log.info(userId);
         log.info(name);
         log.info(nickname);
