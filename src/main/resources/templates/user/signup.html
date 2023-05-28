@@ -29,6 +29,22 @@
         }
     </style>
     <script src="/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+            setDateBox();
+        });
+
+        // select box 연도 , 월 표시
+        function setDateBox(){
+            var dt = new Date();
+            var year = "";
+            var com_year = dt.getFullYear();
+            for(var y = (com_year); y >= (com_year-19); y--){
+                $("#bornYear").append("<option value='"+ y +"'>"+ y + " 년" +"</option>");
+            }
+        }
+
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-expand shadow-sm">
@@ -87,6 +103,22 @@
                             <div class="invalid-feedback">
                                 별명을 입력해주세요.
                             </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="region">거주지</label>
+                            <select id="region" name="region" class="form-select" style="margin-right: 10px; " aria-label="Default select example">
+                                <option selected th:unless="${regionName}" hidden="hidden">시군구 선택</option>
+                                <option th:each="region : ${regions}"
+                                        th:value="${region.id}"
+                                        th:text="${region.name}"
+                                        th:selected="${region.id} == ${regionName}"></option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nickname">아이 출생 연도</label>
+                            <select id="bornYear" name="bornYear" class="form-select" style="margin-right: 10px; " aria-label="Default select example">
+                                <option selected th:unless="${bornYear}" hidden="hidden">출생 연도 선택</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="imgFile">프로필 사진</label>

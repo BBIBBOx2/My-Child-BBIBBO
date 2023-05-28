@@ -15,7 +15,7 @@
     function kakao(button) {
       var key =[[${@environment.getProperty('kakao.key')}]];
 
-      location.href = "https://kauth.kakao.com/oauth/authorize?client_id="+key+"&redirect_uri=http://localhost:8080/oauth/kakao&response_type=code";
+      location.href = "https://kauth.kakao.com/oauth/authorize?client_id="+key+"&redirect_uri=http://localhost:8080/oauth/kakao&response_type=code&prompt=login";
     }
     /*]]>*/
 
