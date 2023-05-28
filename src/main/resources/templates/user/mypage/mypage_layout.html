@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>My Page</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/bootstrap.min.css}">
 </head>
 <body>
 <div layout:fragment="content" class="">
@@ -16,7 +16,7 @@
                         <img class="img-profile-mypage" th:if="${user.profileImage == null}" src="/image/anonymous_profile.png">
                         <img class="img-profile-mypage" th:unless="${user.profileImage == null}" th:src="${user.profileImage}">
                         <div class="profile-edit">
-                            <img class="img-profile-edit" src="/images/edit_pencil.png">
+                            <img class="img-profile-edit" src="/static/images/edit_pencil.png">
                         </div>
                     </div>
                 </a>

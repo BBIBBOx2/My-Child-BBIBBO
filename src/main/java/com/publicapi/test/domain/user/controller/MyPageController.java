@@ -27,6 +27,18 @@ public class MyPageController {
     private final PostService postService;
     private final CommentService commentService;
 
+    @GetMapping("profile")
+    public String getProfile(HttpServletRequest request,
+                             Model model) {
+        String id = (String) request.getSession().getAttribute("kakaoId");
+        UserEntity user = userService.getLoginUser(id);
+
+        model.addAttribute("user", user);
+        model.addAttribute("tab", tabName);
+        model.addAttribute("mypageTab", "profile");
+        return "user/mypage/mypage_info";
+    }
+
     @GetMapping("article")
     public String getArticles(HttpServletRequest request,
                               Model model,
