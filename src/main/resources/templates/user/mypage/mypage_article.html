@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
-      layout:decorate="~{user/mypage_layout}">
+      layout:decorate="~{user/mypage/mypage_layout}">
 <head>
     <meta charset="UTF-8">
     <title>My Page</title>
@@ -18,7 +18,7 @@
                                 <h6 class="article-board" th:text="${post.board.boardName}"></h6>
                                 <div class="card-text">
                                     <img class="img-profile-content float-start me-3"
-                                         src="/static/image/anonymous_profile.png" alt="익명의 프로필 이미지">
+                                         src="/image/anonymous_profile.png" alt="익명의 프로필 이미지">
                                     <div class="ms-5" th:if="${post.author != null}">
                                         <p class="fw-bolder mb-0 content-nickname"
                                            th:if="${post.isAnonymous == true}">익명</p>

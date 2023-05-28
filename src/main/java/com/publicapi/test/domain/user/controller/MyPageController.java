@@ -39,7 +39,7 @@ public class MyPageController {
         model.addAttribute("postPage", postPage);
         model.addAttribute("tab", tabName);
         model.addAttribute("mypageTab", "article");
-        return "user/mypage_article";
+        return "user/mypage/mypage_article";
     }
 
     @GetMapping("scrap")
@@ -54,7 +54,7 @@ public class MyPageController {
         model.addAttribute("postPage", postPage);
         model.addAttribute("tab", tabName);
         model.addAttribute("mypageTab", "scrap");
-        return "user/mypage_scrap";
+        return "user/mypage/mypage_scrap";
     }
 
     @GetMapping("alarm")
@@ -69,6 +69,6 @@ public class MyPageController {
         model.addAttribute("alarms", alarms);
         model.addAttribute("tab", tabName);
         model.addAttribute("mypageTab", "alarm");
-        return "user/mypage_alarm";
+        return "user/mypage/mypage_alarm";
     }
 }
