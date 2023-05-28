@@ -4,36 +4,32 @@
     <meta charset="UTF-8">
     <title>Hospital List</title>
     <link rel="stylesheet" th:href="@{/static/bootstrap.min.css}" type="text/css">
-    <script crossorigin="anonymous"
-            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-            src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script th:src="@{'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId='+${@environment.getProperty('naver.id')}}"></script>
-    <script crossorigin="anonymous"
-            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-            src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script th:src="@{../../static/assets/MarkerClustering.js}" type="text/javascript"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type='text/javascript'>
-        const page_elements = document.getElementsByClassName("page-link");
-        Array.from(page_elements).forEach(function (element) {
-            element.addEventListener('click', function () {
-                document.getElementById('page').value = this.dataset.page;
+        $(document).ready(function () {
+            const page_elements = document.getElementsByClassName("page-link");
+            Array.from(page_elements).forEach(function (element) {
+                element.addEventListener('click', function () {
+                    document.getElementById('page').value = this.dataset.page;
+                    document.getElementById('searchForm').submit();
+                });
+            });
+            const btn_search = document.getElementById("button-search");
+            btn_search.addEventListener('click', function () {
+                document.getElementById('page').value = 0;
                 document.getElementById('searchForm').submit();
             });
-        });
-        const btn_search = document.getElementById("button-search");
-        btn_search.addEventListener('click', function () {
-            document.getElementById('page').value = 0;
-            document.getElementById('searchForm').submit();
-        });
-        const btn_sortType = document.getElementById("inputSortType");
-        btn_sortType.addEventListener('change', function () {
-            document.getElementById('page').value = 0;
-            document.getElementById('searchForm').submit();
-        });
-        const btn_districtType = document.getElementById("inputDistrict");
-        btn_districtType.addEventListener('change', function () {
-            document.getElementById('page').value = 0;
-            document.getElementById('searchForm').submit();
+            const btn_sortType = document.getElementById("inputSortType");
+            btn_sortType.addEventListener('change', function () {
+                document.getElementById('page').value = 0;
+                document.getElementById('searchForm').submit();
+            });
+            const btn_districtType = document.getElementById("inputDistrict");
+            btn_districtType.addEventListener('change', function () {
+                document.getElementById('page').value = 0;
+                document.getElementById('searchForm').submit();
+            });
         });
     </script>
 </head>
@@ -53,20 +49,20 @@
                     </a>
                 </div>
                 <div class="mb-3">
-                    <div style="display: flex; float:left; align-items: center;">
-                        <select class="form-select" id="inputDistrict" name="district" required
-                                style="width:20%; margin-right: 10px;">
-                            <option th:selected="${districtType == 0}" value="0">전체</option>
-                            <option th:each="distinct : ${districts}" th:selected="${districtType == distinct.id}"
-                                    th:text="${distinct.name}" th:value="${distinct.id}">
-                            </option>
-                        </select>
-                        <select class="form-select" id="inputSortType" name="sortType" style="width:20%;" required>
-                            <option th:selected="${sortType == 'recent'}" value="recent">최신순</option>
-                            <option th:selected="${sortType == 'popular'}" value="popular">조회수순</option>
-                        </select>
-                        <div style="display: flex; margin-left:10px; margin-top:15px">
-                            <form id="searchForm" method="get" th:action="@{|/community/${board}|}">
+                    <form id="searchForm" method="get" th:action="@{|/community/${board}|}">
+                        <div style="display: flex; float:left; align-items: center;">
+                            <select class="form-select" id="inputDistrict" name="district" required
+                                    style="width:20%; margin-right: 10px;">
+                                <option th:selected="${districtType == 0}" value="0">전체</option>
+                                <option th:each="distinct : ${districts}" th:selected="${districtType == distinct.id}"
+                                        th:text="${distinct.name}" th:value="${distinct.id}">
+                                </option>
+                            </select>
+                            <select class="form-select" id="inputSortType" name="sortType" style="width:20%;" required>
+                                <option th:selected="${sortType == 'recent'}" value="recent">최신순</option>
+                                <option th:selected="${sortType == 'popular'}" value="popular">조회수순</option>
+                            </select>
+                            <div style="display: flex; margin-left:10px; margin-top:15px">
                                 <div class="float-start input-group mb-3 me-sm-3">
                                     <input aria-describedby="button-addon2" aria-label="search" class="form-control"
                                            id="search-input"
@@ -75,9 +71,9 @@
                                     <input id="page" name="page" type="hidden">
                                     <button class="btn btn-secondary" id="button-search" type="button">검색</button>
                                 </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <a th:href="@{|/community/${board}/write|}">
                     <button class="btn btn-outline-success float-end" id="btn-write" type="button">글 작성</button>

@@ -36,8 +36,9 @@ public class CommunityController {
 
     @GetMapping("{boardId}")
     public String showPosts(Model model,
-                            @RequestParam(value = "page", defaultValue = "0") int page,
+                            HttpServletRequest request,
                             @PathVariable int boardId,
+                            @RequestParam(value = "page", defaultValue = "0") int page,
                             @RequestParam(value = "search", defaultValue = "") String search,
                             @RequestParam(value = "district", defaultValue = "0") int districtType,
                             @RequestParam(value = "sortType", defaultValue = "recent") String sortType) {
@@ -59,7 +60,9 @@ public class CommunityController {
 
     @GetMapping("{boardId}/{postId}")
     public String showPost(Model model,
-                           @PathVariable Long boardId, @PathVariable Long postId) {
+                           HttpServletRequest request,
+                           @PathVariable Long boardId,
+                           @PathVariable Long postId) {
         Post post = postService.findPostById(postId);
         List<PostImage> postImages = postImageService.findPostImageByPostId(postId);
         List<Comment> comments = commentService.findAllByPostId(postId);
@@ -75,6 +78,7 @@ public class CommunityController {
 
     @GetMapping("{boardId}/write")
     public String loadWriteForm(Model model,
+                                HttpServletRequest request,
                                 @PathVariable int boardId) {
         List<Board> boards = boardService.findAll();
         List<District> districts = districtService.findAll();
@@ -87,12 +91,12 @@ public class CommunityController {
     }
 
     @PostMapping("{boardId}/write")
-    @ResponseBody
     public String savePost(HttpServletRequest request,
                            @RequestPart(name = "contentData") PostRequest postRequest,
                            @RequestPart(name = "images", required = false) List<MultipartFile> images) {
         String kakaoId = (String) request.getSession().getAttribute("kakaoId");
         Long postId = postService.create(postRequest, kakaoId);
+
         if (postRequest.getHashtags() != null) {
             List<Long> hashtagIds = hashtagService.create(postRequest.getHashtags());
             postTagService.create(postId, hashtagIds);
@@ -101,7 +105,7 @@ public class CommunityController {
             savePostImage(postId, images);
         }
 
-        return "/community/" + postRequest.getBoardId();
+        return "redirect:/community/" + postRequest.getBoardId();
     }
 
     private void savePostImage(Long postId, List<MultipartFile> images) {
@@ -112,7 +116,9 @@ public class CommunityController {
     }
 
     @GetMapping("{boardId}/{postId}/scrap")
-    public String scrapPost(@PathVariable("boardId") Long boardId, @PathVariable("postId") Long postId) {
+    public String scrapPost(HttpServletRequest request,
+                            @PathVariable("boardId") Long boardId,
+                            @PathVariable("postId") Long postId) {
         Long userId = 5L;
         postService.scrap(userId, postId);
 
