@@ -34,9 +34,16 @@ public class UserController {
         System.out.println("code = " + code);
         String accessToken = oauthService.getAccessToken(code);
         String kakaoId = oauthService.getUserIdByToken(accessToken);
-        userService.registerUser(kakaoId, request);
+        Boolean isUserRegister = userService.isUserRegister(kakaoId);
+        if (isUserRegister) {
+            userService.loginUser(kakaoId, request);
+            return "redirect:/hospital";
+        } else {
+            userService.registerUser(kakaoId, request);
+            return "redirect:/signup";
+        }
 
-        return "redirect:/hospital";
+
 
     }
 
