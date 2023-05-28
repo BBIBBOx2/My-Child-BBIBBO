@@ -11,6 +11,7 @@ import com.publicapi.test.domain.hospital.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class HospitalService {
 
@@ -29,7 +31,7 @@ public class HospitalService {
     private final RegionRepository regionRepository;
 
     public void syncHospitalInfo() {
-        for (int i = 5001; i < 10001; i+=1000) {
+        for (int i = 15001; i < 19650; i+=1000) {
             System.out.println("syncHospitalInfo in i = " + i);
             HospitalResponse response = hospitalFromApiService.requestHospitalInfo(i, i+999);
             List<HospitalDto> hospitals = response.getRow();
@@ -81,6 +83,7 @@ public class HospitalService {
             Optional<HospitalEntity> optionalHospital = hospitalRepository.findByHpId(hospital.getHpId());
             if (optionalHospital.isPresent()) {
                 HospitalEntity updateEntity = hospitalMapper.update(optionalHospital.get(), hospital);
+                System.out.println("updateEntity = " + updateEntity.getName());
             }
         }
 
