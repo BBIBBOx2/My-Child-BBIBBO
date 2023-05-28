@@ -8,6 +8,7 @@ import com.publicapi.test.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -49,14 +50,13 @@ public class UserService {
     }
 
 
-    public void registerUser(String userId, String name, String nickname, String email, String imageUrl) {
-        UserEntity user = UserEntity.builder()
-                                    .kakaoId(userId)
-                                    .email(email)
-                                    .name(name)
-                                    .username(nickname)
-                                    .profileImage(imageUrl)
-                                    .build();
+    public void registerUser(String userId, String name, String nickname, String email, MultipartFile imgFile) {
+        UserEntity user=UserEntity.builder()
+                .kakaoId(userId)
+                .email(email)
+                .name(name)
+                .username(nickname)
+                .build();
         userRepository.save(user);
 
     }
