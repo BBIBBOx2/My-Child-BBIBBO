@@ -30,13 +30,20 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-md-0">
-      <button class="btn btn-success rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal">
+
+      <button type="button" th:if="${session.kakaoId}" onclick="location.href='/mypage';" class="btn btn-success rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal">
                         <span class="d-flex align-items-center">
                             <i class="bi-person-circle me-2"></i>
-                            <span th:if="${session.kakaoId}" th:text="환영합니다" class="small">SIGN IN</span>
-                            <span th:unless="${session.kakaoId}" class="small">SIGN IN</span>
+                            <span th:if="${session.kakaoId}" th:text="마이페이지" class="small">SIGN IN</span>
                         </span>
       </button>
+      <button type="button" th:unless="${session.kakaoId}" onclick="location.href='/login';" class="btn btn-success rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal">
+                        <span class="d-flex align-items-center">
+                            <i class="bi-person-circle me-2"></i>
+                          <span th:unless="${session.kakaoId}" class="small">SIGN IN</span>
+                        </span>
+      </button>
+
     </form>
   </div>
 </nav>

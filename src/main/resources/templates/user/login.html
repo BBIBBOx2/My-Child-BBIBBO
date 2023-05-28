@@ -5,7 +5,7 @@
 </head>
 <body>
 <a class="p-2" th:href="@{'https://kauth.kakao.com/oauth/authorize?client_id='+${@environment.getProperty('kakao.key')}+'&redirect_uri=http://localhost:8080/oauth/kakao&response_type=code'}">
-    <img th:src="@{/images/kakao_login_medium_narrow.png}" style="height:60px"/>
+    <img src="/static/images/kakao_login_medium_narrow.png" style="height:60px"/>
 </a>
 </body>
 </html>
