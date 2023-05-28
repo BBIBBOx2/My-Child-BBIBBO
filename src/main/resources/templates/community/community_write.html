@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/static/bootstrap.min.css}">
@@ -12,13 +11,14 @@
     <meta name="_csrf_header" th:content="${_csrf?.headerName}">
     <title>Community Form</title>
 </head>
-<body>
-<div class="container">
+<body style="background-color: #f8f9fa;">
+<div layout:fragment="content">
+    <div class="container my-3" style="width: 80%">
     <h5 class="my-3 border-bottom pb-2">글 등록</h5>
     <form th:action="@{/post/{boardId}/create}" method="post">
 <!--        <div th:replace="form_errors :: formErrorsFragment"></div>-->
         <div class="row mb-3">
-            <div class="col-sm-5">
+            <div class="col-sm-2">
                 <select class="form-select" id="inputBoard">
                     <option selected value=0>게시판 선택</option>
                     <option th:each="board : ${boards}"
@@ -27,7 +27,7 @@
                 </select>
             </div>
 
-            <div class="col-sm-5">
+            <div class="col-sm-2">
                 <select class="form-select" id="inputDistrict">
                     <option selected value=0>시군구 선택</option>
                     <option th:each="district : ${districts}"
@@ -38,13 +38,13 @@
         </div>
         <div class="row mb-3">
             <label id="subject" class="form-label">제목</label>
-            <input id="subjectValue" type="text" name="subject" class="form-control"></div>
+            <input id="subjectValue" type="text" name="subject" class="form-control" style="margin-left:12px"></div>
         <div class="row mb-3">
             <label id="content" class="form-label">내용</label>
-            <textarea id="contentValue" name="content" class="form-control" rows="10"></textarea>
+            <textarea id="contentValue" name="content" class="form-control" rows="5" style="margin-left:12px"></textarea>
         </div>
-        <div class="row mb-3">
-            <input id="tagValues" name="tag" placeholder='엔터로 해시태그를 추가해주세요'>
+        <div class="row mb-3" style="margin-left:0px">
+            <input id="tagValues" name="tag"  placeholder='엔터로 해시태그를 추가해주세요'>
         </div>
         <div class="row mb-3">
             <label class="form-label">이미지 추가</label>
@@ -63,7 +63,7 @@
                 <label class="form-check-label" for="check_anonymous">익명</label>
             </div>
             <div class="w-auto">
-                <button type="button" class="btn btn-primary" id="btn-submit" onclick="uploadContent()">저장하기</button>
+                <button type="button" class="btn btn-success" id="btn-submit" onclick="uploadContent()">저장하기</button>
             </div>
         </div>
     </form>
@@ -180,6 +180,7 @@
             });
         }
     </script>
+</div>
 </div>
 </body>
 </html>
