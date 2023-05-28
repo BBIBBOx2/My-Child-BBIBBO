@@ -4109,6 +4109,31 @@ textarea.form-control-lg {
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out
 }
 
+.mypage-nav-link {
+    display: block;
+    padding: .5rem 1rem;
+    color: #000000;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+}
+
+.mypage-nav-link:hover .mypage-nav-link-select:hover {
+    text-decoration: none;
+    color: #00956d;
+}
+
+.mypage-nav-link-select {
+    display: block;
+    padding: .5rem 1rem;
+    color: #00956d;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out
+}
+
 @media (prefers-reduced-motion: reduce) {
     .nav-link {
         transition: none
@@ -12186,6 +12211,34 @@ textarea.form-control-lg {
     border-radius: .2rem;
 }
 
+.profile {
+    position: relative;
+    margin: 2rem 1rem;
+    float: left;
+}
+
+.profile-edit {
+    position: absolute;
+    right: -5px;
+    bottom: 5px;
+}
+
+.img-profile-edit {
+    width: 20px;
+    height: 20px;
+}
+
+.img-profile-mypage {
+    width: 50px;
+    height: 50px;
+    border-radius: 70%;
+}
+
+.username-mypage {
+    position: relative;
+    top: 50px;
+}
+
 .btn-child-comment {
     color: #A6A6A6;
     font-size: 14px;
@@ -12241,34 +12294,17 @@ textarea.form-control-lg {
     height: 100%
 }
 
-.admin-nav-menu {
+.mypage-nav-menu {
     list-style: none;
     padding: 0;
 }
 
-.admin-nav-menu, .admin-nav-child-menu {
+.mypage-nav-menu {
     list-style: none;
 }
 
-.admin-nav-menu li a {
-    height: 30px;
-    line-height: 30px;
-    display: block;
-    padding: 0 20px;
-    font-size: 12px;
-    color: #555;
-    text-decoration: none;
-}
-
-.admin-nav-menu li a:hover {
-    background-color: yellowgreen;
-    color: white;
-    color: white;
-}
-
-.admin-main {
-    margin-left: 200px;
-    padding: 1rem 3rem;
+.mypage-nav-menu li a:hover {
+    color: #00956d;
 }
 
 .list-type {

@@ -1,10 +1,12 @@
 package com.publicapi.test.domain.user.entity;
 
+import com.publicapi.test.domain.community.entity.Post;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -28,6 +30,8 @@ public class UserEntity {
 
     private String profileImage;
 
+    @ManyToMany(mappedBy = "scrap", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    private Set<Post> scrap;
 
     @Builder
     public UserEntity(Long id, String email, String kakaoId, String name, String username, String profileImage) {

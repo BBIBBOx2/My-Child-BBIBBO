@@ -1,5 +1,6 @@
 package com.publicapi.test.domain.community.entity;
 
+import com.publicapi.test.domain.user.entity.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,14 +22,14 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Board board;
 
     @ManyToOne
     private District district;
 
     @ManyToOne
-    private User author;
+    private UserEntity author;
 
     @Column(length = 200, nullable = false)
     private String title;
@@ -56,28 +57,8 @@ public class Post {
 
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(name = "scrap", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> scrap;
+    private Set<UserEntity> scrap;
 
     @Formula("(select count(*) from scrap where scrap.post_id=id)")
     private int scrapCount;
-
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", board=" + board +
-                ", district=" + district +
-                ", author=" + author +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", isAnonymous=" + isAnonymous +
-                ", postTags=" + postTags +
-                ", postImages=" + postImages +
-                ", commentList=" + commentList +
-                ", createDate=" + createDate +
-                ", hits=" + hits +
-                ", scrap=" + scrap +
-                ", scrapCount=" + scrapCount +
-                '}';
-    }
 }

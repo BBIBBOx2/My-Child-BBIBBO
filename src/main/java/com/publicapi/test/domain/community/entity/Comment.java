@@ -19,7 +19,7 @@ public class Comment {
     private Long id;
 
 
-    @ManyToOne(targetEntity = Post.class, optional = false)
+    @ManyToOne(targetEntity = Post.class, optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id", insertable = false, updatable = false)
     private Post post;
 
