@@ -28,18 +28,23 @@ public class UserEntity {
 
     private String username;
 
+    private String region;
+    private Integer bornYear;
+
     private String profileImage;
 
     @ManyToMany(mappedBy = "scrap", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<Post> scrap;
 
     @Builder
-    public UserEntity(Long id, String email, String kakaoId, String name, String username, String profileImage) {
+    public UserEntity(Long id, String email, String kakaoId, String name, String username, String region, Integer bornYear, String profileImage) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.kakaoId = kakaoId;
         this.name = name;
+        this.bornYear = bornYear;
+        this.region = region;
         this.profileImage = profileImage;
     }
 }
