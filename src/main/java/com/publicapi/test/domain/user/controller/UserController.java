@@ -3,6 +3,7 @@ package com.publicapi.test.domain.user.controller;
 import com.publicapi.test.domain.oauth.service.OauthService;
 import com.publicapi.test.domain.user.entity.UserEntity;
 import com.publicapi.test.domain.user.service.UserService;
+import com.publicapi.test.s3.service.ImageUploadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +24,7 @@ public class UserController {
 
     private final OauthService oauthService;
     private final UserService userService;
+    private final ImageUploadService imageUploadService;
 
 
     @GetMapping("/login")
@@ -42,7 +45,8 @@ public class UserController {
 
     @GetMapping("/now")
     public String loginUser(HttpServletRequest request) {
-        String id = (String) request.getSession().getAttribute("kakaoId");
+        String id = (String) request.getSession()
+                                    .getAttribute("kakaoId");
         UserEntity user = userService.getLoginUser(id);
         return "redirect:/hospital";
     }
@@ -55,7 +59,8 @@ public class UserController {
 
     @GetMapping("/user/signup")
     public String signupForm(HttpSession session, Model model) {
-        model.addAttribute("userId", session.getAttribute("kakaoId").toString());
+        model.addAttribute("userId", session.getAttribute("kakaoId")
+                                            .toString());
         return "user/signup";
     }
 
@@ -73,5 +78,21 @@ public class UserController {
         log.info(nickname);
 
         return "redirect:/hospital";
+    }
+
+    @PostMapping("/user/update")
+    public String updateUser(HttpSession session,
+                           @RequestPart(name = "username") String username,
+                           @RequestPart(name = "image", required = false) MultipartFile profileImage) {
+        String kakaoId = (String) session.getAttribute("kakaoId");
+        String profileImageUrl = null;
+
+        if (profileImage != null) {
+            profileImageUrl = imageUploadService.uploadImage(profileImage);
+        }
+
+        userService.updateUser(kakaoId, username, profileImageUrl);
+
+        return "redirect:/mypage/profile";
     }
 }

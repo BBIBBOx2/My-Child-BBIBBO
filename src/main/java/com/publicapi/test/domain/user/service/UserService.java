@@ -1,5 +1,6 @@
 package com.publicapi.test.domain.user.service;
 
+import com.publicapi.test.domain.community.exception.NotFoundException;
 import com.publicapi.test.domain.user.dto.UserInfo;
 import com.publicapi.test.domain.user.dto.UserMapper;
 import com.publicapi.test.domain.user.entity.UserEntity;
@@ -56,7 +57,8 @@ public class UserService {
                              .build();
             userRepository.save(user);
         } else {
-            user = userRepository.findByKakaoId(kakaoId).get();
+            user = userRepository.findByKakaoId(kakaoId)
+                                 .get();
         }
         HttpSession session = request.getSession();
         session.setAttribute("kakaoId", kakaoId);
@@ -64,7 +66,27 @@ public class UserService {
 
     public void updateUser(String userId, String name, String nickname, String email, MultipartFile imgFile) {
         Optional<UserEntity> user = userRepository.findByKakaoId(userId);
-        UserInfo userInfo=UserInfo.builder().username(nickname).name(name).email(email).build();
+        UserInfo userInfo = UserInfo.builder()
+                                    .username(nickname)
+                                    .name(name)
+                                    .email(email)
+                                    .build();
         userMapper.update(user.get(), userInfo);
+    }
+
+    public void updateUser(String kakaoId, String username, String profileImage) {
+        UserEntity user = userRepository.findByKakaoId(kakaoId)
+                                        .orElseThrow(() -> new NotFoundException("사용자를 찾지 못했습니다."));
+        if (profileImage == null) {
+            profileImage = user.getProfileImage();
+        }
+        UserInfo userInfo = UserInfo.builder()
+                                    .username(username)
+                                    .profileImage(profileImage)
+                                    .name(user.getName())
+                                    .email(user.getEmail())
+                                    .build();
+
+        userMapper.update(user, userInfo);
     }
 }

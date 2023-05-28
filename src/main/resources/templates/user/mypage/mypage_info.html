@@ -34,12 +34,7 @@
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
     <script type="text/javascript">
-        var originImage = "/static/image/anonymous_profile.png";
-
-        let profileImage = document.getElementById("mypage-profile-img");
-        if (profileImage) {
-            originImage = profileImage.src;
-        }
+        var originImage = document.getElementsByClassName("mypage-profile-img")[0].src;
 
         function editProfile() {
             const fileInput = document.getElementById("editFile");
@@ -52,6 +47,42 @@
             }
 
             fileReader.readAsDataURL(selectedFile);
+        }
+
+        function updateInfo() {
+            let formData = new FormData();
+
+            let usernameInput = $('#inputUserName')
+            if (usernameInput.val()) {
+                formData.append("username", usernameInput.val());
+            } else {
+                formData.append("username", usernameInput.attr("placeholder"));
+            }
+
+            const fileInput = document.getElementById("editFile");
+            const selectedFile = fileInput.files[0];
+            formData.append("image", selectedFile);
+
+            $.ajax({
+                url: `/user/update`,
+                type: 'POST',
+                data: formData,
+                enctype: "multipart/form-data",
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function () {
+                    location.reload();
+                },
+                error: function (error) {
+                    alert("code : " + error.status + "\n" + "message : " + error.responseText + "\n" + "error : " + error);
+                }
+            });
+        }
+
+        function resetInfo() {
+            let updateImage = document.getElementsByClassName("mypage-profile-img")[0];
+            updateImage.src = originImage;
         }
     </script>
 </div>

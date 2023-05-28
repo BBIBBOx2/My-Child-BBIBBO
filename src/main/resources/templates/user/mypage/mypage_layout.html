@@ -13,7 +13,7 @@
             <div>
                 <a href="/mypage/profile">
                     <div class="profile">
-                        <img class="img-profile-mypage" th:if="${user.profileImage == null}" src="/image/anonymous_profile.png">
+                        <img class="img-profile-mypage" th:if="${user.profileImage == null}" src="/static/image/anonymous_profile.png">
                         <img class="img-profile-mypage" th:unless="${user.profileImage == null}" th:src="${user.profileImage}">
                         <div class="profile-edit">
                             <img class="img-profile-edit" src="/static/images/edit_pencil.png">
