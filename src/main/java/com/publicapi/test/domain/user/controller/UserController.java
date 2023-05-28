@@ -45,9 +45,6 @@ public class UserController {
             userService.loginUser(kakaoId, request);
             return "redirect:/user/signup";
         }
-
-
-
     }
 
     @GetMapping("/now")
@@ -79,7 +76,8 @@ public class UserController {
                                          @RequestParam("email") String email,
                                          Model model) {
         String userId = (String) session.getAttribute("kakaoId");
-        userService.registerUser(userId, name, nickname, email, imgFile);
+        String imageUrl = getImageUrl(imgFile);
+        userService.registerUser(userId, name, nickname, email, imageUrl);
         log.info(userId);
         log.info(name);
         log.info(nickname);
@@ -92,14 +90,19 @@ public class UserController {
                            @RequestPart(name = "username") String username,
                            @RequestPart(name = "image", required = false) MultipartFile profileImage) {
         String kakaoId = (String) session.getAttribute("kakaoId");
+        String profileImageUrl = getImageUrl(profileImage);
+
+        userService.updateUser(kakaoId, username, profileImageUrl);
+
+        return "redirect:/mypage/profile";
+    }
+
+    private String getImageUrl(MultipartFile profileImage) {
         String profileImageUrl = null;
 
         if (profileImage != null) {
             profileImageUrl = imageUploadService.uploadImage(profileImage);
         }
-
-        userService.updateUser(kakaoId, username, profileImageUrl);
-
-        return "redirect:/mypage/profile";
+        return profileImageUrl;
     }
 }
