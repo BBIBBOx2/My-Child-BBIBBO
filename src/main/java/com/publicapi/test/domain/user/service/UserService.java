@@ -39,27 +39,25 @@ public class UserService {
         throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
     }
 
-    public void registerUser(String kakaoId, HttpServletRequest request) {
-        UserEntity user = null;
-        UserInfo userInfo = UserInfo.builder()
-                                    .username("닉닉네임")
-                                    .name("이이름")
-                                    .email("abc@naver.com")
-                                    .build();
+    public Boolean isUserRegister(String kakaoId) {
+        return userRepository.existsByKakaoId(kakaoId);
+    }
 
-        if (!userRepository.existsByKakaoId(kakaoId)) {
-            user = UserEntity.builder()
-                             .kakaoId(kakaoId)
-                             .email("abc@naver.com")
-                             .name("이름")
-                             .username("닉네임")
-                             .build();
-            userRepository.save(user);
-        } else {
-            user = userRepository.findByKakaoId(kakaoId).get();
-        }
+    public void loginUser(String kakaoId, HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.setAttribute("kakaoId", kakaoId);
+    }
+
+    public void registerUser(String kakaoId, HttpServletRequest request) {
+        UserEntity user = null;
+        user = UserEntity.builder()
+                .kakaoId(kakaoId)
+                .email("abc@naver.com")
+                .name("이름")
+                .username("닉네임")
+                .build();
+        userRepository.save(user);
+        loginUser(kakaoId, request);
     }
 
     public void updateUser(String userId, String name, String nickname, String email, MultipartFile imgFile) {
