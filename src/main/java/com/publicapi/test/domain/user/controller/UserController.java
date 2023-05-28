@@ -39,8 +39,8 @@ public class UserController {
             userService.loginUser(kakaoId, request);
             return "redirect:/hospital";
         } else {
-            userService.registerUser(kakaoId, request);
-            return "redirect:/signup";
+            userService.loginUser(kakaoId, request);
+            return "redirect:/user/signup";
         }
 
 
@@ -74,7 +74,7 @@ public class UserController {
                                          @RequestParam("email") String email,
                                          Model model) {
         String userId = (String) session.getAttribute("kakaoId");
-        userService.updateUser(userId, name, nickname, email, imgFile);
+        userService.registerUser(userId, name, nickname, email, imgFile);
         log.info(userId);
         log.info(name);
         log.info(nickname);
