@@ -114,13 +114,15 @@
             </div>
             <br>
             <div class="hospital-list-container">
-                <div th:each="hospital : ${hospitalList}">
+                <div th:each="hospital, index : ${hospitalList}">
                     <div class="card my-3">
                         <div class="card-body">
                             <div class="position-relative">
                                 <div class="review-content-area mt-0 mb-4" style="padding-top: 1%">
                                     <div class="card-text">
                                         <div class="fw-bolder strong mt-2" th:text="${hospital.name}"></div>
+                                        <p style="font-size: small; color:#0067A3" th:if="${isOpeningList[__${index.index}__] == 1}">(진료 중)</p>
+                                        <p style="font-size: small; color:#9B111E" th:if="${isOpeningList[__${index.index}__] == 0}">(진료 마감)</span>
                                         <p class="text-end m-0" style="font-size: 0.8rem; color: gray;"
                                            th:text="${hospital.address}"></p>
                                         <p class="fw-bolder mb-0 content-nickname"
