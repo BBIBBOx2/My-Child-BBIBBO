@@ -1,106 +1,17 @@
-<!DOCTYPE html>
-<html lang="ko"
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" th:href="@{/static/bootstrap.min.css}">
-    <title>Community List</title>
-</head>
-<body>
-<div class="content-container mt-5">
-    <div class="content-container">
-        <div class="hstack gap-3 float-start mb-3">
-            <a th:href="@{/community/1}">
-                <button type="button" th:attr="class=${board == 1 ? 'btn-select-board' : 'btn-board'}">자유게시판</button>
-            </a>
-            <a th:href="@{/community/2}">
-                <button type="button" th:attr="class=${board == 2 ? 'btn-select-board' : 'btn-board'}">정보게시판</button>
-            </a>
-        </div>
-
-        <div id="search-input-group" class="ms-1">
-            <form th:action="@{|/community/${board}|}" method="get" id="searchForm">
-                <div class="float-start input-group mb-3 me-sm-3">
-                    <input type="text" name="search" id="search-input" th:value="${search}"
-                           class="form-control" placeholder="글을 검색해주세요" aria-label="search"
-                           aria-describedby="button-addon2">
-                    <input type="hidden" id="page" name="page">
-                    <button class="btn btn-secondary" type="button" id="button-search">검색</button>
-                </div>
-
-                <div class="float-start col-md-3">
-                    <select class="form-select" id="inputDistrict" name="district" required>
-                        <option value="0" th:selected="${districtType} == 0">전체</option>
-                        <option th:each="distinct : ${districts}" th:value="${distinct.id}"
-                                th:text="${distinct.name}" th:selected="${districtType} == ${distinct.id}">
-                        </option>
-                    </select>
-                </div>
-
-                <div class="float-start ms-3col-md-3" style="clear: both">
-                    <select class="form-select" id="inputSortType" name="sortType" required>
-                        <option value="recent" th:selected="${sortType} == 'recent'">최신순</option>
-                        <option value="popular" th:selected="${sortType} == 'popular'">조회수순</option>
-                    </select>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="content-container">
-        <table class="table">
-            <thead>
-            <tr>
-                <td>순번</td>
-                <td>제목</td>
-                <td>작성자</td>
-                <td>작성일</td>
-                <td>조회수</td>
-                <td>스크랩수</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="post: ${postPage.content}">
-                <td th:text="${post.id}"></td>
-                <td>
-                    <a th:text="${post.title}" th:href="@{|/community/${board}/${post.id}|}"></a>
-                </td>
-                <td th:text="${post.author.getUsername()}"></td>
-                <td th:text="${#temporals.format(post.createDate, 'yyyy.MM.dd')}"></td>
-                <td th:text="${post.hits}"></td>
-                <td th:text="${post.scrapCount}"></td>
-            </tr>
-            </tbody>
-        </table>
-        </a>
-    </div>
-
-    <div th:if="${!postPage.isEmpty()}">
-        <ul class="pagination justify-content-center">
-            <li class="page-item" th:classappend="${!postPage.hasPrevious} ? 'disabled'">
-                <a class="page-link" href="javascript:void(0)" th:data-page="${postPage.number-1}">
-                    <span>이전</span>
-                </a>
-            </li>
-            <li th:each="page: ${#numbers.sequence(0, postPage.totalPages-1)}"
-                th:if="${page >= postPage.number-5 and page <= postPage.number+5}"
-                th:classappend="${page == postPage.number} ? 'active'" class="page-item">
-                <a th:text="${page+1}" class="page-link" href="javascript:void(0)" th:data-page="${page}"></a>
-            </li>
-            <li class="page-item" th:classappend="${!postPage.hasNext} ? 'disabled'">
-                <a class="page-link" href="javascript:void(0)" th:data-page="${postPage.number+1}">
-                    <span>다음</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-
-    <div class="content-container">
-        <a th:href="@{|/community/${board}/write|}">
-            <button id="btn-write" type="button" class="btn btn-primary float-end">글 작성</button>
-        </a>
-    </div>
-
+    <title>Hospital List</title>
+    <link rel="stylesheet" th:href="@{/static/bootstrap.min.css}" type="text/css">
+    <script crossorigin="anonymous"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script th:src="@{'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId='+${@environment.getProperty('naver.id')}}"></script>
+    <script crossorigin="anonymous"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script th:src="@{../../static/assets/MarkerClustering.js}" type="text/javascript"></script>
     <script type='text/javascript'>
         const page_elements = document.getElementsByClassName("page-link");
         Array.from(page_elements).forEach(function (element) {
@@ -125,7 +36,110 @@
             document.getElementById('searchForm').submit();
         });
     </script>
+</head>
+<body style="background-color: #f8f9fa;">
+<div class="nav_bottom" style="background-color: #f8f9fa; margin-top: -14px;">
+<div layout:fragment="content">
+    <div class="container my-3" style="width: 80%">
+        <div class="content-container">
+            <div class="hstack gap-3">
+                <a th:href="@{/community/1}">
+                    <button th:attr="class=${board == 1 ? 'btn-success btn' : 'btn-board btn'}" type="button">자유게시판
+                    </button>
+                </a>
+                <a th:href="@{/community/2}">
+                    <button th:attr="class=${board == 2 ? 'btn btn-success' : 'btn btn-board'}" type="button">정보게시판
+                    </button>
+                </a>
+            </div>
+            <div class="mb-3">
+                <div style="display: flex; float:left; align-items: center;">
+                    <select class="form-select" id="inputDistrict" name="district" required style="width:20%; margin-right: 10px;">
+                        <option th:selected="${districtType == 0}" value="0">전체</option>
+                        <option th:each="distinct : ${districts}" th:selected="${districtType == distinct.id}"
+                                th:text="${distinct.name}" th:value="${distinct.id}">
+                        </option>
+                    </select>
+                    <select class="form-select" id="inputSortType" name="sortType" style="width:20%;" required>
+                        <option th:selected="${sortType == 'recent'}" value="recent">최신순</option>
+                        <option th:selected="${sortType == 'popular'}" value="popular">조회수순</option>
+                    </select>
+                    <div style="display: flex; margin-left:10px; margin-top:15px">
+                        <form id="searchForm" method="get" th:action="@{|/community/${board}|}">
+                            <div class="float-start input-group mb-3 me-sm-3">
+                                <input aria-describedby="button-addon2" aria-label="search" class="form-control"
+                                       id="search-input"
+                                       name="search" placeholder="글을 검색해주세요" th:value="${search}"
+                                       type="text">
+                                <input id="page" name="page" type="hidden">
+                                <button class="btn btn-secondary" id="button-search" type="button">검색</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <a th:href="@{|/community/${board}/write|}">
+                <button class="btn btn-outline-success float-end" id="btn-write" type="button">글 작성</button>
+            </a>
 
+        <div class="list-container" style="margin-top:80px;">
+            <div th:each="post: ${postPage.content}">
+                <a th:href="@{|/community/${board}/${post.id}|}" style="color:black">
+                <div class="card my-3">
+                    <div class="card-body">
+                        <div class="position-relative">
+                            <div style="padding-top: 1%" class="review-content-area mt-0 mb-4">
+                                <div class="card-text">
+                                    <img class="img-profile-content float-start me-3" src="/static/image/anonymous_profile.png" alt="익명의 프로필 이미지">
+                                    <div class="ms-5" th:if="${post.author != null}">
+                                        <p class="fw-bolder mb-0 content-nickname" th:if="${post.isAnonymous == true}">익명</p>
+                                        <p class="fw-bolder mb-0 content-nickname" th:unless="${post.isAnonymous == true}"
+                                           th:text="${post.author.username}"></p>
+                                        <time class="fw-normal content-time"
+                                              th:text="${#temporals.format(post.createDate, 'yy/MM/dd HH:mm')}"></time>
+                                    </div>
+                                    <div class="ms-5" th:unless="${post.author != null}">
+                                        <p class="fw-bolder mb-0 content-nickname">(알 수 없음)</p>
+                                        <time class="fw-normal content-time"
+                                              th:text="${#temporals.format(post.createDate, 'yy/MM/dd HH:mm')}"></time>
+                                    </div>
+                                    <div class=" mt-2" style="padding-top:20px" th:text="${post.title}"></div>
+                                    <ul class="content-info">
+                                        <li class="hits" th:text="${post.hits}"></li>
+                                        <li class="scrap" th:text="${post.scrapCount}"></li>
+                                    </ul>
+                                   </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </a>
+            </div>
+        </div>
+
+        <div th:if="${!postPage.isEmpty()}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${!postPage.hasPrevious} ? 'disabled'">
+                    <a class="page-link" href="javascript:void(0)" th:data-page="${postPage.number-1}">
+                        <span>이전</span>
+                    </a>
+                </li>
+                <li class="page-item"
+                    th:classappend="${page == postPage.number} ? 'active'"
+                    th:each="page: ${#numbers.sequence(0, postPage.totalPages-1)}"
+                    th:if="${page >= postPage.number-5 and page <= postPage.number+5}">
+                    <a class="page-link" href="javascript:void(0)" th:data-page="${page}" th:text="${page+1}"></a>
+                </li>
+                <li class="page-item" th:classappend="${!postPage.hasNext} ? 'disabled'">
+                    <a class="page-link" href="javascript:void(0)" th:data-page="${postPage.number+1}">
+                        <span>다음</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
 </div>
 </body>
 </html>

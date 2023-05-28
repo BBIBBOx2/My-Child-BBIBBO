@@ -5127,8 +5127,8 @@ textarea.form-control-lg {
 .page-item.active .page-link {
     z-index: 3;
     color: #fff;
-    background-color: #0d6efd;
-    border-color: #0d6efd
+    background-color: #009874;
+    border-color: #009874
 }
 
 .page-item.disabled .page-link {
@@ -12034,6 +12034,15 @@ textarea.form-control-lg {
     background-position: left center;
 }
 
+.hits {
+    width: auto;
+    color: #009874;
+    background-image: url(/static/image/hits.png);
+    background-repeat: no-repeat;
+    background-size: 1.2rem 1.2rem;
+    background-position: left center;
+}
+
 .scrap-disable {
     width: auto;
     color: #000000;
@@ -12517,4 +12526,23 @@ textarea.form-control-lg {
     50% {
         transform: scale(0.9);
     }
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+
+}
+
+a:hover {
+    text-decoration: none;
+
+}
+
+a:active {
+    text-decoration: none;
+
 }
