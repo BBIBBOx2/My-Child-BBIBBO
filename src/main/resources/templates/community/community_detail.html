@@ -118,7 +118,7 @@
             <a th:each="tag : ${postTags}" th:text="@{|#${tag.hashtag.name}|}"></a>
         </div>
 
-        <div th:if="${#lists.size(post.postImages) > 0}" class="content-area">
+        <div th:if="${#lists.size(postImages) > 0}" class="content-area">
             <div class="col-12">
                 <div class="board-content-add-img" th:each="imgPath : ${postImages}">
                     <img class="btn content-img float-start" th:src="@{${imgPath.image}}">
@@ -138,8 +138,9 @@
                 </a>
             </div>
             <ul class="content-info">
-                <li class="scrap" th:text="${post.scrapCount}"></li>
+                <li class="hits" th:text="${post.hits}"></li>
                 <li class="comment" th:text="${#lists.size(comments)}"></li>
+                <li class="scrap" th:text="${post.scrapCount}"></li>
             </ul>
         </div>
         <div style="clear:both;"></div>

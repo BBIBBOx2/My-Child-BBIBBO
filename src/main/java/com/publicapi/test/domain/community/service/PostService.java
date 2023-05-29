@@ -67,8 +67,10 @@ public class PostService {
     }
 
     public Post findPostById(Long postId) {
+        postRepository.updatePostHits(postId);
         Optional<Post> post = postRepository.findById(postId);
         if (post.isPresent()) {
+            System.out.println();
             return post.get();
         }
         throw new NotFoundException("게시물을 찾을 수 없습니다.");
@@ -77,16 +79,8 @@ public class PostService {
     public Page<Post> findByUserId(UserEntity user, int page) {
         Sort sort = Sort.by(Sort.Direction.DESC, "createDate");
         Pageable pageable = PageRequest.of(page, 10, sort);
-        Specification<Post> spec = searchByUserIdSpecification(user);
-        Page<Post> posts = postRepository.findAll(spec, pageable);
+        Page<Post> posts = postRepository.findByAuthorId(user.getId(), pageable);
         return posts;
-    }
-
-    private Specification<Post> searchByUserIdSpecification(UserEntity user) {
-        return (post, query, criteriaBuilder) -> {
-            Predicate predicateUser = criteriaBuilder.equal(post.get("author"), user);
-            return criteriaBuilder.and(predicateUser);
-        };
     }
 
     public Page<Post> findByScrapUserid(UserEntity user, int page) {
@@ -123,6 +117,10 @@ public class PostService {
         long id = post.getId();
 
         return id;
+    }
+
+    public void increaseHits(Long postId) {
+
     }
 
     public void scrap(Long userId, Long postId) {
