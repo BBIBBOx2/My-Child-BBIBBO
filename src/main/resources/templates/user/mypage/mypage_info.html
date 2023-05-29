@@ -45,11 +45,10 @@
                 <label for="inputRegion" class="col-sm-1 col-form-label">거주지</label>
                 <div class="col-sm-3">
                     <select id="inputRegion" name="inputRegion" class="form-select" style="margin-right: 10px; " aria-label="Default select example">
-                        <option selected th:text="${user.region.name}" hidden="hidden">시군구 선택</option>
                         <option th:each="region : ${regions}"
                                 th:value="${region.id}"
                                 th:text="${region.name}"
-                                th:selected="${region.id} == ${regionName}"></option>
+                                th:selected="${region.id} == ${user.region.id}"></option>
                     </select>
                 </div>
             </div>
@@ -57,7 +56,7 @@
                 <label for="inputBornYear" class="col-sm-1 col-form-label">아이 출생연도</label>
                 <div class="col-sm-3">
                     <select id="inputBornYear" name="inputBornYear" class="form-select" style="margin-right: 10px; " aria-label="Default select example">
-                        <option selected th:text="|${user.bornYear}년|" hidden="hidden">출생 연도 선택</option>
+                        <option selected th:text="|${user.bornYear} 년|" hidden="hidden">출생 연도 선택</option>
                     </select>
                 </div>
             </div>
@@ -100,12 +99,12 @@
             if (regionInput.val()) {
                 formData.append("region", regionInput.val());
             } else {
-                formData.append("region", regionInput.attr("placeholder"));
+                formData.append("region", regionInput.val());
             }
             if (bornYearInput.val()) {
                 formData.append("bornYear", bornYearInput.val());
             } else {
-                formData.append("bornYear", bornYearInput.attr("placeholder"));
+                formData.append("bornYear", bornYearInput.val());
             }
 
             const fileInput = document.getElementById("editFile");
