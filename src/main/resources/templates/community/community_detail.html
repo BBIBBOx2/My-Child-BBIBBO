@@ -146,9 +146,7 @@
 
         function kakao() {
             if (confirm("로그인이 필요한 페이지입니다.")) {
-                var key = [[${@environment.getProperty('kakao.key')}]];
-                location.href = "https://kauth.kakao.com/oauth/authorize?client_id=" + key
-                    + "&redirect_uri=http://52.2.5.154:8080/oauth/kakao&response_type=code&prompt=login";
+                location.href = "/login";
             }
         }
     </script>
@@ -171,7 +169,7 @@
                  src="/static/image/anonymous_profile.png">
 
             <a href="javascript:void(0)" class="btn btn-light delete float-end" style="height: 40px"
-               th:if="${post.author != null and post.author.id == user.id}"
+               th:if="${post.author != null and user != null and post.author.id == user.id}"
                th:data-uri="@{|/community/${board}/${post.id}/delete|}">
                 <span style="color:#7F7F7F">삭제</span>
             </a>
@@ -283,7 +281,7 @@
                                     <div class="mb-3" th:if="${comment.user != null}">
                                         <a href="javascript:void(0)" class="btn btn-white delete-comment float-end"
                                            style="height: 40px"
-                                           th:if="${comment.user != null and comment.user.id == user.id}"
+                                           th:if="${comment.user != null and user != null and comment.user.id == user.id}"
                                            th:data-uri="@{|/comments/${comment.id}/delete|}">
                                             <span style="color:#7F7F7F">삭제</span>
                                         </a>
