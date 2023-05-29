@@ -2,7 +2,9 @@ package com.publicapi.test.domain.community.service;
 
 import com.publicapi.test.domain.community.dto.PostRequest;
 import com.publicapi.test.domain.community.entity.Board;
+import com.publicapi.test.domain.community.entity.Hashtag;
 import com.publicapi.test.domain.community.entity.Post;
+import com.publicapi.test.domain.community.entity.PostTag;
 import com.publicapi.test.domain.community.exception.NotFoundException;
 import com.publicapi.test.domain.community.repository.BoardRepository;
 import com.publicapi.test.domain.community.repository.PostRepository;
@@ -15,7 +17,7 @@ import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -53,11 +55,7 @@ public class PostService {
             query.distinct(true);
 
             Predicate predicateBoard = criteriaBuilder.equal(post.get("board"), boardId);
-
-            Predicate predicateSearch = criteriaBuilder.or(
-                    criteriaBuilder.like(post.get("title"), "%" + search + "%"),
-                    criteriaBuilder.like(post.get("content"), "%" + search + "%")
-            );
+            Predicate predicateSearch = getSearchPredicate(search, post, criteriaBuilder);
 
             if (region == 0 || region == 1) {
                 return criteriaBuilder.and(predicateBoard, predicateSearch);
@@ -66,6 +64,20 @@ public class PostService {
             Predicate predicateDistinct = criteriaBuilder.equal(post.get("region"), region);
             return criteriaBuilder.and(predicateBoard, predicateSearch, predicateDistinct);
         };
+    }
+
+    private Predicate getSearchPredicate(String search, Root<Post> post, CriteriaBuilder criteriaBuilder) {
+        if (search.startsWith("#")) {
+            search = search.substring(1);
+            Join<Post, PostTag> postTagJoin = post.join("postTags", JoinType.INNER);
+            Join<PostTag, Hashtag> hashtagJoin = postTagJoin.join("hashtag", JoinType.INNER);
+            return criteriaBuilder.equal(hashtagJoin.get("name"), search);
+        }
+
+        return criteriaBuilder.or(
+                criteriaBuilder.like(post.get("title"), "%" + search + "%"),
+                criteriaBuilder.like(post.get("content"), "%" + search + "%")
+        );
     }
 
     public Post findPostById(Long postId) {
@@ -101,7 +113,7 @@ public class PostService {
         Board board = boardRepository.findById(postRequest.getBoardId())
                                      .orElseThrow(() -> new NotFoundException("해당 게시판을 찾지 못했습니다."));
         RegionEntity region = regionRepository.findById(postRequest.getRegionId())
-                                                .orElseThrow(() -> new NotFoundException("해당 지역을 찾지 못했습니다."));
+                                              .orElseThrow(() -> new NotFoundException("해당 지역을 찾지 못했습니다."));
         UserEntity user = userRepository.findByKakaoId(kakaoId)
                                         .orElseThrow(() -> new NotFoundException("해당 사용자를 찾을 수 없습니다."));
 
