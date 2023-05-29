@@ -58,6 +58,12 @@ public class UserController {
         return "redirect:/hospital";
     }
 
+    @GetMapping("/testUser")
+    public String testUser(HttpServletRequest request) {
+        userService.loginTestUser(request);
+        return "redirect:/hospital";
+    }
+
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         request.getSession().removeAttribute("kakaoId");
@@ -69,25 +75,24 @@ public class UserController {
     public String signupForm(HttpServletRequest request, Model model, @RequestParam(required = false) String regionName, @RequestParam(required = false) String bornYear) {
         model.addAttribute("userId", request.getSession().getAttribute("kakaoId")
                                             .toString());
-
         List<RegionEntity> regions = regionRepository.findAll();
         model.addAttribute("regions", regions);
         model.addAttribute("regionName", regionName);
-        return "redirect:/hospital";
+        return "user/signup";
     }
 
     @PostMapping("/register/{userId}")
     public String handleRegistrationForm(HttpServletRequest request,
                                          @RequestParam("name") String name,
                                          @RequestParam("nickname") String nickname,
-                                         @RequestParam("region") String region,
+                                         @RequestParam("region") String regionId,
                                          @RequestParam("bornYear") String bornYear,
                                          @RequestParam("imgFile") MultipartFile imgFile,
                                          @RequestParam("email") String email,
                                          Model model) {
         String userId = (String) request.getSession().getAttribute("kakaoId");
         String imageUrl = getImageUrl(imgFile);
-
+        RegionEntity region = regionRepository.findById(Long.parseLong(regionId)).get();
         userService.registerUser(userId, name, nickname, email, region, bornYear, imageUrl);
 
         return "hospital";
