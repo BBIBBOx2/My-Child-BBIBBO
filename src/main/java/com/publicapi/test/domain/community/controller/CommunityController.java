@@ -67,13 +67,19 @@ public class CommunityController {
 
     @GetMapping("{boardId}/{postId}")
     public String showPost(Model model,
+                           HttpServletRequest request,
                            @PathVariable Long boardId,
                            @PathVariable Long postId) {
+        String kakaoId = (String) request.getSession()
+                                         .getAttribute("kakaoId");
+        UserEntity user = userService.getLoginUser(kakaoId);
+
         Post post = postService.findPostById(postId);
         List<PostImage> postImages = postImageService.findPostImageByPostId(postId);
         List<Comment> comments = commentService.findAllByPostId(postId);
         List<PostTag> postTags = postTagService.findAllByPostId(postId);
 
+        model.addAttribute("user", user);
         model.addAttribute("board", boardId);
         model.addAttribute("post", post);
         model.addAttribute("postImages", postImages);
@@ -129,12 +135,41 @@ public class CommunityController {
     }
 
     @GetMapping("{boardId}/{postId}/scrap")
-    public String scrapPost(HttpServletRequest request,
-                            @PathVariable("boardId") Long boardId,
-                            @PathVariable("postId") Long postId) {
-        Long userId = 5L;
+    public ResponseEntity<String> scrapPost(HttpServletRequest request,
+                                            @PathVariable("postId") Long postId) {
+        String kakaoId = (String) request.getSession()
+                                         .getAttribute("kakaoId");
+        Long userId = userService.getLoginUser(kakaoId)
+                                 .getId();
+        Post post = postService.findPostById(postId);
+
+        if (userId.equals(post.getAuthor().getId())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                 .body("내가 작성한 글은 스크랩할 수 없습니다.");
+        }
+
         postService.scrap(userId, postId);
 
-        return String.format("redirect:/community/%d/%d", boardId, postId);
+        return ResponseEntity.ok()
+                             .body("스크랩했습니다.");
+    }
+
+    @GetMapping("{boardId}/{postId}/unscrap")
+    public ResponseEntity<String> unscrapPost(HttpServletRequest request,
+                                            @PathVariable("postId") Long postId) {
+        String kakaoId = (String) request.getSession()
+                                         .getAttribute("kakaoId");
+        Long userId = userService.getLoginUser(kakaoId)
+                                 .getId();
+        Post post = postService.findPostById(postId);
+
+        if (userId.equals(post.getAuthor().getId())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                 .body("내가 작성한 글은 스크랩할 수 없습니다.");
+        }
+
+        postService.unscrap(userId, postId);
+        return ResponseEntity.ok()
+                             .body("스크랩을 해제했습니다.");
     }
 }
