@@ -20,8 +20,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.*;
 
 @Service
@@ -132,10 +130,7 @@ public class PostService {
 
     private static LocalDateTime getLocalDateTime() {
         LocalDateTime localDateTime = LocalDateTime.now();
-        ZoneOffset zoneOffset = ZoneOffset.ofHours(9);
-        OffsetDateTime offsetDateTime = localDateTime.atOffset(zoneOffset);
-        localDateTime = offsetDateTime.toLocalDateTime();
-        return localDateTime;
+        return localDateTime.plusHours(9);
     }
 
     public void delete(Long postId) {
