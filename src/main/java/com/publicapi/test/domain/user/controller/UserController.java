@@ -111,9 +111,6 @@ public class UserController {
         if (profileImage != null) {
             profileImageUrl = imageUploadService.uploadImage(profileImage);
         }
-
-        userService.updateUser(kakaoId, username, profileImageUrl);
-
-        return "redirect:/mypage/profile";
+        return profileImageUrl;
     }
 }
