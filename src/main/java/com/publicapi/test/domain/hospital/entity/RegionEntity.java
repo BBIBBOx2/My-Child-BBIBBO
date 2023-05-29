@@ -18,4 +18,11 @@ public class RegionEntity {
 
     private String name;
 
+    @Override
+    public String toString() {
+        return "RegionEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

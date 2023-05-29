@@ -25,8 +25,8 @@
                 document.getElementById('page').value = 0;
                 document.getElementById('searchForm').submit();
             });
-            const btn_districtType = document.getElementById("inputDistrict");
-            btn_districtType.addEventListener('change', function () {
+            const btn_regionType = document.getElementById("inputRegion");
+            btn_regionType.addEventListener('change', function () {
                 document.getElementById('page').value = 0;
                 document.getElementById('searchForm').submit();
             });
@@ -51,11 +51,11 @@
                 <div class="mb-3">
                     <form id="searchForm" method="get" th:action="@{|/community/${board}|}">
                         <div style="display: flex; float:left; align-items: center;">
-                            <select class="form-select" id="inputDistrict" name="district" required
-                                    style="width:20%; margin-right: 10px;">
-                                <option th:selected="${districtType == 0}" value="0">전체</option>
-                                <option th:each="distinct : ${districts}" th:selected="${districtType == distinct.id}"
-                                        th:text="${distinct.name}" th:value="${distinct.id}">
+                            <select class="form-select" id="inputRegion" name="region" required
+                                    style="width:30%; margin-right: 10px;">
+                                <option th:if="${regionType == '0'}" th:selected="${regionType == '0'}" value="0" hidden="hidden">시군구 선택</option>
+                                <option th:each="region : ${regions}" th:selected="${regionType == region.id}"
+                                        th:text="${region.name}" th:value="${region.id}">
                                 </option>
                             </select>
                             <select class="form-select" id="inputSortType" name="sortType" style="width:20%;" required>
