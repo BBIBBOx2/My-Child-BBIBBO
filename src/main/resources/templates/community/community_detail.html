@@ -7,13 +7,6 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script th:inline="javascript" type="text/javascript">
-        document.querySelector('commentForm').addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                return false;
-            }
-        });
-
         $(document).ready(function () {
             $(".scrapPopup").click(function () {
                 if (confirm("스크랩 하시겠습니까?")) {
@@ -143,6 +136,13 @@
                 console.error(error);
             });
         }
+
+        document.querySelector('commentForm').addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                return false;
+            }
+        });
 
         function login() {
             if (confirm("로그인이 필요한 페이지입니다.")) {
