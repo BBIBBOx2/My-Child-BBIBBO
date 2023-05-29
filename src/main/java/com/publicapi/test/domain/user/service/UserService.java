@@ -55,7 +55,7 @@ public class UserService {
     }
 
     public void loginTestUser(HttpServletRequest request) {
-        String testId = "-1484452498";
+        String testId = "-1486491455";
         HttpSession session = request.getSession();
         session.setAttribute("kakaoId", testId);
     }
