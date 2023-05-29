@@ -79,7 +79,7 @@ public class UserService {
     public void updateUser(String kakaoId, String username, RegionEntity region, String bornYear, String profileImage) {
         UserEntity user = userRepository.findByKakaoId(kakaoId)
                                         .orElseThrow(() -> new NotFoundException("사용자를 찾지 못했습니다."));
-        bornYear=bornYear.substring(0, bornYear.length());
+        bornYear=bornYear.substring(0, bornYear.length()-2);
         Integer intYear = Integer.parseInt(bornYear);
         if (profileImage == null) {
             profileImage = user.getProfileImage();
