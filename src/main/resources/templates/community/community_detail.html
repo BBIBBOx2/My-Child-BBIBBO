@@ -107,6 +107,13 @@
             });
         }
 
+        function kakao() {
+            if (confirm("로그인이 필요합니다.")) {
+                var key = [[${@environment.getProperty('kakao.key')}]];
+                location.href = "https://kauth.kakao.com/oauth/authorize?client_id=" + key
+                    + "&redirect_uri=http://52.2.5.154:8080/oauth/kakao&response_type=code&prompt=login";
+            }
+        }
     </script>
 </head>
 <body style="background-color: #f8f9fa;">
@@ -161,13 +168,19 @@
 
             <div class="my-3" style="clear: both">
                 <div class="float-start">
-                    <a href="javascript:void(0)" class="unscrapPopup btn btn btn-scrap" type="button"
-                       th:data-uri="@{|/community/${board}/${post.id}/unscrap|}" th:if="${isAlreadyScrap}" }>
-                        <span class="scrap ps-4">스크랩</span>
-                    </a>
-                    <a href="javascript:void(0)" class="scrapPopup btn btn btn-light" type="button"
-                       th:data-uri="@{|/community/${board}/${post.id}/scrap|}" th:unless="${isAlreadyScrap}" }>
-                        <span class="scrap-disable ps-4" }>스크랩</span>
+                    <div th:if="${session.kakaoId}">
+                        <a href="javascript:void(0)" class="unscrapPopup btn btn btn-scrap" type="button"
+                           th:data-uri="@{|/community/${board}/${post.id}/unscrap|}" th:if="${isAlreadyScrap}">
+                            <span class="scrap ps-4">스크랩</span>
+                        </a>
+                        <a href="javascript:void(0)" class="scrapPopup btn btn btn-light" type="button"
+                           th:data-uri="@{|/community/${board}/${post.id}/scrap|}" th:unless="${isAlreadyScrap}">
+                            <span class="scrap-disable ps-4">스크랩</span>
+                        </a>
+                    </div>
+                    <a class="btn btn btn-light" type="button"
+                       th:unless="${session.kakaoId}" onclick="kakao()">
+                        <span class="scrap-disable ps-4">스크랩</span>
                     </a>
                 </div>
                 <ul class="content-info">
@@ -224,7 +237,8 @@
                             <div>
                                 <div class="ms-2 me-auto">
                                     <div class="mb-3" th:if="${comment.user != null}">
-                                        <img class="img-profile-comment float-start me-3" src="/static/image/anonymous_profile.png"
+                                        <img class="img-profile-comment float-start me-3"
+                                             src="/static/image/anonymous_profile.png"
                                              alt="익명의 프로필 이미지">
                                         <div>
                                             <span class="fw-bolder content-nickname-writer"
