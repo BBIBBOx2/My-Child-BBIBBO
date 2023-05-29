@@ -101,11 +101,14 @@ public class UserController {
     @PostMapping("/user/update")
     public String updateUser(HttpServletRequest request,
                            @RequestPart(name = "username") String username,
-                           @RequestPart(name = "image", required = false) MultipartFile profileImage) {
+                             @RequestPart(name = "region") String regionId,
+                             @RequestPart(name = "bornYear") String bornYear,
+                             @RequestPart(name = "image", required = false) MultipartFile profileImage) {
         String kakaoId = (String) request.getSession().getAttribute("kakaoId");
         String profileImageUrl = getImageUrl(profileImage);
+        RegionEntity region = regionRepository.findById(Long.parseLong(regionId)).get();
 
-        userService.updateUser(kakaoId, username, profileImageUrl);
+        userService.updateUser(kakaoId, username, region, bornYear, profileImageUrl);
 
         return "redirect:/mypage/profile";
     }

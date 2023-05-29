@@ -72,14 +72,11 @@ public class UserService {
 
     }
 
-    public void updateUser(UserInfo userInfo) {
-        Optional<UserEntity> user = userRepository.findByEmail(userInfo.getEmail());
-        userMapper.update(user.get(), userInfo);
-    }
-
-    public void updateUser(String kakaoId, String username, String profileImage) {
+    public void updateUser(String kakaoId, String username, RegionEntity region, String bornYear, String profileImage) {
         UserEntity user = userRepository.findByKakaoId(kakaoId)
                                         .orElseThrow(() -> new NotFoundException("사용자를 찾지 못했습니다."));
+        bornYear=bornYear.substring(0, bornYear.length());
+        Integer intYear = Integer.parseInt(bornYear);
         if (profileImage == null) {
             profileImage = user.getProfileImage();
         }
@@ -87,6 +84,8 @@ public class UserService {
                                     .username(username)
                                     .profileImage(profileImage)
                                     .name(user.getName())
+                                    .region(region)
+                                    .bornYear(intYear)
                                     .email(user.getEmail())
                                     .build();
 
