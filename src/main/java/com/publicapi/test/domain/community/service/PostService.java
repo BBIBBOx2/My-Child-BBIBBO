@@ -129,6 +129,10 @@ public class PostService {
         return localDateTime;
     }
 
+    public void delete(Long postId) {
+        postRepository.deleteById(postId);
+    }
+
     public void scrap(Long userId, Long postId) {
         Post post = postRepository.findById(postId)
                                   .orElseThrow(() -> new NotFoundException("해당 게시물을 찾을 수 없습니다."));

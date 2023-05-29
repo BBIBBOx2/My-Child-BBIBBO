@@ -24,7 +24,6 @@
                             location.reload();
                         }
                     });
-
                 }
             });
 
@@ -44,14 +43,26 @@
                             location.reload();
                         }
                     });
-
                 }
             });
 
             $(".delete").click(function () {
                 if (confirm("정말로 삭제하시겠습니까?")) {
                     var uri = $(this).attr("data-uri");
-                    location.href = uri;
+                    $.ajax({
+                        url: uri,
+                        type: "GET",
+                        success: function (response, status, xhr) {
+                            var location = xhr.getResponseHeader('location');
+                            alert("삭제했습니다.");
+                            window.location.href = location;
+                        },
+                        error: function (xhr, status, error) {
+                            var errorMessage = xhr.responseText;
+                            alert(errorMessage);
+                            location.reload();
+                        }
+                    });
                 }
             });
 
@@ -132,6 +143,13 @@
             <img class="img-profile-content float-start me-3"
                  th:if="${post.isAnonymous != true and post.author.profileImage == null}"
                  src="/static/image/anonymous_profile.png">
+
+            <a href="javascript:void(0)" class="btn btn-light delete float-end" style="height: 40px"
+               th:if="${post.author != null and isAuthor}"
+               th:data-uri="@{|/community/${board}/${post.id}/delete|}">
+                <span style="color:#7F7F7F">삭제</span>
+            </a>
+
             <div class="ms-5" th:if="${post.author != null}">
                 <p class="fw-bolder mb-0 content-nickname" th:if="${post.isAnonymous == true}">익명</p>
                 <p class="fw-bolder mb-0 content-nickname" th:unless="${post.isAnonymous == true}"
@@ -211,7 +229,8 @@
                     </div>
                 </form>
 
-                <form th:unless="${session.kakaoId}" th:action="@{|/comments/create/${board}/${post.id}|}" id="commentForm">
+                <form th:unless="${session.kakaoId}" th:action="@{|/comments/create/${board}/${post.id}|}"
+                      id="commentForm">
                     <fieldset disabled>
                         <!--                <div th:replace="form_errors :: formErrorsFragment"></div>-->
                         <div class="input-group mb-4">

@@ -6,7 +6,7 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://unpkg.com/@yaireo/tagify"></script>
-    <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css"/>
     <meta name="_csrf" th:content="${_csrf?.token}">
     <meta name="_csrf_header" th:content="${_csrf?.headerName}">
     <title>Community Form</title>
@@ -14,176 +14,178 @@
 <body style="background-color: #f8f9fa;">
 <div layout:fragment="content">
     <div class="container my-3" style="width: 80%">
-    <h5 class="my-3 border-bottom pb-2">글 등록</h5>
-    <form th:action="@{/post/{boardId}/create}" method="post">
-<!--        <div th:replace="form_errors :: formErrorsFragment"></div>-->
-        <div class="row mb-3">
-            <div class="col-sm-2">
-                <select class="form-select" id="inputBoard">
-                    <option selected value=0>게시판 선택</option>
-                    <option th:each="board : ${boards}"
-                            th:selected="${boardId == board.id}"
-                            th:value="${board.id}"
-                            th:text="${board.boardName}"></option>
-                </select>
-            </div>
+        <h5 class="my-3 border-bottom pb-2">글 등록</h5>
+        <form th:action="@{/post/{boardId}/create}" method="post">
+            <div class="row mb-3">
+                <div class="col-sm-2">
+                    <select class="form-select" id="inputBoard">
+                        <option selected value=0>게시판 선택</option>
+                        <option th:each="board : ${boards}"
+                                th:selected="${boardId == board.id}"
+                                th:value="${board.id}"
+                                th:text="${board.boardName}"></option>
+                    </select>
+                </div>
 
-            <div class="col-sm-2">
-                <select class="form-select" id="inputRegion">
-                    <option th:each="region : ${regions}"
-                            th:selected="${userRegion == region.id}"
-                            th:value="${region.id}"
-                            th:text="${region.name}"></option>
-                </select>
+                <div class="col-sm-2">
+                    <select class="form-select" id="inputRegion">
+                        <option th:each="region : ${regions}"
+                                th:selected="${userRegion == region.id}"
+                                th:value="${region.id}"
+                                th:text="${region.name}"></option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="row mb-3">
-            <label id="subject" class="form-label">제목</label>
-            <input id="subjectValue" type="text" name="subject" class="form-control" style="margin-left:12px"></div>
-        <div class="row mb-3">
-            <label id="content" class="form-label">내용</label>
-            <textarea id="contentValue" name="content" class="form-control" rows="5" style="margin-left:12px"></textarea>
-        </div>
-        <div class="row mb-3" style="margin-left:0px">
-            <input id="tagValues" name="tag"  placeholder='엔터로 해시태그를 추가해주세요'>
-        </div>
-        <div class="row mb-3">
-            <label class="form-label">이미지 추가</label>
-            <div class="col-12">
-                <input class="form-control d-none" type="file" accept="image/*" id="formFileMultiple"
-                       onchange="addImg()" multiple>
-                <label for="formFileMultiple" class="btn new-img">
-                    <img src="/static/image/new_img.png">
-                </label>
-                <div id="board-content-add-img"></div>
+            <div class="row mb-3">
+                <label id="subject" class="form-label">제목</label>
+                <input id="subjectValue" type="text" name="subject" class="form-control" style="margin-left:12px"></div>
+            <div class="row mb-3">
+                <label id="content" class="form-label">내용</label>
+                <textarea id="contentValue" name="content" class="form-control" rows="5"
+                          style="margin-left:12px"></textarea>
             </div>
-        </div>
-        <div class="row mb-3 float-end">
-            <div class="w-auto text-sm-center" style="padding: 6px 6px">
-                <input class="form-check-input" type="checkbox" id="check_anonymous" value=false style="margin-top: 0.4rem">
-                <label class="form-check-label" for="check_anonymous">익명</label>
+            <div class="row mb-3" style="margin-left:0px">
+                <input id="tagValues" name="tag" placeholder='엔터로 해시태그를 추가해주세요'>
             </div>
-            <div class="w-auto">
-                <button type="button" class="btn btn-success" id="btn-submit" onclick="uploadContent()">저장하기</button>
+            <div class="row mb-3">
+                <label class="form-label">이미지 추가</label>
+                <div class="col-12">
+                    <input class="form-control d-none" type="file" accept="image/*" id="formFileMultiple"
+                           onchange="addImg()" multiple>
+                    <label for="formFileMultiple" class="btn new-img">
+                        <img src="/static/image/new_img.png">
+                    </label>
+                    <div id="board-content-add-img"></div>
+                </div>
             </div>
-        </div>
-    </form>
+            <div class="row mb-3 float-end">
+                <div class="w-auto text-sm-center" style="padding: 6px 6px">
+                    <input class="form-check-input" type="checkbox" id="check_anonymous" value=false
+                           style="margin-top: 0.4rem">
+                    <label class="form-check-label" for="check_anonymous">익명</label>
+                </div>
+                <div class="w-auto">
+                    <button type="button" class="btn btn-success" id="btn-submit" onclick="uploadContent()">저장하기
+                    </button>
+                </div>
+            </div>
+        </form>
 
-    <script src="/node_modules/@yaireo/tagify/dist/tagify.min.js"></script>
-    <script src="/static/js/community/hashtag.js"></script>
-    <script type="text/javascript">
-        var inputFileList = new Array();
+        <script src="/node_modules/@yaireo/tagify/dist/tagify.min.js"></script>
+        <script src="/static/js/community/hashtag.js"></script>
+        <script type="text/javascript">
+            var inputFileList = new Array();
 
-        function addImg() {
-            const fileInput = document.getElementById("formFileMultiple");
-            const selectedFile = fileInput.files;
+            function addImg() {
+                const fileInput = document.getElementById("formFileMultiple");
+                const selectedFile = fileInput.files;
 
-            if ((inputFileList.length + selectedFile.length) > 5) {
-                alert("이미지는 최대 5개까지 업로드 가능합니다.");
-                $('input[name=images]').val();
-                return;
-            }
+                if ((inputFileList.length + selectedFile.length) > 5) {
+                    alert("이미지는 최대 5개까지 업로드 가능합니다.");
+                    $('input[name=images]').val();
+                    return;
+                }
 
-            console.log("addimg-selectedFile : ", selectedFile);
-            for (let i = 0; i < selectedFile.length; i++) {
-                let div = document.createElement('div');
-                div.className = "btn content-img"
-                div.id = (selectedFile[i].name).replace(/-/g, "_") + "-" + selectedFile[i].lastModified;
-                div.onclick = function () {
-                    for (let i = 0; i < inputFileList.length; i++) {
-                        var fileData = div.id.split('-');
-                        console.log("div.id.split : ", div.id);
-                        console.log("fileData : ", fileData);
-                        if (inputFileList[i].name.replace(/-/g, "_") === fileData[0] && inputFileList[i].lastModified == fileData[1]) {
-                            inputFileList.splice(i, 1);
-                            console.log("delete img num : ", i);
-                            break;
+                console.log("addimg-selectedFile : ", selectedFile);
+                for (let i = 0; i < selectedFile.length; i++) {
+                    let div = document.createElement('div');
+                    div.className = "btn content-img"
+                    div.id = (selectedFile[i].name).replace(/-/g, "_") + "-" + selectedFile[i].lastModified;
+                    div.onclick = function () {
+                        for (let i = 0; i < inputFileList.length; i++) {
+                            var fileData = div.id.split('-');
+                            console.log("div.id.split : ", div.id);
+                            console.log("fileData : ", fileData);
+                            if (inputFileList[i].name.replace(/-/g, "_") === fileData[0] && inputFileList[i].lastModified == fileData[1]) {
+                                inputFileList.splice(i, 1);
+                                console.log("delete img num : ", i);
+                                break;
+                            }
                         }
+                        document.getElementById('board-content-add-img').removeChild(div);
+                        console.log("delete after inputFileList : ", inputFileList);
                     }
-                    document.getElementById('board-content-add-img').removeChild(div);
-                    console.log("delete after inputFileList : ", inputFileList);
-                }
 
-                let child_div = document.createElement('div');
-                child_div.className = "content-img-background";
-                div.appendChild(child_div);
+                    let child_div = document.createElement('div');
+                    child_div.className = "content-img-background";
+                    div.appendChild(child_div);
 
-                let p = document.createElement('p');
-                p.className = "content-img-del";
-                p.appendChild(document.createTextNode("이미지 삭제"));
-                child_div.appendChild(p);
+                    let p = document.createElement('p');
+                    p.className = "content-img-del";
+                    p.appendChild(document.createTextNode("이미지 삭제"));
+                    child_div.appendChild(p);
 
-                const fileReader = new FileReader();
-                fileReader.onload = e => {
-                    div.style = "background-image:url(" + e.target.result + ");"
-                    document.getElementById('board-content-add-img').appendChild(div);
-                }
-
-                fileReader.readAsDataURL(selectedFile[i]);
-                inputFileList.push(selectedFile[i]);
-                console.log("add img : ", selectedFile[i]);
-            }
-
-            fileInput.value = "";
-        }
-
-        function uploadContent() {
-            let formData = new FormData();
-
-            let bordId = $('#inputBoard').val();
-
-            let hashtagData = $('#tagValues').val();
-            let hashtags;
-            if (hashtagData.length > 1) {
-                hashtags = JSON.parse(hashtagData).map(item => item.value);
-            }
-
-            let contentData = {
-                "title"    : $('#subjectValue').val(),
-                "content"    : $('#contentValue').val(),
-                "boardId"    : bordId,
-                "regionId" : $('#inputRegion').val(),
-                "hashtags" : hashtags,
-                "isAnonymous" : document.getElementById('check_anonymous').checked
-            }
-
-            formData.append("contentData", new Blob([JSON.stringify(contentData)], {type: "application/json"}));
-
-            for (let i = 0; i < inputFileList.length; i++) {
-                formData.append("images", inputFileList[i]);
-            }
-
-            $.ajax({
-                url        : `/community/${bordId}/write`,
-                type       : 'POST',
-                data       : formData,
-                enctype    : "multipart/form-data",
-                processData: false,
-                contentType: false,
-                cache      : false,
-                success    : function (data, textStatus, xhr) {
-                    var redirectUrl = xhr.getResponseHeader("Location");
-                    if (redirectUrl) {
-                        window.location.replace(redirectUrl);
+                    const fileReader = new FileReader();
+                    fileReader.onload = e => {
+                        div.style = "background-image:url(" + e.target.result + ");"
+                        document.getElementById('board-content-add-img').appendChild(div);
                     }
-                    // if (data === "boardIdIsNull") {
-                    //     alert("게시판을 입력해주세요.");
-                    //     return;
-                    // } else if (data === "subjectIsNull") {
-                    //     alert("제목을 입력해주세요.");
-                    //     return;
-                    // } else if (data === "contentIsNull") {
-                    //     alert("내용을 입력해주세요.");
-                    //     return;
-                    // }
-                },
-                error      : function (error) {
-                    alert("code : " + error.status + "\n" + "message : " + error.responseText + "\n" + "error : " + error);
+
+                    fileReader.readAsDataURL(selectedFile[i]);
+                    inputFileList.push(selectedFile[i]);
+                    console.log("add img : ", selectedFile[i]);
                 }
-            });
-        }
-    </script>
-</div>
+
+                fileInput.value = "";
+            }
+
+            function uploadContent() {
+                let formData = new FormData();
+
+                let bordId = $('#inputBoard').val();
+
+                let hashtagData = $('#tagValues').val();
+                let hashtags;
+                if (hashtagData.length > 1) {
+                    hashtags = JSON.parse(hashtagData).map(item => item.value);
+                }
+
+                let contentData = {
+                    "title": $('#subjectValue').val(),
+                    "content": $('#contentValue').val(),
+                    "boardId": bordId,
+                    "regionId": $('#inputRegion').val(),
+                    "hashtags": hashtags,
+                    "isAnonymous": document.getElementById('check_anonymous').checked
+                }
+
+                formData.append("contentData", new Blob([JSON.stringify(contentData)], {type: "application/json"}));
+
+                for (let i = 0; i < inputFileList.length; i++) {
+                    formData.append("images", inputFileList[i]);
+                }
+
+                $.ajax({
+                    url: `/community/${bordId}/write`,
+                    type: 'POST',
+                    data: formData,
+                    enctype: "multipart/form-data",
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    success: function (data, textStatus, xhr) {
+                        var redirectUrl = xhr.getResponseHeader("Location");
+                        if (redirectUrl) {
+                            window.location.replace(redirectUrl);
+                        }
+                        // if (data === "boardIdIsNull") {
+                        //     alert("게시판을 입력해주세요.");
+                        //     return;
+                        // } else if (data === "subjectIsNull") {
+                        //     alert("제목을 입력해주세요.");
+                        //     return;
+                        // } else if (data === "contentIsNull") {
+                        //     alert("내용을 입력해주세요.");
+                        //     return;
+                        // }
+                    },
+                    error: function (error) {
+                        alert("code : " + error.status + "\n" + "message : " + error.responseText + "\n" + "error : " + error);
+                    }
+                });
+            }
+        </script>
+    </div>
 </div>
 </body>
 </html>
