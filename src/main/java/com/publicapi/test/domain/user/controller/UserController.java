@@ -43,10 +43,10 @@ public class UserController {
         Boolean isUserRegister = userService.isUserRegister(kakaoId);
         if (isUserRegister) {
             userService.loginUser(kakaoId, request);
-            return "redirect:/hospital";
+            return "hospital";
         } else {
             userService.loginUser(kakaoId, request);
-            return "redirect:/user/signup";
+            return "user/signup";
         }
     }
 
@@ -62,7 +62,7 @@ public class UserController {
     public String logout(HttpServletRequest request) {
         request.getSession().removeAttribute("kakaoId");
         request.getSession().invalidate();
-        return "redirect:/hospital";
+        return "hospital";
     }
 
     @GetMapping("/user/signup")
@@ -90,7 +90,7 @@ public class UserController {
 
         userService.registerUser(userId, name, nickname, email, region, bornYear, imageUrl);
 
-        return "redirect:/hospital";
+        return "hospital";
     }
 
     @PostMapping("/user/update")
