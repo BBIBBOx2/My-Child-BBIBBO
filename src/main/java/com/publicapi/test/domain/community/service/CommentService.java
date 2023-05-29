@@ -3,10 +3,12 @@ package com.publicapi.test.domain.community.service;
 import com.publicapi.test.domain.community.dto.CommentRequest;
 import com.publicapi.test.domain.community.entity.Comment;
 import com.publicapi.test.domain.community.entity.Post;
+import com.publicapi.test.domain.community.exception.NotFoundException;
 import com.publicapi.test.domain.community.repository.CommentRepository;
 import com.publicapi.test.domain.user.dto.AlarmResponse;
 import com.publicapi.test.domain.user.dto.AlarmResponseMapper;
 import com.publicapi.test.domain.user.entity.UserEntity;
+import com.publicapi.test.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +20,8 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
@@ -26,16 +30,28 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final AlarmResponseMapper alarmResponseMapper;
+    private final UserRepository userRepository;
 
-    public void save(Long userId, Long postId, CommentRequest commentRequest) {
+    public void save(String kakaoId, Long postId, CommentRequest commentRequest) {
+        UserEntity user = userRepository.findByKakaoId(kakaoId)
+                                        .orElseThrow(() -> new NotFoundException("해당 사용자를 찾을 수 없습니다."));
+
         Comment comment = new Comment();
-        comment.setUserId(userId);
+        comment.setUserId(user.getId());
         comment.setPostId(postId);
         comment.setContent(commentRequest.getContent());
         comment.setIsAnonymous(commentRequest.getIsAnonymous());
-        comment.setCreateDate(LocalDateTime.now());
+        comment.setCreateDate(getLocalDateTime());
         commentRepository.save(comment);
         commentRepository.flush();
+    }
+
+    private static LocalDateTime getLocalDateTime() {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        ZoneOffset zoneOffset = ZoneOffset.ofHours(9);
+        OffsetDateTime offsetDateTime = localDateTime.atOffset(zoneOffset);
+        localDateTime = offsetDateTime.toLocalDateTime();
+        return localDateTime;
     }
 
     public List<Comment> findAllByPostId(Long postId) {
