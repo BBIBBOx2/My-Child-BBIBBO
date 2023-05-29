@@ -105,8 +105,8 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="region">거주지</label>
-                            <select id="region" name="region" class="form-select" style="margin-right: 10px; " aria-label="Default select example">
+                            <label for="regionId">거주지</label>
+                            <select id="regionId" name="regionId" class="form-select" style="margin-right: 10px; " aria-label="Default select example">
                                 <option selected th:unless="${regionName}" hidden="hidden">시군구 선택</option>
                                 <option th:each="region : ${regions}"
                                         th:value="${region.id}"

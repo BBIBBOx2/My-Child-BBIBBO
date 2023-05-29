@@ -92,7 +92,7 @@ public class CommunityController {
         List<Board> boards = boardService.findAll();
         List<RegionEntity> regions = regionRepository.findAll();
 
-        model.addAttribute("userRegion", Long.parseLong(user.getRegion()));
+        model.addAttribute("userRegion", user.getRegion().getId());
         model.addAttribute("boardId", boardId);
         model.addAttribute("boards", boards);
         model.addAttribute("regions", regions);

@@ -1,6 +1,7 @@
 package com.publicapi.test.domain.user.entity;
 
 import com.publicapi.test.domain.community.entity.Post;
+import com.publicapi.test.domain.hospital.entity.RegionEntity;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +30,6 @@ public class UserEntity {
 
     private String username;
 
-    private String region;
     private Integer bornYear;
 
     private String profileImage;
@@ -37,8 +37,11 @@ public class UserEntity {
     @ManyToMany(mappedBy = "scrap", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<Post> scrap;
 
+    @ManyToOne
+    private RegionEntity region;
+
     @Builder
-    public UserEntity(Long id, String email, String kakaoId, String name, String username, String region, Integer bornYear, String profileImage) {
+    public UserEntity(Long id, String email, String kakaoId, String name, String username, RegionEntity region, Integer bornYear, String profileImage) {
         this.id = id;
         this.email = email;
         this.username = username;

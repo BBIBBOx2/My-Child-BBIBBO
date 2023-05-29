@@ -1,6 +1,7 @@
 package com.publicapi.test.domain.user.service;
 
 import com.publicapi.test.domain.community.exception.NotFoundException;
+import com.publicapi.test.domain.hospital.entity.RegionEntity;
 import com.publicapi.test.domain.user.dto.UserInfo;
 import com.publicapi.test.domain.user.dto.UserMapper;
 import com.publicapi.test.domain.user.entity.UserEntity;
@@ -49,7 +50,13 @@ public class UserService {
         session.setAttribute("kakaoId", kakaoId);
     }
 
-    public void registerUser(String userId, String name, String nickname, String email, String region, String bornYear, String imageUrl) {
+    public void loginTestUser(HttpServletRequest request) {
+        String testId = "-1484452499";
+        HttpSession session = request.getSession();
+        session.setAttribute("kakaoId", testId);
+    }
+
+    public void registerUser(String userId, String name, String nickname, String email, RegionEntity region, String bornYear, String imageUrl) {
         bornYear=bornYear.substring(0, bornYear.length());
         Integer intYear = Integer.parseInt(bornYear);
         UserEntity user=UserEntity.builder()
