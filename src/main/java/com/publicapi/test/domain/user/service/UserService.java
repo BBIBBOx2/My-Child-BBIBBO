@@ -49,13 +49,17 @@ public class UserService {
         session.setAttribute("kakaoId", kakaoId);
     }
 
-
-    public void registerUser(String userId, String name, String nickname, String email, MultipartFile imgFile) {
+    public void registerUser(String userId, String name, String nickname, String email, String region, String bornYear, String imageUrl) {
+        bornYear=bornYear.substring(0, bornYear.length());
+        Integer intYear = Integer.parseInt(bornYear);
         UserEntity user=UserEntity.builder()
                 .kakaoId(userId)
                 .email(email)
                 .name(name)
+                .region(region)
+                .bornYear(intYear)
                 .username(nickname)
+                .profileImage(imageUrl)
                 .build();
         userRepository.save(user);
 

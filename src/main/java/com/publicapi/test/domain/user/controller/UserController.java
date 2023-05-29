@@ -1,5 +1,7 @@
 package com.publicapi.test.domain.user.controller;
 
+import com.publicapi.test.domain.hospital.entity.RegionEntity;
+import com.publicapi.test.domain.hospital.repository.RegionRepository;
 import com.publicapi.test.domain.oauth.service.OauthService;
 import com.publicapi.test.domain.user.entity.UserEntity;
 import com.publicapi.test.domain.user.service.UserService;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -25,6 +27,7 @@ public class UserController {
     private final OauthService oauthService;
     private final UserService userService;
     private final ImageUploadService imageUploadService;
+    private final RegionRepository regionRepository;
 
 
     @GetMapping("/login")
@@ -59,39 +62,53 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    public String loginUser(HttpSession session) {
-        session.removeAttribute("kakaoId");
+    public String logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("kakaoId");
+        request.getSession().invalidate();
         return "redirect:/hospital";
     }
 
     @GetMapping("/user/signup")
-    public String signupForm(HttpSession session, Model model) {
-        model.addAttribute("userId", session.getAttribute("kakaoId")
+    public String signupForm(HttpServletRequest request, Model model, @RequestParam(required = false) String regionName, @RequestParam(required = false) String bornYear) {
+        model.addAttribute("userId", request.getSession().getAttribute("kakaoId")
                                             .toString());
+
+        List<RegionEntity> regions = regionRepository.findAll();
+        model.addAttribute("regions", regions);
+        model.addAttribute("regionName", regionName);
         return "user/signup";
     }
 
     @PostMapping("/register/{userId}")
-    public String handleRegistrationForm(HttpSession session,
+    public String handleRegistrationForm(HttpServletRequest request,
                                          @RequestParam("name") String name,
                                          @RequestParam("nickname") String nickname,
+                                         @RequestParam("region") String region,
+                                         @RequestParam("bornYear") String bornYear,
                                          @RequestParam("imgFile") MultipartFile imgFile,
                                          @RequestParam("email") String email,
                                          Model model) {
-        String userId = (String) session.getAttribute("kakaoId");
-        userService.registerUser(userId, name, nickname, email, imgFile);
-        log.info(userId);
-        log.info(name);
-        log.info(nickname);
+        String userId = (String) request.getSession().getAttribute("kakaoId");
+        String imageUrl = getImageUrl(imgFile);
+
+        userService.registerUser(userId, name, nickname, email, region, bornYear, imageUrl);
 
         return "redirect:/hospital";
     }
 
     @PostMapping("/user/update")
-    public String updateUser(HttpSession session,
+    public String updateUser(HttpServletRequest request,
                            @RequestPart(name = "username") String username,
                            @RequestPart(name = "image", required = false) MultipartFile profileImage) {
-        String kakaoId = (String) session.getAttribute("kakaoId");
+        String kakaoId = (String) request.getSession().getAttribute("kakaoId");
+        String profileImageUrl = getImageUrl(profileImage);
+
+        userService.updateUser(kakaoId, username, profileImageUrl);
+
+        return "redirect:/mypage/profile";
+    }
+
+    private String getImageUrl(MultipartFile profileImage) {
         String profileImageUrl = null;
 
         if (profileImage != null) {

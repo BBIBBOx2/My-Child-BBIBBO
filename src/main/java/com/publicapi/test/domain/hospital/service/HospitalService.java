@@ -176,4 +176,82 @@ public class HospitalService {
 
         return hospitalList;
     }
+
+    public int[] getIsOpening(int day, int currentTime, List<HospitalEntity> hospitalList) {
+        int[] isOpeningArray = new int[hospitalList.size()];
+         if (day == 0) {
+            for (int i = 0; i < hospitalList.size(); i++) {
+                HospitalEntity hospital = hospitalList.get(i);
+                if (parseInt(hospital.getSunStart()) <= currentTime && currentTime <= parseInt(hospital.getSunClose())) {
+                    isOpeningArray[i] = 1;
+                } else {
+                    isOpeningArray[i] = 0;
+                }
+            }
+        }  else if (day == 1) {
+             for (int i = 0; i < hospitalList.size(); i++) {
+                 HospitalEntity hospital = hospitalList.get(i);
+                 if (parseInt(hospital.getMonStart()) <= currentTime && currentTime <= parseInt(hospital.getMonClose())) {
+                     isOpeningArray[i] = 1;
+                 } else {
+                     isOpeningArray[i] = 0;
+                 }
+             }
+         }  else if (day == 2){
+             for (int i = 0; i < hospitalList.size(); i++) {
+                 HospitalEntity hospital = hospitalList.get(i);
+                 if (parseInt(hospital.getTueStart()) <= currentTime && currentTime <= parseInt(hospital.getTueClose())) {
+                     isOpeningArray[i] = 1;
+                 } else {
+                     isOpeningArray[i] = 0;
+                 }
+             }
+         }else if (day == 3){
+             for (int i = 0; i < hospitalList.size(); i++) {
+                 HospitalEntity hospital = hospitalList.get(i);
+                 if (parseInt(hospital.getWedStart()) <= currentTime && currentTime <= parseInt(hospital.getWedClose())) {
+                     isOpeningArray[i] = 1;
+                 } else {
+                     isOpeningArray[i] = 0;
+                 }
+             }
+         } else if (day == 4) {
+             for (int i = 0; i < hospitalList.size(); i++) {
+                 HospitalEntity hospital = hospitalList.get(i);
+                 if (parseInt(hospital.getThurStart()) <= currentTime && currentTime <= parseInt(hospital.getThurClose())) {
+                     isOpeningArray[i] = 1;
+                 } else {
+                     isOpeningArray[i] = 0;
+                 }
+             }
+         } else if (day == 5) {
+             for (int i = 0; i < hospitalList.size(); i++) {
+                 HospitalEntity hospital = hospitalList.get(i);
+                 if (parseInt(hospital.getFriStart()) <= currentTime && currentTime <= parseInt(hospital.getFriClose())) {
+                     isOpeningArray[i] = 1;
+                 } else {
+                     isOpeningArray[i] = 0;
+                 }
+             }
+         } else if (day == 6) {
+             for (int i = 0; i < hospitalList.size(); i++) {
+                 HospitalEntity hospital = hospitalList.get(i);
+                 if (parseInt(hospital.getSatStart()) <= currentTime && currentTime <= parseInt(hospital.getSatClose())) {
+                     isOpeningArray[i] = 1;
+                 } else {
+                     isOpeningArray[i] = 0;
+                 }
+             }
+         }
+        return isOpeningArray;
+    }
+
+
+        public static int parseInt(String str) {
+            try {
+                return Integer.parseInt(str);
+            } catch (NumberFormatException e) {
+                return 0;
+            }
+        }
 }
