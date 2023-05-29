@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -72,14 +73,22 @@ public class CommunityController {
                            @PathVariable Long postId) {
         String kakaoId = (String) request.getSession()
                                          .getAttribute("kakaoId");
-        UserEntity user = userService.getLoginUser(kakaoId);
+        Optional<UserEntity> userEntity = userService.getLoginOptionalUser(kakaoId);
+        UserEntity user = null;
 
         Post post = postService.findPostById(postId);
         List<PostImage> postImages = postImageService.findPostImageByPostId(postId);
         List<Comment> comments = commentService.findAllByPostId(postId);
         List<PostTag> postTags = postTagService.findAllByPostId(postId);
 
+        boolean isAlreadyScrap = false;
+        if (userEntity.isPresent() && post.getScrap().contains(userEntity.get().getId())) {
+            isAlreadyScrap = true;
+            user = userEntity.get();
+        }
+
         model.addAttribute("user", user);
+        model.addAttribute("isAlreadyScrap", isAlreadyScrap);
         model.addAttribute("board", boardId);
         model.addAttribute("post", post);
         model.addAttribute("postImages", postImages);
