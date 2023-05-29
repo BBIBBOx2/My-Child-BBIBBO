@@ -48,7 +48,7 @@
                             <span th:if="${session.kakaoId}" th:text="마이페이지" class="small">마이페이지</span>
                         </span>
       </button>
-      <button type="button" th:unless="${session.kakaoId}" onclick="kakao(this)" class="btn btn-success rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal">
+      <button type="button" th:unless="${session.kakaoId}" th:onclick="|location.href='@{/login}'|" class="btn btn-success rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal">
                         <span class="d-flex align-items-center">
                             <i class="bi-person-circle me-2"></i>
                           <span th:unless="${session.kakaoId}" class="small">SIGN IN</span>
