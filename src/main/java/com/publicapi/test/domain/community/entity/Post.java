@@ -1,5 +1,6 @@
 package com.publicapi.test.domain.community.entity;
 
+import com.publicapi.test.domain.hospital.entity.RegionEntity;
 import com.publicapi.test.domain.user.entity.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +23,11 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Board board;
 
     @ManyToOne
-    private District district;
+    private RegionEntity region;
 
     @ManyToOne
     private UserEntity author;
@@ -43,10 +44,10 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<PostTag> postTags;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<PostImage> postImages;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Comment> commentList;
 
     @Column(nullable = false)
