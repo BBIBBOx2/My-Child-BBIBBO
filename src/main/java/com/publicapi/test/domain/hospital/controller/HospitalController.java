@@ -64,6 +64,8 @@ public class HospitalController {
 
         isOpeningList = hospitalService.getIsOpening(day, currentTime, hospitalList);
         logger.info(String.valueOf(isOpeningList[2]));
+        logger.info(String.valueOf(day));
+        logger.info(String.valueOf(currentTime));
 
         List<RegionEntity> regions = regionRepository.findAll();
         model.addAttribute("regions", regions);
