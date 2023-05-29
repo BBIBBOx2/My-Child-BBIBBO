@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 
 @Service
@@ -111,12 +113,20 @@ public class PostService {
         post.setAuthor(user);
         post.setIsAnonymous(postRequest.getIsAnonymous());
         post.setHits(0);
-        post.setCreateDate(LocalDateTime.now());
+        post.setCreateDate(getLocalDateTime());
         this.postRepository.save(post);
         this.postRepository.flush();
         long id = post.getId();
 
         return id;
+    }
+
+    private static LocalDateTime getLocalDateTime() {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        ZoneOffset zoneOffset = ZoneOffset.ofHours(9);
+        OffsetDateTime offsetDateTime = localDateTime.atOffset(zoneOffset);
+        localDateTime = offsetDateTime.toLocalDateTime();
+        return localDateTime;
     }
 
     public void scrap(Long userId, Long postId) {

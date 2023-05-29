@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
@@ -33,9 +35,17 @@ public class CommentService {
         comment.setPostId(postId);
         comment.setContent(commentRequest.getContent());
         comment.setIsAnonymous(commentRequest.getIsAnonymous());
-        comment.setCreateDate(LocalDateTime.now());
+        comment.setCreateDate(getLocalDateTime());
         commentRepository.save(comment);
         commentRepository.flush();
+    }
+
+    private static LocalDateTime getLocalDateTime() {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        ZoneOffset zoneOffset = ZoneOffset.ofHours(9);
+        OffsetDateTime offsetDateTime = localDateTime.atOffset(zoneOffset);
+        localDateTime = offsetDateTime.toLocalDateTime();
+        return localDateTime;
     }
 
     public List<Comment> findAllByPostId(Long postId) {
