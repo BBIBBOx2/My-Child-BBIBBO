@@ -12,7 +12,7 @@
 <div layout:fragment="content">
 <div class="container my-3">
     <div class="content-container">
-        <h5 class="border-bottom py-2">서울시 실시간 병원 조회</h5>
+        <h5 class="border-bottom py-2">서울시 소아 진료 병원 조회</h5>
         <div class="mb-3">
             <div class="form_toggle" style="justify-content: flex-end;">
                 <div class="form_radio_btn" style="width:40px">
@@ -90,6 +90,7 @@
     var markers = [], infoWindows=[];
 
     function initMap() {
+
 
         $.ajax({
             type:"get",

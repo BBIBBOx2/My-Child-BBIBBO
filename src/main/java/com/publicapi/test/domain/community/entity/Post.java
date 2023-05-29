@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -56,10 +57,16 @@ public class Post {
     @Column(nullable = false)
     private Integer hits;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JoinTable(name = "scrap", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<UserEntity> scrap;
 
     @Formula("(select count(*) from scrap where scrap.post_id=id)")
     private int scrapCount;
+
+    public List<Long> getScarpIds() {
+        return scrap.stream()
+                    .map(UserEntity::getId)
+                    .collect(Collectors.toList());
+    }
 }

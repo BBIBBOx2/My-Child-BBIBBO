@@ -18,7 +18,7 @@ public class OauthService {
     private static final String baseUrl = "https://kauth.kakao.com";
     private static final String tokenReqUrl = "/oauth/token";
     private static final String infoReqUrl = "https://kapi.kakao.com/v2/user/me";
-    private static final String redirectURI = "http://localhost:8080/oauth/kakao";
+    private static final String redirectURI = "http://52.2.5.154:8080/oauth/kakao";
 
 
     @Value("${kakao.key}")

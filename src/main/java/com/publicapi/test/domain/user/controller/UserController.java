@@ -73,7 +73,7 @@ public class UserController {
         List<RegionEntity> regions = regionRepository.findAll();
         model.addAttribute("regions", regions);
         model.addAttribute("regionName", regionName);
-        return "user/signup";
+        return "redirect:/hospital";
     }
 
     @PostMapping("/register/{userId}")
@@ -90,7 +90,7 @@ public class UserController {
 
         userService.registerUser(userId, name, nickname, email, region, bornYear, imageUrl);
 
-        return "redirect:/hospital";
+        return "hospital";
     }
 
     @PostMapping("/user/update")
