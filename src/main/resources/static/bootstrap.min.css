@@ -12331,8 +12331,6 @@ textarea.form-control-lg {
 
 .sideNav {
     width: 200px;
-    background-color: #eee;
-    border-right: 1px solid #ddd;
     position: fixed;
     height: 100%
 }
