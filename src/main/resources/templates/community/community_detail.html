@@ -7,6 +7,13 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script th:inline="javascript" type="text/javascript">
+        document.querySelector('commentForm').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                return false;
+            }
+        });
+
         $(document).ready(function () {
             $(".scrapPopup").click(function () {
                 if (confirm("스크랩 하시겠습니까?")) {
@@ -24,7 +31,6 @@
                             location.reload();
                         }
                     });
-
                 }
             });
 
@@ -44,14 +50,45 @@
                             location.reload();
                         }
                     });
-
                 }
             });
 
             $(".delete").click(function () {
                 if (confirm("정말로 삭제하시겠습니까?")) {
                     var uri = $(this).attr("data-uri");
-                    location.href = uri;
+                    $.ajax({
+                        url: uri,
+                        type: "GET",
+                        success: function (response, status, xhr) {
+                            var location = xhr.getResponseHeader('location');
+                            alert("삭제했습니다.");
+                            window.location.href = location;
+                        },
+                        error: function (xhr, status, error) {
+                            var errorMessage = xhr.responseText;
+                            alert(errorMessage);
+                            location.reload();
+                        }
+                    });
+                }
+            });
+
+            $(".delete-comment").click(function () {
+                if (confirm("정말로 삭제하시겠습니까?")) {
+                    var uri = $(this).attr("data-uri");
+                    $.ajax({
+                        url: uri,
+                        type: "GET",
+                        success: function (response) {
+                            alert("삭제했습니다.");
+                            location.reload();
+                        },
+                        error: function (xhr, status, error) {
+                            var errorMessage = xhr.responseText;
+                            alert(errorMessage);
+                            location.reload();
+                        }
+                    });
                 }
             });
 
@@ -132,6 +169,13 @@
             <img class="img-profile-content float-start me-3"
                  th:if="${post.isAnonymous != true and post.author.profileImage == null}"
                  src="/static/image/anonymous_profile.png">
+
+            <a href="javascript:void(0)" class="btn btn-light delete float-end" style="height: 40px"
+               th:if="${post.author != null and post.author.id == user.id}"
+               th:data-uri="@{|/community/${board}/${post.id}/delete|}">
+                <span style="color:#7F7F7F">삭제</span>
+            </a>
+
             <div class="ms-5" th:if="${post.author != null}">
                 <p class="fw-bolder mb-0 content-nickname" th:if="${post.isAnonymous == true}">익명</p>
                 <p class="fw-bolder mb-0 content-nickname" th:unless="${post.isAnonymous == true}"
@@ -193,9 +237,8 @@
 
             <h5 class="my-3 border-top border-bottom pt-4 pb-2">댓글</h5>
             <div class="review-content-area mb-5">
-                <form th:if="${session.kakaoId}" th:action="@{|/comments/create/${board}/${post.id}|}"
-                      id="commentForm">
-                    <!--                <div th:replace="form_errors :: formErrorsFragment"></div>-->
+                <form th:if="${session.kakaoId}" th:action="@{|/comments/${board}/${post.id}/create|}"
+                      id="commentForm" onsubmit="return false;">
                     <div class="input-group mb-4">
                         <input type="text" class="form-control border-end-0" id="comment-context"
                                placeholder="댓글을 남겨주세요."
@@ -211,9 +254,8 @@
                     </div>
                 </form>
 
-                <form th:unless="${session.kakaoId}" th:action="@{|/comments/create/${board}/${post.id}|}" id="commentForm">
+                <form th:unless="${session.kakaoId}" id="commentForm">
                     <fieldset disabled>
-                        <!--                <div th:replace="form_errors :: formErrorsFragment"></div>-->
                         <div class="input-group mb-4">
                             <input type="text" class="form-control border-end-0" id="comment-context"
                                    placeholder="로그인 후 댓글을 남겨주세요."
@@ -237,6 +279,12 @@
                             <div>
                                 <div class="ms-2 me-auto">
                                     <div class="mb-3" th:if="${comment.user != null}">
+                                        <a href="javascript:void(0)" class="btn btn-white delete-comment float-end" style="height: 40px"
+                                           th:if="${comment.user != null and comment.user.id == user.id}"
+                                           th:data-uri="@{|/comments/${comment.id}/delete|}">
+                                            <span style="color:#7F7F7F">삭제</span>
+                                        </a>
+
                                         <img class="img-profile-comment float-start me-3"
                                              src="/static/image/anonymous_profile.png"
                                              alt="익명의 프로필 이미지">
