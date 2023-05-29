@@ -74,7 +74,6 @@ public class CommunityController {
         String kakaoId = (String) request.getSession()
                                          .getAttribute("kakaoId");
         Optional<UserEntity> userEntity = userService.getLoginOptionalUser(kakaoId);
-        UserEntity user = null;
 
         Post post = postService.findPostById(postId);
         List<PostImage> postImages = postImageService.findPostImageByPostId(postId);
@@ -84,10 +83,8 @@ public class CommunityController {
         boolean isAlreadyScrap = false;
         if (userEntity.isPresent() && post.getScrap().contains(userEntity.get().getId())) {
             isAlreadyScrap = true;
-            user = userEntity.get();
         }
 
-        model.addAttribute("user", user);
         model.addAttribute("isAlreadyScrap", isAlreadyScrap);
         model.addAttribute("board", boardId);
         model.addAttribute("post", post);
