@@ -3,10 +3,12 @@ package com.publicapi.test.domain.community.service;
 import com.publicapi.test.domain.community.dto.CommentRequest;
 import com.publicapi.test.domain.community.entity.Comment;
 import com.publicapi.test.domain.community.entity.Post;
+import com.publicapi.test.domain.community.exception.NotFoundException;
 import com.publicapi.test.domain.community.repository.CommentRepository;
 import com.publicapi.test.domain.user.dto.AlarmResponse;
 import com.publicapi.test.domain.user.dto.AlarmResponseMapper;
 import com.publicapi.test.domain.user.entity.UserEntity;
+import com.publicapi.test.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,21 +28,29 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final AlarmResponseMapper alarmResponseMapper;
+    private final UserRepository userRepository;
 
-    public void save(Long userId, Long postId, CommentRequest commentRequest) {
+    public void save(String kakaoId, Long postId, CommentRequest commentRequest) {
+        UserEntity user = userRepository.findByKakaoId(kakaoId)
+                                        .orElseThrow(() -> new NotFoundException("해당 사용자를 찾을 수 없습니다."));
+
         Comment comment = new Comment();
-        comment.setUserId(userId);
+        comment.setUserId(user.getId());
         comment.setPostId(postId);
         comment.setContent(commentRequest.getContent());
         comment.setIsAnonymous(commentRequest.getIsAnonymous());
-        comment.setCreateDate(LocalDateTime.now());
+        comment.setCreateDate(getLocalDateTime());
         commentRepository.save(comment);
         commentRepository.flush();
     }
 
+    private static LocalDateTime getLocalDateTime() {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        return localDateTime.plusHours(9);
+    }
+
     public List<Comment> findAllByPostId(Long postId) {
-        List<Comment> comments = commentRepository.findAllByPostId(postId);
-        return comments;
+        return commentRepository.findAllByPostId(postId);
     }
 
     public Page<AlarmResponse> findAllByUserPost(UserEntity user, int page) {
@@ -63,5 +73,14 @@ public class CommentService {
                     criteriaBuilder.in(commentRoot.get("post").get("id")).value(subquery)
             );
         };
+    }
+
+    public Comment findById(Long commentId) {
+        return commentRepository.findById(commentId)
+                                .orElseThrow(() -> new NotFoundException("댓글을 찾을 수 없습니다."));
+    }
+
+    public void delete(Long commentId) {
+        commentRepository.deleteById(commentId);
     }
 }

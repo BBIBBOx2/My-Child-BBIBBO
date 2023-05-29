@@ -9,7 +9,6 @@ import com.publicapi.test.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -28,6 +27,11 @@ public class UserService {
     /**
      * 현재 로그인 사용자
      */
+    public Optional<UserEntity> getLoginOptionalUser(String kakaoId) {
+        Optional<UserEntity> loginUser = userRepository.findByKakaoId(kakaoId);
+        return loginUser;
+    }
+
     public UserEntity getLoginUser(String kakaoId) {
         UserEntity loginUser = findUserByKakaoId(kakaoId);
         return loginUser;
@@ -51,7 +55,7 @@ public class UserService {
     }
 
     public void loginTestUser(HttpServletRequest request) {
-        String testId = "-1484452499";
+        String testId = "-1484452498";
         HttpSession session = request.getSession();
         session.setAttribute("kakaoId", testId);
     }

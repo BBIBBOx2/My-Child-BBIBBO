@@ -3254,6 +3254,18 @@ textarea.form-control-lg {
     border-color: #ffcd4a;
 }
 
+.btn-white {
+    color: #7f7f7f;
+    background-color: #ffffff;
+    border-color: #ffffff;
+}
+
+.btn-white:hover {
+    color: #7f7f7f;
+    background-color: #ffffff;
+    border-color: #ffffff;
+}
+
 .btn-check:focus + .btn-light, .btn-light:focus {
     color: #000;
     background-color: #f9fafb;
@@ -12218,8 +12230,8 @@ textarea.form-control-lg {
 }
 
 .img-profile-comment {
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     border-radius: .2rem;
 }
 
@@ -12331,8 +12343,6 @@ textarea.form-control-lg {
 
 .sideNav {
     width: 200px;
-    background-color: #eee;
-    border-right: 1px solid #ddd;
     position: fixed;
     height: 100%
 }
@@ -12473,6 +12483,7 @@ textarea.form-control-lg {
     border: 1px solid #00956d;
     border-radius: 32px;
     font-size: 14px;
+    color: #000000;
     line-height: 30px;
     vertical-align: middle;
     text-decoration: none;

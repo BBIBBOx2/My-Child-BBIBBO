@@ -1,8 +1,25 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
-      layout:decorate="~{layout}">
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>아이 케어, BBIBBO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/static/bootstrap.min.css}" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .input-form {
+            max-width: 250px;
+            margin-top: 120px;
+            padding: 32px;
+            background: #fff;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            -webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+            -moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
+        }
+    </style>
     <script th:inline="javascript">
         /*<![CDATA[*/
         function kakao(button) {
@@ -14,26 +31,23 @@
 
     </script>
 </head>
-<body>
-<div class="nav_bottom" style="background-color: #f8f9fa; margin-top: -14px; height:100%">
-    <div layout:fragment="content">
+<body style="background-color: #f8f9fa;">
+<div layout:fragment="content">
         <div class="container my-3">
             <div class="content-container">
-                <div class="input-form-background row">
                     <div class="input-form col-md-12 mx-auto">
-                        <h4 class="mb-3">로그인</h4>
-                        <div class="mb-3">
-                            <img onclick="kakao(this)" src="/static/images/kakao_login_medium_narrow.png" style="height:60px"/>
+                        <h4 class="mb-4">로그인</h4>
+                        <div class="mb-3" style="margin: auto;">
+                            <img onclick="kakao(this)" src="/static/images/kakao_login_medium_narrow.png" style="height:45px"/>
                         </div>
-                        <div class="mb-3">
-                            <button type="button" th:onclick="|location.href='@{/testUser}'|" class="btn btn-success btn-lg btn-block">테스트 계정 로그인</button>
+                        <div class="mb-3" style="margin: auto;">
+                            <button type="button" th:onclick="|location.href='@{/testUser}'|" class="btn btn-success btn-block" style="width:183px; height:45px; padding-top:0px; padding-bottom:0px">테스트 계정 로그인</button>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>
 </div>
-
+</div>
 </body>
 </html>

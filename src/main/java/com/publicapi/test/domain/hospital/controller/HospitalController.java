@@ -63,9 +63,7 @@ public class HospitalController {
         int currentTime = currentHour * 100 + currentMinute;
 
         isOpeningList = hospitalService.getIsOpening(day, currentTime, hospitalList);
-        logger.info(String.valueOf(isOpeningList[2]));
-        logger.info(String.valueOf(day));
-        logger.info(String.valueOf(currentTime));
+      
 
         List<RegionEntity> regions = regionRepository.findAll();
         model.addAttribute("regions", regions);
@@ -84,7 +82,7 @@ public class HospitalController {
 
         Date currentDate = new Date();
         int day = currentDate.getDay();
-        int currentHour = currentDate.getHours();  // 현재 시간(0-23)
+        int currentHour = currentDate.getHours()+9;  // 현재 시간(0-23)
         int currentMinute = currentDate.getMinutes();  // 현재 분(0-59)
         int currentTime = currentHour * 100 + currentMinute;
 
