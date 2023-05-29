@@ -31,7 +31,7 @@
             });
         });
 
-        function kakao() {
+        function login() {
             if (confirm("로그인이 필요한 페이지입니다.")) {
                 location.href = "/login";
             }
@@ -84,7 +84,7 @@
                     <button class="btn btn-outline-success float-end" id="btn-write" type="button">글 작성</button>
                 </a>
                 <button class="btn btn-outline-success float-end" id="btn-write" type="button"
-                        th:unless="${session.kakaoId}" onclick="kakao()">글 작성
+                        th:unless="${session.kakaoId}" onclick="login()">글 작성
                 </button>
 
                 <div class="list-container" style="margin-top:80px;">
