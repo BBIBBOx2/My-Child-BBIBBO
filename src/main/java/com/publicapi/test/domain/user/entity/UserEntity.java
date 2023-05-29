@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -46,5 +47,10 @@ public class UserEntity {
         this.bornYear = bornYear;
         this.region = region;
         this.profileImage = profileImage;
+    }
+
+    public int getAge() {
+        int year = LocalDate.now().getYear();
+        return year - bornYear;
     }
 }

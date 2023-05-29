@@ -1,5 +1,6 @@
 package com.publicapi.test.domain.community.entity;
 
+import com.publicapi.test.domain.hospital.entity.RegionEntity;
 import com.publicapi.test.domain.user.entity.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +27,7 @@ public class Post {
     private Board board;
 
     @ManyToOne
-    private District district;
+    private RegionEntity region;
 
     @ManyToOne
     private UserEntity author;

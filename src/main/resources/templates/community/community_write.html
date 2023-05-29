@@ -22,17 +22,18 @@
                 <select class="form-select" id="inputBoard">
                     <option selected value=0>게시판 선택</option>
                     <option th:each="board : ${boards}"
+                            th:selected="${boardId == board.id}"
                             th:value="${board.id}"
                             th:text="${board.boardName}"></option>
                 </select>
             </div>
 
             <div class="col-sm-2">
-                <select class="form-select" id="inputDistrict">
-                    <option selected value=0>시군구 선택</option>
-                    <option th:each="district : ${districts}"
-                            th:value="${district.id}"
-                            th:text="${district.name}"></option>
+                <select class="form-select" id="inputRegion">
+                    <option th:each="region : ${regions}"
+                            th:selected="${userRegion == region.id}"
+                            th:value="${region.id}"
+                            th:text="${region.name}"></option>
                 </select>
             </div>
         </div>
@@ -141,7 +142,7 @@
                 "title"    : $('#subjectValue').val(),
                 "content"    : $('#contentValue').val(),
                 "boardId"    : bordId,
-                "districtId" : $('#inputDistrict').val(),
+                "regionId" : $('#inputRegion').val(),
                 "hashtags" : hashtags,
                 "isAnonymous" : document.getElementById('check_anonymous').checked
             }
@@ -160,7 +161,11 @@
                 processData: false,
                 contentType: false,
                 cache      : false,
-                success    : function (data) {
+                success    : function (data, textStatus, xhr) {
+                    var redirectUrl = xhr.getResponseHeader("Location");
+                    if (redirectUrl) {
+                        window.location.replace(redirectUrl);
+                    }
                     // if (data === "boardIdIsNull") {
                     //     alert("게시판을 입력해주세요.");
                     //     return;
@@ -171,8 +176,6 @@
                     //     alert("내용을 입력해주세요.");
                     //     return;
                     // }
-
-                    location.href = data;
                 },
                 error      : function (error) {
                     alert("code : " + error.status + "\n" + "message : " + error.responseText + "\n" + "error : " + error);

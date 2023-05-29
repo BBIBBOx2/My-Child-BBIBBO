@@ -1,5 +1,6 @@
 package com.publicapi.test.domain.community.entity;
 
+import com.publicapi.test.domain.user.entity.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,9 +27,9 @@ public class Comment {
     @Column(name = "post_id")
     private Long postId;
 
-    @ManyToOne(targetEntity = User.class, optional = false)
+    @ManyToOne(targetEntity = UserEntity.class, optional = false)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    private User user;
+    private UserEntity user;
 
     @Column(name = "user_id")
     private Long userId;

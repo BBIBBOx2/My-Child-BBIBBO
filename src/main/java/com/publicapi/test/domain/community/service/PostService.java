@@ -2,12 +2,12 @@ package com.publicapi.test.domain.community.service;
 
 import com.publicapi.test.domain.community.dto.PostRequest;
 import com.publicapi.test.domain.community.entity.Board;
-import com.publicapi.test.domain.community.entity.District;
 import com.publicapi.test.domain.community.entity.Post;
 import com.publicapi.test.domain.community.exception.NotFoundException;
 import com.publicapi.test.domain.community.repository.BoardRepository;
-import com.publicapi.test.domain.community.repository.DistrictRepository;
 import com.publicapi.test.domain.community.repository.PostRepository;
+import com.publicapi.test.domain.hospital.entity.RegionEntity;
+import com.publicapi.test.domain.hospital.repository.RegionRepository;
 import com.publicapi.test.domain.user.entity.UserEntity;
 import com.publicapi.test.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,14 +27,14 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final BoardRepository boardRepository;
-    private final DistrictRepository districtRepository;
+    private final RegionRepository regionRepository;
     private final UserRepository userRepository;
 
-    public Page<Post> findAllPosts(int page, int boardId, String search, int district, String sortType) {
+    public Page<Post> findAllPosts(int page, int boardId, String search, String region, String sortType) {
         String sortCategory = mappingSort(sortType);
         Sort sort = Sort.by(Sort.Direction.DESC, sortCategory);
         Pageable pageable = PageRequest.of(page, 10, sort);
-        Specification<Post> spec = searchSpecification(boardId, search, district);
+        Specification<Post> spec = searchSpecification(boardId, search, region);
         Page<Post> posts = postRepository.findAll(spec, pageable);
         return posts;
     }
@@ -46,7 +46,7 @@ public class PostService {
         return "createDate";
     }
 
-    private Specification<Post> searchSpecification(int boardId, String search, int district) {
+    private Specification<Post> searchSpecification(int boardId, String search, String region) {
         return (post, query, criteriaBuilder) -> {
             query.distinct(true);
 
@@ -57,11 +57,11 @@ public class PostService {
                     criteriaBuilder.like(post.get("content"), "%" + search + "%")
             );
 
-            if (district == 0) {
+            if (region.equals("0") || region.equals("1")) {
                 return criteriaBuilder.and(predicateBoard, predicateSearch);
             }
 
-            Predicate predicateDistinct = criteriaBuilder.equal(post.get("district"), district);
+            Predicate predicateDistinct = criteriaBuilder.equal(post.get("region"), region);
             return criteriaBuilder.and(predicateBoard, predicateSearch, predicateDistinct);
         };
     }
@@ -92,7 +92,8 @@ public class PostService {
     public Page<Post> findByScrapUserid(UserEntity user, int page) {
         Set<Post> scrap = user.getScrap();
         List<Post> sortedScrap = new ArrayList<>(scrap);
-        sortedScrap.sort(Comparator.comparing(Post::getCreateDate).reversed());
+        sortedScrap.sort(Comparator.comparing(Post::getCreateDate)
+                                   .reversed());
         Pageable pageable = PageRequest.of(page, 10);
         int startIndex = (int) pageable.getOffset();
         int endIndex = Math.min((startIndex + pageable.getPageSize()), sortedScrap.size());
@@ -103,8 +104,8 @@ public class PostService {
     public Long create(PostRequest postRequest, String kakaoId) {
         Board board = boardRepository.findById(postRequest.getBoardId())
                                      .orElseThrow(() -> new NotFoundException("해당 게시판을 찾지 못했습니다."));
-        District district = districtRepository.findById(postRequest.getDistrictId())
-                                              .orElseThrow(() -> new NotFoundException("해당 게시판을 찾지 못했습니다."));
+        RegionEntity region = regionRepository.findById(postRequest.getRegionId())
+                                                .orElseThrow(() -> new NotFoundException("해당 지역을 찾지 못했습니다."));
         UserEntity user = userRepository.findByKakaoId(kakaoId)
                                         .orElseThrow(() -> new NotFoundException("해당 사용자를 찾을 수 없습니다."));
 
@@ -112,7 +113,7 @@ public class PostService {
         post.setTitle(postRequest.getTitle());
         post.setContent(postRequest.getContent());
         post.setBoard(board);
-        post.setDistrict(district);
+        post.setRegion(region);
         post.setAuthor(user);
         post.setIsAnonymous(postRequest.getIsAnonymous());
         post.setHits(0);
@@ -128,9 +129,10 @@ public class PostService {
         Post post = postRepository.findById(postId)
                                   .orElseThrow(() -> new NotFoundException("해당 게시물을 찾을 수 없습니다."));
         UserEntity user = userRepository.findById(userId)
-                                  .orElseThrow(() -> new NotFoundException("해당 사용자를 찾을 수 없습니다."));
+                                        .orElseThrow(() -> new NotFoundException("해당 사용자를 찾을 수 없습니다."));
 
-        post.getScrap().add(user);
+        post.getScrap()
+            .add(user);
         postRepository.save(post);
     }
 }

@@ -17,7 +17,7 @@ public class PostRequest {
     private Long boardId;
 
     @NotEmpty
-    private Long districtId;
+    private Long regionId;
 
     @NotEmpty(message="제목은 필수항목입니다.")
     @Size(max=200)
@@ -36,7 +36,7 @@ public class PostRequest {
         return "PostRequest{" +
                 "userId=" + userId +
                 ", boardId=" + boardId +
-                ", districtId=" + districtId +
+                ", regionId=" + regionId +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", hashtags=" + hashtags +

@@ -48,9 +48,6 @@ public class UserController {
             userService.loginUser(kakaoId, request);
             return "redirect:/user/signup";
         }
-
-
-
     }
 
     @GetMapping("/now")
