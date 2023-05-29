@@ -53,7 +53,7 @@
                         <div style="display: flex; float:left; align-items: center;">
                             <select class="form-select" id="inputRegion" name="region" required
                                     style="width:30%; margin-right: 10px;">
-                                <option th:if="${regionType == '0'}" th:selected="${regionType == '0'}" value="0" hidden="hidden">시군구 선택</option>
+                                <option th:selected="${regionType == 0}" value="0" hidden="hidden">시군구 선택</option>
                                 <option th:each="region : ${regions}" th:selected="${regionType == region.id}"
                                         th:text="${region.name}" th:value="${region.id}">
                                 </option>

@@ -30,7 +30,7 @@ public class PostService {
     private final RegionRepository regionRepository;
     private final UserRepository userRepository;
 
-    public Page<Post> findAllPosts(int page, int boardId, String search, String region, String sortType) {
+    public Page<Post> findAllPosts(int page, int boardId, String search, long region, String sortType) {
         String sortCategory = mappingSort(sortType);
         Sort sort = Sort.by(Sort.Direction.DESC, sortCategory);
         Pageable pageable = PageRequest.of(page, 10, sort);
@@ -46,7 +46,7 @@ public class PostService {
         return "createDate";
     }
 
-    private Specification<Post> searchSpecification(int boardId, String search, String region) {
+    private Specification<Post> searchSpecification(int boardId, String search, long region) {
         return (post, query, criteriaBuilder) -> {
             query.distinct(true);
 
@@ -57,7 +57,7 @@ public class PostService {
                     criteriaBuilder.like(post.get("content"), "%" + search + "%")
             );
 
-            if (region.equals("0") || region.equals("1")) {
+            if (region == 0 || region == 1) {
                 return criteriaBuilder.and(predicateBoard, predicateSearch);
             }
 

@@ -47,7 +47,7 @@ public class CommunityController {
                             @PathVariable int boardId,
                             @RequestParam(value = "page", defaultValue = "0") int page,
                             @RequestParam(value = "search", defaultValue = "") String search,
-                            @RequestParam(value = "region", defaultValue = "0") String regionType,
+                            @RequestParam(value = "region", defaultValue = "0") long regionType,
                             @RequestParam(value = "sortType", defaultValue = "recent") String sortType) {
         Page<Post> postPage = postService.findAllPosts(page, boardId, search, regionType, sortType);
         if (postPage == null) {
