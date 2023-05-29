@@ -3254,6 +3254,18 @@ textarea.form-control-lg {
     border-color: #ffcd4a;
 }
 
+.btn-white {
+    color: #7f7f7f;
+    background-color: #ffffff;
+    border-color: #ffffff;
+}
+
+.btn-white:hover {
+    color: #7f7f7f;
+    background-color: #ffffff;
+    border-color: #ffffff;
+}
+
 .btn-check:focus + .btn-light, .btn-light:focus {
     color: #000;
     background-color: #f9fafb;

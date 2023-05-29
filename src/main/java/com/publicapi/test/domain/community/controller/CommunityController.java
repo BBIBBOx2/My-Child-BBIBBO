@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -81,16 +80,15 @@ public class CommunityController {
         List<Comment> comments = commentService.findAllByPostId(postId);
         List<PostTag> postTags = postTagService.findAllByPostId(postId);
 
+        UserEntity user = null;
         boolean isAlreadyScrap = false;
-        boolean isAuthor = false;
         if (userEntity.isPresent()) {
-            UserEntity user = userEntity.get();
+            user = userEntity.get();
             isAlreadyScrap = isAlreadyScrap(user, post, isAlreadyScrap);
-            isAuthor = isAuthor(user, post, isAuthor);
         }
 
         model.addAttribute("isAlreadyScrap", isAlreadyScrap);
-        model.addAttribute("isAuthor", isAuthor);
+        model.addAttribute("user", user);
         model.addAttribute("board", boardId);
         model.addAttribute("post", post);
         model.addAttribute("postImages", postImages);
@@ -105,14 +103,6 @@ public class CommunityController {
             isAlreadyScrap = true;
         }
         return isAlreadyScrap;
-    }
-
-    private static boolean isAuthor(UserEntity user, Post post, boolean isAuthor) {
-        if (Objects.equals(post.getAuthor()
-                               .getId(), user.getId())) {
-            isAuthor = true;
-        }
-        return isAuthor;
     }
 
     @GetMapping("{boardId}/write")
