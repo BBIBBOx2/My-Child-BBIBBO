@@ -56,4 +56,11 @@ public class UserEntity {
         int year = LocalDate.now().getYear();
         return year - bornYear;
     }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                '}';
+    }
 }

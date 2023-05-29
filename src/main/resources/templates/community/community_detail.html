@@ -9,21 +9,47 @@
     <script th:inline="javascript" type="text/javascript">
         $(document).ready(function() {
             $(".scrapPopup").click(function() {
-                if (confirm("스크랩하시겠습니까?")) {
+                if (confirm("스크랩 하시겠습니까?")) {
                     var uri = $(this).attr("data-uri");
-                    location.href = uri;
+                    $.ajax({
+                        url: uri,
+                        type: "GET",
+                        success: function(response) {
+                            alert(response);
+                            location.reload();
+                        },
+                        error: function(xhr, status, error) {
+                            var errorMessage = xhr.responseText;
+                            alert(errorMessage);
+                            location.reload();
+                        }
+                    });
+
+                }
+            });
+
+            $(".unscrapPopup").click(function() {
+                if (confirm("스크랩을 해제 하시겠습니까?")) {
+                    var uri = $(this).attr("data-uri");
+                    $.ajax({
+                        url: uri,
+                        type: "GET",
+                        success: function(response) {
+                            alert(response);
+                            location.reload();
+                        },
+                        error: function(xhr, status, error) {
+                            var errorMessage = xhr.responseText;
+                            alert(errorMessage);
+                            location.reload();
+                        }
+                    });
+
                 }
             });
 
             $(".delete").click(function() {
                 if (confirm("정말로 삭제하시겠습니까?")) {
-                    var uri = $(this).attr("data-uri");
-                    location.href = uri;
-                }
-            });
-
-            $(".accuse").click(function() {
-                if (confirm("정말로 신고하시겠습니까?")) {
                     var uri = $(this).attr("data-uri");
                     location.href = uri;
                 }
@@ -132,9 +158,13 @@
 
         <div class="my-3" style="clear: both">
             <div class="float-start">
+                <a href="javascript:void(0)" class="unscrapPopup btn btn btn-scrap" type="button"
+                   th:data-uri="@{|/community/${board}/${post.id}/unscrap|}" th:if="${post.getScarpIds().contains(user.id)}"}>
+                    <span class="scrap ps-4">스크랩</span>
+                </a>
                 <a href="javascript:void(0)" class="scrapPopup btn btn btn-light" type="button"
-                   th:data-uri="@{|/community/${board}/${post.id}/scrap|}">
-                    <span class="scrap-disable ps-4">스크랩</span>
+                   th:data-uri="@{|/community/${board}/${post.id}/scrap|}" th:unless="${post.getScarpIds().contains(user.id)}"}>
+                    <span class="scrap-disable ps-4"}>스크랩</span>
                 </a>
             </div>
             <ul class="content-info">
