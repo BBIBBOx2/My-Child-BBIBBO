@@ -145,7 +145,7 @@
         }
 
         function kakao() {
-            if (confirm("로그인이 필요합니다.")) {
+            if (confirm("로그인이 필요한 페이지입니다.")) {
                 var key = [[${@environment.getProperty('kakao.key')}]];
                 location.href = "https://kauth.kakao.com/oauth/authorize?client_id=" + key
                     + "&redirect_uri=http://52.2.5.154:8080/oauth/kakao&response_type=code&prompt=login";
