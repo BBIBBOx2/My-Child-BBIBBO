@@ -193,7 +193,25 @@
 
             <h5 class="my-3 border-top border-bottom pt-4 pb-2">댓글</h5>
             <div class="review-content-area mb-5">
-                <form th:if="${user == null}" th:action="@{|/comments/create/${board}/${post.id}|}" id="commentForm">
+                <form th:if="${session.kakaoId}" th:action="@{|/comments/create/${board}/${post.id}|}"
+                      id="commentForm">
+                    <!--                <div th:replace="form_errors :: formErrorsFragment"></div>-->
+                    <div class="input-group mb-4">
+                        <input type="text" class="form-control border-end-0" id="comment-context"
+                               placeholder="댓글을 남겨주세요."
+                               aria-label="Recipient's username with two button addons">
+                        <div class="input-group-text border-start-0" style="background-color: white">
+                            <input class="form-check-input mt-0" id="check-anonym" type="checkbox"
+                                   value=false aria-label="Checkbox for following text input">
+                            <label class="form-check-label" id="check-anonym-text" for="check-anonym">익명</label>
+                        </div>
+                        <button class="btn btn-outline-orange" style="z-index: 0" type="button"
+                                onclick="uploadComment()">등록
+                        </button>
+                    </div>
+                </form>
+
+                <form th:unless="${session.kakaoId}" th:action="@{|/comments/create/${board}/${post.id}|}" id="commentForm">
                     <fieldset disabled>
                         <!--                <div th:replace="form_errors :: formErrorsFragment"></div>-->
                         <div class="input-group mb-4">
@@ -210,24 +228,6 @@
                             </button>
                         </div>
                     </fieldset>
-                </form>
-
-                <form th:unless="${user == null}" th:action="@{|/comments/create/${board}/${post.id}|}"
-                      id="commentForm">
-                    <!--                <div th:replace="form_errors :: formErrorsFragment"></div>-->
-                    <div class="input-group mb-4">
-                        <input type="text" class="form-control border-end-0" id="comment-context"
-                               placeholder="댓글을 남겨주세요."
-                               aria-label="Recipient's username with two button addons">
-                        <div class="input-group-text border-start-0" style="background-color: white">
-                            <input class="form-check-input mt-0" id="check-anonym" type="checkbox"
-                                   value=false aria-label="Checkbox for following text input">
-                            <label class="form-check-label" id="check-anonym-text" for="check-anonym">익명</label>
-                        </div>
-                        <button class="btn btn-outline-orange" style="z-index: 0" type="button"
-                                onclick="uploadComment()">등록
-                        </button>
-                    </div>
                 </form>
 
                 <div id="comments-list ">
