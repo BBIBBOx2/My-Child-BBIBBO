@@ -3,6 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>아이 케어, BBIBBO</title>
+    <script>
+        $(document).ready(function(){
+            setDateBox();
+        });
+
+        // select box 연도 , 월 표시
+        function setDateBox(){
+            var dt = new Date();
+            var year = "";
+            var com_year = dt.getFullYear();
+            for(var y = (com_year); y >= (com_year-19); y--){
+                $("#inputBornYear").append("<option value='"+ y +"'>"+ y + " 년" +"</option>");
+            }
+        }
+
+    </script>
 </head>
 <body style="background-color: #f8f9fa">
 <div layout:fragment="mypage-content">
@@ -23,6 +39,26 @@
                 <label for="inputUserName" class="col-sm-1 col-form-label">닉네임</label>
                 <div class="col-sm-3">
                     <input type="text" class="form-control" id="inputUserName" th:placeholder="${user.username}">
+                </div>
+            </div>
+            <div class="form-group row mt-5 justify-content-center">
+                <label for="inputRegion" class="col-sm-1 col-form-label">거주지</label>
+                <div class="col-sm-3">
+                    <select id="inputRegion" name="inputRegion" class="form-select" style="margin-right: 10px; " aria-label="Default select example">
+                        <option selected th:text="${user.region.name}" hidden="hidden">시군구 선택</option>
+                        <option th:each="region : ${regions}"
+                                th:value="${region.id}"
+                                th:text="${region.name}"
+                                th:selected="${region.id} == ${regionName}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row mt-5 justify-content-center">
+                <label for="inputBornYear" class="col-sm-1 col-form-label">아이 출생연도</label>
+                <div class="col-sm-3">
+                    <select id="inputBornYear" name="inputBornYear" class="form-select" style="margin-right: 10px; " aria-label="Default select example">
+                        <option selected th:text="|${user.bornYear}년|" hidden="hidden">출생 연도 선택</option>
+                    </select>
                 </div>
             </div>
             <div class="mt-5 mb-5">
@@ -53,10 +89,23 @@
             let formData = new FormData();
 
             let usernameInput = $('#inputUserName')
+            let regionInput = $('#inputRegion')
+            let bornYearInput = $('#inputBornYear')
+
             if (usernameInput.val()) {
                 formData.append("username", usernameInput.val());
             } else {
                 formData.append("username", usernameInput.attr("placeholder"));
+            }
+            if (regionInput.val()) {
+                formData.append("region", regionInput.val());
+            } else {
+                formData.append("region", regionInput.attr("placeholder"));
+            }
+            if (bornYearInput.val()) {
+                formData.append("bornYear", bornYearInput.val());
+            } else {
+                formData.append("bornYear", bornYearInput.attr("placeholder"));
             }
 
             const fileInput = document.getElementById("editFile");

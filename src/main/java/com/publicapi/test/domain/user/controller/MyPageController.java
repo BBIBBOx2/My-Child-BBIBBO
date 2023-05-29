@@ -3,6 +3,8 @@ package com.publicapi.test.domain.user.controller;
 import com.publicapi.test.domain.community.entity.Post;
 import com.publicapi.test.domain.community.service.CommentService;
 import com.publicapi.test.domain.community.service.PostService;
+import com.publicapi.test.domain.hospital.entity.RegionEntity;
+import com.publicapi.test.domain.hospital.repository.RegionRepository;
 import com.publicapi.test.domain.user.dto.AlarmResponse;
 import com.publicapi.test.domain.user.entity.UserEntity;
 import com.publicapi.test.domain.user.service.UserService;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @RequestMapping("/mypage")
@@ -26,13 +29,16 @@ public class MyPageController {
     private final UserService userService;
     private final PostService postService;
     private final CommentService commentService;
+    private final RegionRepository regionRepository;
+
 
     @GetMapping("profile")
     public String getProfile(HttpServletRequest request,
                              Model model) {
         String id = (String) request.getSession().getAttribute("kakaoId");
         UserEntity user = userService.getLoginUser(id);
-
+        List<RegionEntity> regions = regionRepository.findAll();
+        model.addAttribute("regions", regions);
         model.addAttribute("user", user);
         model.addAttribute("tab", tabName);
         model.addAttribute("mypageTab", "profile");

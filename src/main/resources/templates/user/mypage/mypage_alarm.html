@@ -17,9 +17,9 @@
                             <div style="padding-top: 1%" class="mt-0 mb-2">
                                 <h6 class="article-board" th:text="${alarm.post.board.boardName}"></h6>
                                 <div class="mt-2" style="padding-top:10px" th:if="${alarm.comment.isAnonymous == true}"
-                                    th:text="@{|익명님이 ${alarm.post.title} 글에 댓글을 달았습니다.|}"></div>
+                                    th:text="@{|익명님이 &quot;${alarm.post.title}&quot; 글에 댓글을 달았습니다.|}"></div>
                                 <div class="mt-2" style="padding-top:10px" th:unless="${alarm.comment.isAnonymous == true}"
-                                    th:text="@{|${alarm.comment.user.username}님이 ${alarm.post.title} 글에 댓글을 달았습니다.|}"></div>
+                                    th:text="@{|${alarm.comment.user.username}님이 &quot;${alarm.post.title}&quot; 글에 댓글을 달았습니다.|}"></div>
                                 <p class="article-date" th:text="${#temporals.format(alarm.comment.createDate, 'yyyy-MM-dd HH:mm')}"></p>
                             </div>
                         </div>
