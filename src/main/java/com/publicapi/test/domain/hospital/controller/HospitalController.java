@@ -58,7 +58,7 @@ public class HospitalController {
 
         Date currentDate = new Date();
         int day = currentDate.getDay();
-        int currentHour = currentDate.getHours();  // 현재 시간(0-23)
+        int currentHour = currentDate.getHours()+9;  // 현재 시간(0-23)
         int currentMinute = currentDate.getMinutes();  // 현재 분(0-59)
         int currentTime = currentHour * 100 + currentMinute;
 
