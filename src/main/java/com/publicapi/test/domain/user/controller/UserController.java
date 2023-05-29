@@ -95,7 +95,7 @@ public class UserController {
         RegionEntity region = regionRepository.findById(Long.parseLong(regionId)).get();
         userService.registerUser(userId, name, nickname, email, region, bornYear, imageUrl);
 
-        return "hospital";
+        return "redirect:/hospital";
     }
 
     @PostMapping("/user/update")
