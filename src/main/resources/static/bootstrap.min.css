@@ -3242,6 +3242,18 @@ textarea.form-control-lg {
     border-color: #f9fafb
 }
 
+.btn-scrap {
+    color: #000;
+    background-color: #f9fafb;
+    border-color: #ffcd4a;
+}
+
+.btn-scrap:hover {
+    color: #000;
+    background-color: #f9fafb;
+    border-color: #ffcd4a;
+}
+
 .btn-check:focus + .btn-light, .btn-light:focus {
     color: #000;
     background-color: #f9fafb;

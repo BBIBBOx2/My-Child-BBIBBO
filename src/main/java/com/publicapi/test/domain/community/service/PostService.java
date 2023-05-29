@@ -119,10 +119,6 @@ public class PostService {
         return id;
     }
 
-    public void increaseHits(Long postId) {
-
-    }
-
     public void scrap(Long userId, Long postId) {
         Post post = postRepository.findById(postId)
                                   .orElseThrow(() -> new NotFoundException("해당 게시물을 찾을 수 없습니다."));
@@ -131,6 +127,17 @@ public class PostService {
 
         post.getScrap()
             .add(user);
+        postRepository.save(post);
+    }
+
+    public void unscrap(Long userId, Long postId) {
+        Post post = postRepository.findById(postId)
+                                  .orElseThrow(() -> new NotFoundException("해당 게시물을 찾을 수 없습니다."));
+        UserEntity user = userRepository.findById(userId)
+                                        .orElseThrow(() -> new NotFoundException("해당 사용자를 찾을 수 없습니다."));
+
+        post.getScrap()
+            .remove(user);
         postRepository.save(post);
     }
 }
