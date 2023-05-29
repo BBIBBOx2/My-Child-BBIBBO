@@ -116,6 +116,7 @@
                                                      th:text="${post.title}"></div>
                                                 <ul class="content-info">
                                                     <li class="hits" th:text="${post.hits}"></li>
+                                                    <li class="comment" th:text="${#lists.size(post.commentList)}"></li>
                                                     <li class="scrap" th:text="${post.scrapCount}"></li>
                                                 </ul>
                                             </div>
