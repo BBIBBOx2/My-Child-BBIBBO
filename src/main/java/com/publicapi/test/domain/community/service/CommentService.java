@@ -20,8 +20,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
@@ -48,10 +46,7 @@ public class CommentService {
 
     private static LocalDateTime getLocalDateTime() {
         LocalDateTime localDateTime = LocalDateTime.now();
-        ZoneOffset zoneOffset = ZoneOffset.ofHours(9);
-        OffsetDateTime offsetDateTime = localDateTime.atOffset(zoneOffset);
-        localDateTime = offsetDateTime.toLocalDateTime();
-        return localDateTime;
+        return localDateTime.plusHours(9);
     }
 
     public List<Comment> findAllByPostId(Long postId) {
