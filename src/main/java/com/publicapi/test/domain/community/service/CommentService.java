@@ -50,8 +50,7 @@ public class CommentService {
     }
 
     public List<Comment> findAllByPostId(Long postId) {
-        List<Comment> comments = commentRepository.findAllByPostId(postId);
-        return comments;
+        return commentRepository.findAllByPostId(postId);
     }
 
     public Page<AlarmResponse> findAllByUserPost(UserEntity user, int page) {
