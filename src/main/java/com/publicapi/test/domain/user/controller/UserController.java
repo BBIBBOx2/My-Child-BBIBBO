@@ -114,11 +114,10 @@ public class UserController {
     }
 
     private String getImageUrl(MultipartFile profileImage) {
-        String profileImageUrl = null;
-
-        if (profileImage != null) {
-            profileImageUrl = imageUploadService.uploadImage(profileImage);
+        log.warn("profileImage : " + profileImage);
+        if (profileImage.isEmpty()) {
+            return null;
         }
-        return profileImageUrl;
+        return imageUploadService.uploadImage(profileImage);
     }
 }
